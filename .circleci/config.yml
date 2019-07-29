@@ -8,6 +8,9 @@ jobs:
     working_directory: /go/src/github.com/unliar/happysooner-proto
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "cd:97:a2:cb:29:13:0e:7b:62:d7:c8:f0:1e:fc:2f:94"
       - run: echo "build start to run"
       - run: export
       - run: sudo apt install protobuf-compiler
