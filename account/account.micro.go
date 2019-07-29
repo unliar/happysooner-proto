@@ -54,7 +54,7 @@ type AccountSVService interface {
 	PutUserPassword(ctx context.Context, in *PutPassowrdRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 通过第三方code获取用户token
 	GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, opts ...client.CallOption) (*UserInfoWithToken, error)
-	// 通过第三方code注册用户 废弃
+	// 通过第三方code注册用户 废弃-直接注册成功
 	CreateUserInfoByOauthCode(ctx context.Context, in *OauthCreateUserRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
@@ -209,7 +209,7 @@ type AccountSVHandler interface {
 	PutUserPassword(context.Context, *PutPassowrdRequest, *ErrorResponse) error
 	// 通过第三方code获取用户token
 	GetUserTokenByOauthCode(context.Context, *OauthLoginRequest, *UserInfoWithToken) error
-	// 通过第三方code注册用户 废弃
+	// 通过第三方code注册用户 废弃-直接注册成功
 	CreateUserInfoByOauthCode(context.Context, *OauthCreateUserRequest, *ErrorResponse) error
 }
 
