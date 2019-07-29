@@ -5,4 +5,4 @@ GO_PROTO_BASE = ${GO_PROC} --plugin=protoc-gen-go=${GOPATH}/bin/protoc-gen-go --
 
 # 编译account
 all: 
-        ${GO_PROTO_BASE} account/account.proto
+        ${GO_PROTO_BASE} @account/account.proto
