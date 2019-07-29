@@ -10,6 +10,7 @@ jobs:
       - checkout
       - run: echo "build start to run"
       - run: go get -v -u github.com/golang/protobuf/protoc-gen-go
+      - run: go install github.com/golang/protobuf/protoc-gen-go
       - run: sudo apt install protobuf-compiler
       - run: protoc
       - run: protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. account/account.proto
