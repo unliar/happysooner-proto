@@ -7,9 +7,6 @@ jobs:
           GO111MODULE: "on"
     working_directory: /go/src/github.com/unliar/happysooner-proto
     steps:
-      - add_ssh_keys:
-          fingerprints:
-             - "de:f7:cb:b3:68:4e:f7:0c:f9:09:38:47:2a:28:f0:d2"
       - checkout      
       - run: echo "build start to run"
       - run: export
@@ -21,3 +18,8 @@ jobs:
       - run: echo "build done"
       - run: git add . && git commit -m "circle auto build" && git push
       - run: make
+  deploy-job:
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "de:f7:cb:b3:68:4e:f7:0c:f9:09:38:47:2a:28:f0:d2"
