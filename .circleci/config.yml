@@ -5,11 +5,11 @@ jobs:
       - image: circleci/golang:1.12
         environment:
           GO111MODULE: "on"
-          PATH: $PATH:$GOPATH/bin
     working_directory: /go/src/github.com/unliar/happysooner-proto
     steps:
       - checkout
       - run: echo "build start to run"
+      - run: export
       - run: go get -v -u github.com/golang/protobuf/protoc-gen-go
       - run: go install github.com/golang/protobuf/protoc-gen-go
       - run: sudo apt install protobuf-compiler
