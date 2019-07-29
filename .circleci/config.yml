@@ -13,5 +13,6 @@ jobs:
       - checkout
 
       
-      - run: encho "start building"
+      - run: echo "build start to run"
       - run: go get
+      - run: echo "build done"
