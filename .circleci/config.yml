@@ -9,6 +9,6 @@ jobs:
     steps:
       - checkout
       - run: echo "build start to run"
-      - run: apt install protobuf-compiler
+      - run: sudo apt install protobuf-compiler
       - run: protoc
       - run: echo "build done"
