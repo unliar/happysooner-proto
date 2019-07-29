@@ -7,12 +7,14 @@ jobs:
           GO111MODULE: "on"
     working_directory: /go/src/github.com/unliar/happysooner-proto
     filters:
+      branches:
+        only: master
       tags:
         only: /^v.*/
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "69:14:ea:fa:41:c7:01:64:99:d1:19:dc:25:11:83:81"
+            - "13:d1:c8:8f:6a:5c:72:59:6a:0d:08:b0:47:73:a6:4b"
       - checkout      
       - run: echo "build start to run"
       - run: export
