@@ -9,5 +9,6 @@ jobs:
     steps:
       - checkout
       - run: echo "build start to run"
+      - run: apt install protoc
       - run: protoc
       - run: echo "build done"
