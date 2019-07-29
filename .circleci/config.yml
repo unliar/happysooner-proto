@@ -16,5 +16,5 @@ jobs:
       - run: protoc
       - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./account/account.proto
       - run: echo "build done"
-      - run: git add . && git comm -m "circle build" && git push
+      - run: git add . && git commit -m "circle auto build" && git push
       - run: make
