@@ -9,6 +9,5 @@ jobs:
     steps:
       - checkout
       - run: echo "build start to run"
-      - run: export GO111MODULE=on
       - run: go get
       - run: echo "build done"
