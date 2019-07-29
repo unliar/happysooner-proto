@@ -129,6 +129,6 @@ service AccountSV {
     // 通过第三方code获取用户token
     rpc GetUserTokenByOauthCode(OauthLoginRequest) returns (UserInfoWithToken){}
 
-    // 通过第三方code注册用户 废弃
+    // 通过第三方code注册用户 废弃-直接注册成功
     rpc CreateUserInfoByOauthCode(OauthCreateUserRequest) returns (ErrorResponse){}
 }
