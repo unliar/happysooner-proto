@@ -7,6 +7,9 @@ jobs:
           GO111MODULE: "on"
     working_directory: /go/src/github.com/unliar/happysooner-proto
     steps:
+     - add_ssh_keys:
+          fingerprints:
+            - "de:f7:cb:b3:68:4e:f7:0c:f9:09:38:47:2a:28:f0:d2"
       - checkout      
       - run: echo "build start to run"
       - run: export
@@ -16,10 +19,8 @@ jobs:
       - run: protoc
       - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./account/account.proto
       - run: echo "build done"
+      - run: git config --global user.email "370732889@qq.com"
+      - run: git config --global user.name "circleci"
       - run: git add . && git commit -m "circle auto build" && git push
       - run: make
-  deploy-job:
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "de:f7:cb:b3:68:4e:f7:0c:f9:09:38:47:2a:28:f0:d2"
+     
