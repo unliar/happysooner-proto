@@ -52,6 +52,10 @@ type AccountSVService interface {
 	CheckLoginName(ctx context.Context, in *UserInfo, opts ...client.CallOption) (*ErrorResponse, error)
 	// 更新用户密码
 	PutUserPassword(ctx context.Context, in *PutPassowrdRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 通过第三方code获取用户token
+	GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, opts ...client.CallOption) (*UserInfoWithToken, error)
+	// 通过第三方code注册用户
+	CreateUserInfoByOauthCode(ctx context.Context, in *OauthCreateUserRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type accountSVService struct {
@@ -162,6 +166,26 @@ func (c *accountSVService) PutUserPassword(ctx context.Context, in *PutPassowrdR
 	return out, nil
 }
 
+func (c *accountSVService) GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, opts ...client.CallOption) (*UserInfoWithToken, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.GetUserTokenByOauthCode", in)
+	out := new(UserInfoWithToken)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountSVService) CreateUserInfoByOauthCode(ctx context.Context, in *OauthCreateUserRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.CreateUserInfoByOauthCode", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AccountSV service
 
 type AccountSVHandler interface {
@@ -183,6 +207,10 @@ type AccountSVHandler interface {
 	CheckLoginName(context.Context, *UserInfo, *ErrorResponse) error
 	// 更新用户密码
 	PutUserPassword(context.Context, *PutPassowrdRequest, *ErrorResponse) error
+	// 通过第三方code获取用户token
+	GetUserTokenByOauthCode(context.Context, *OauthLoginRequest, *UserInfoWithToken) error
+	// 通过第三方code注册用户
+	CreateUserInfoByOauthCode(context.Context, *OauthCreateUserRequest, *ErrorResponse) error
 }
 
 func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...server.HandlerOption) error {
@@ -196,6 +224,8 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		CheckEmail(ctx context.Context, in *UserInfo, out *ErrorResponse) error
 		CheckLoginName(ctx context.Context, in *UserInfo, out *ErrorResponse) error
 		PutUserPassword(ctx context.Context, in *PutPassowrdRequest, out *ErrorResponse) error
+		GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, out *UserInfoWithToken) error
+		CreateUserInfoByOauthCode(ctx context.Context, in *OauthCreateUserRequest, out *ErrorResponse) error
 	}
 	type AccountSV struct {
 		accountSV
@@ -242,4 +272,12 @@ func (h *accountSVHandler) CheckLoginName(ctx context.Context, in *UserInfo, out
 
 func (h *accountSVHandler) PutUserPassword(ctx context.Context, in *PutPassowrdRequest, out *ErrorResponse) error {
 	return h.AccountSVHandler.PutUserPassword(ctx, in, out)
+}
+
+func (h *accountSVHandler) GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, out *UserInfoWithToken) error {
+	return h.AccountSVHandler.GetUserTokenByOauthCode(ctx, in, out)
+}
+
+func (h *accountSVHandler) CreateUserInfoByOauthCode(ctx context.Context, in *OauthCreateUserRequest, out *ErrorResponse) error {
+	return h.AccountSVHandler.CreateUserInfoByOauthCode(ctx, in, out)
 }
