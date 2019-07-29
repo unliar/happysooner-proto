@@ -9,5 +9,5 @@ jobs:
     steps:
       - checkout
       - run: echo "build start to run"
-      - run: go get
+      - run: protoc
       - run: echo "build done"
