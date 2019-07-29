@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.12
-      - environment:
+        environment:
           GO111MODULE: "ON"
     working_directory: /go/src/github.com/unliar/happysooner-proto
     steps:
