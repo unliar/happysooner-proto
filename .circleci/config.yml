@@ -23,7 +23,7 @@ jobs:
         - run: echo "build done"
         - run: git config --global user.email "370732889@qq.com"
         - run: git config --global user.name "unliar"
-        - run: git commit -am "build:happy circleci." && git push
+        - run: git commit -am "build:happy circleci." || git push
 workflows:
     version: 2
     tagged-build:
