@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package pay;
+
+message UIDInput {
+   int64 UID                        = 1;
+}
+
+message PayWay {
+   int64   PayWayID                 = 1; // 用户支付id
+   string  PayType                  = 2; // 支付类型
+   string  PayValue                 = 3; // 支付链接
+   string  PayDesc                  = 4; // 支付描述
+}
+
+message CreateUserPayWayRequest {
+    string  PayType                  = 1; // 支付类型
+    string  PayValue                 = 2; // 支付链接
+    string  PayDesc                  = 3; // 支付描述
+    int64   UID                      = 4; // 用户id
+
+}
+message DeleteUserPayWayRequest {
+    int64   UID                      = 1; // 用户id
+    int64   PayWayID                 = 2; // 用户支付id
+}
+
+message PutUserPayWayRequest {
+    int64   UID                      = 1; // 用户id
+    int64   PayWayID                 = 2; // 用户支付id
+    string  PayType                  = 3; // 支付类型
+    string  PayValue                 = 4; // 支付链接
+    string  PayDesc                  = 5; // 支付描述
+}
+enum PayErrors {
+    None                            = 0;       // 默认值
+    PayNotFound                     = 2000001;  // 支付不存在
+    
+}
+
+message UserPayWays {
+    repeated PayWay PayWays         = 1;
+}
+
+message ErrorResponse {
+    PayErrors ErrorInfo         = 1;
+}
+service paySV {
+
+    // 获取用户支付数据信息
+    rpc GetPayInfo(UIDInput) returns (UserPayWays){}
+
+    // 新增一个支付数据类型
+    rpc CreateUserPayWay(CreateUserPayWayRequest) returns (ErrorResponse){}
+
+    // 删除一个支付数据类型
+    rpc DeleteUserPayWay(DeleteUserPayWayRequest) returns (ErrorResponse){}
+
+    // 更新一个支付数据类型
+    rpc PutUserPayWay(PutUserPayWayRequest) returns (ErrorResponse){}
+
+}
