@@ -24,7 +24,7 @@ jobs:
         - run: echo "build done"
         - run: git config --global user.email "370732889@qq.com"
         - run: git config --global user.name "unliar"
-        - run: git commit -am "[ci skip] happy ci" && git push origin master || echo "hi"
+        - run: git add . && git commit -am "[ci skip] happy ci" && git push origin master || echo "hi"
   
 workflows:
     version: 2
