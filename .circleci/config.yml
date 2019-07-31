@@ -7,11 +7,6 @@ jobs:
             GO111MODULE: "on"
             GOPROXY: "https://goproxy.cn"
       working_directory: /go/src/github.com/unliar/happysooner-proto
-      filters:
-        branches:
-            only: master
-        tags:
-            only: /^v.*/
       steps:
         - add_ssh_keys:
             fingerprints:
@@ -29,4 +24,13 @@ jobs:
         - run: git config --global user.email "370732889@qq.com"
         - run: git config --global user.name "unliar"
         - run: git add . && git commit -m "build:happy circleci." && git push
-     
+workflows:
+    version: 2
+    tagged-build:
+        jobs:
+            - build:
+                filters:
+                    branches:
+                        only: master
+                    tags:
+                        only: /^v.*/
