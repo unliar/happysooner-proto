@@ -24,8 +24,7 @@ jobs:
         - run: git config --global user.email "370732889@qq.com"
         - run: git config --global user.name "unliar"
         - run: git commit -am "[ci skip] happy ci" && git push origin master || echo "hi"
-        - save_cache:
-                key: antd-mobile-{{ checksum "go.mod" }}
+  
 workflows:
     version: 2
     tagged-build:
