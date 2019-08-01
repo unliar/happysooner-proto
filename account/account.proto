@@ -98,6 +98,10 @@ message PutPassowrdRequest {
     string FreshPassword    = 3; // 用户的新密码
 }
 
+// 获取用户密码是否是随机生成的
+message PasswordRandomStatus {
+    int64 Random            = 1; // 用户的密码是否是随机生成的 如果是1 就是随机的 2就不是随机
+}
 service AccountSV {
     // 查询用户信息
     rpc GetUserInfo(UIDInput) returns (UserInfo){}
@@ -131,4 +135,7 @@ service AccountSV {
 
     // 通过第三方code注册用户
     rpc CreateUserInfoByOauthCode(OauthCreateUserRequest) returns (ErrorResponse){}
+
+    // 获取用户密码状态
+    rpc GetUserPasswordRandomStatus (UIDInput) returns (PasswordRandomStatus);
 }
