@@ -44,14 +44,7 @@ message OauthLoginRequest {
     string Type                     = 1; // 类型
     string Code                     = 2; // 授权code
 }
-// 第三方创建用户
-message OauthCreateUserRequest{
-    string Type                     = 1; // 类型
-    string Code                     = 2; // 授权code
-    string Password                 = 3; // 密码
-    string Nickname                 = 4; // 昵称
-    string LoginName                = 5; // 登录名称
-}
+
 // 错误码定义 累计7位 账户服务使用 100 [第一位1表示账户模块，第二位表示子模块(表)] ，后四位自由发挥qaq
 // 100
 enum AccountErrors {
@@ -130,12 +123,9 @@ service AccountSV {
     // 更新用户密码
     rpc PutUserPassword(PutPassowrdRequest) returns (ErrorResponse){}
 
-    // 通过第三方code获取用户token
+    // 通过第三方code获取用户token注册第账户
     rpc GetUserTokenByOauthCode(OauthLoginRequest) returns (UserInfoWithToken){}
-
-    // 通过第三方code注册用户
-    rpc CreateUserInfoByOauthCode(OauthCreateUserRequest) returns (ErrorResponse){}
-
+    
     // 获取用户密码状态
     rpc GetUserPasswordRandomStatus (UIDInput) returns (PasswordRandomStatus);
 }
