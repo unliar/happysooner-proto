@@ -3,47 +3,47 @@ syntax = "proto3";
 package pay;
 
 message UIDInput {
-   int64 UID                        = 1;
+   int64 UID                            = 1;
 }
 
 message PayWay {
-   int64   PayWayID                 = 1; // 用户支付id
-   string  PayType                  = 2; // 支付类型
-   string  PayValue                 = 3; // 支付链接
-   string  PayDesc                  = 4; // 支付描述
+   int64   PayWayID                     = 1; // 用户支付id
+   string  PayType                      = 2; // 支付类型
+   string  PayValue                     = 3; // 支付链接
+   string  PayDesc                      = 4; // 支付描述
 }
 
 message CreateUserPayWayRequest {
-    string  PayType                  = 1; // 支付类型
-    string  PayValue                 = 2; // 支付链接
-    string  PayDesc                  = 3; // 支付描述
-    int64   UID                      = 4; // 用户id
+    string  PayType                     = 1; // 支付类型
+    string  PayValue                    = 2; // 支付链接
+    string  PayDesc                     = 3; // 支付描述
+    int64   UID                         = 4; // 用户id
 
 }
 message DeleteUserPayWayRequest {
-    int64   UID                      = 1; // 用户id
-    int64   PayWayID                 = 2; // 用户支付id
+    int64   UID                         = 1; // 用户id
+    int64   PayWayID                    = 2; // 用户支付id
 }
 
 message PutUserPayWayRequest {
-    int64   UID                      = 1; // 用户id
-    int64   PayWayID                 = 2; // 用户支付id
-    string  PayType                  = 3; // 支付类型
-    string  PayValue                 = 4; // 支付链接
-    string  PayDesc                  = 5; // 支付描述
+    int64   UID                         = 1; // 用户id
+    int64   PayWayID                    = 2; // 用户支付id
+    string  PayType                     = 3; // 支付类型
+    string  PayValue                    = 4; // 支付链接
+    string  PayDesc                     = 5; // 支付描述
 }
 enum PayErrors {
-    None                            = 0;       // 默认值
-    PayNotFound                     = 2000001;  // 支付不存在
-    
+    None                                = 0;        // 默认值
+    PayWayNotFound                      = 2000001;  // 支付不存在
+    PayWayOperationFailed               = 2000002;  // 操作失败
 }
 
 message UserPayWays {
-    repeated PayWay PayWays         = 1;
+    repeated PayWay PayWays             = 1; // 支付方式
 }
 
 message ErrorResponse {
-    PayErrors ErrorInfo         = 1;
+    PayErrors ErrorInfo                 = 1; // 错误信息
 }
 service paySV {
 
