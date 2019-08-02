@@ -52,10 +52,8 @@ type AccountSVService interface {
 	CheckLoginName(ctx context.Context, in *UserInfo, opts ...client.CallOption) (*ErrorResponse, error)
 	// 更新用户密码
 	PutUserPassword(ctx context.Context, in *PutPassowrdRequest, opts ...client.CallOption) (*ErrorResponse, error)
-	// 通过第三方code获取用户token
+	// 通过第三方code获取用户token注册第账户
 	GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, opts ...client.CallOption) (*UserInfoWithToken, error)
-	// 通过第三方code注册用户
-	CreateUserInfoByOauthCode(ctx context.Context, in *OauthCreateUserRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 获取用户密码状态
 	GetUserPasswordRandomStatus(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*PasswordRandomStatus, error)
 }
@@ -178,16 +176,6 @@ func (c *accountSVService) GetUserTokenByOauthCode(ctx context.Context, in *Oaut
 	return out, nil
 }
 
-func (c *accountSVService) CreateUserInfoByOauthCode(ctx context.Context, in *OauthCreateUserRequest, opts ...client.CallOption) (*ErrorResponse, error) {
-	req := c.c.NewRequest(c.name, "AccountSV.CreateUserInfoByOauthCode", in)
-	out := new(ErrorResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *accountSVService) GetUserPasswordRandomStatus(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*PasswordRandomStatus, error) {
 	req := c.c.NewRequest(c.name, "AccountSV.GetUserPasswordRandomStatus", in)
 	out := new(PasswordRandomStatus)
@@ -219,10 +207,8 @@ type AccountSVHandler interface {
 	CheckLoginName(context.Context, *UserInfo, *ErrorResponse) error
 	// 更新用户密码
 	PutUserPassword(context.Context, *PutPassowrdRequest, *ErrorResponse) error
-	// 通过第三方code获取用户token
+	// 通过第三方code获取用户token注册第账户
 	GetUserTokenByOauthCode(context.Context, *OauthLoginRequest, *UserInfoWithToken) error
-	// 通过第三方code注册用户
-	CreateUserInfoByOauthCode(context.Context, *OauthCreateUserRequest, *ErrorResponse) error
 	// 获取用户密码状态
 	GetUserPasswordRandomStatus(context.Context, *UIDInput, *PasswordRandomStatus) error
 }
@@ -239,7 +225,6 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		CheckLoginName(ctx context.Context, in *UserInfo, out *ErrorResponse) error
 		PutUserPassword(ctx context.Context, in *PutPassowrdRequest, out *ErrorResponse) error
 		GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, out *UserInfoWithToken) error
-		CreateUserInfoByOauthCode(ctx context.Context, in *OauthCreateUserRequest, out *ErrorResponse) error
 		GetUserPasswordRandomStatus(ctx context.Context, in *UIDInput, out *PasswordRandomStatus) error
 	}
 	type AccountSV struct {
@@ -291,10 +276,6 @@ func (h *accountSVHandler) PutUserPassword(ctx context.Context, in *PutPassowrdR
 
 func (h *accountSVHandler) GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, out *UserInfoWithToken) error {
 	return h.AccountSVHandler.GetUserTokenByOauthCode(ctx, in, out)
-}
-
-func (h *accountSVHandler) CreateUserInfoByOauthCode(ctx context.Context, in *OauthCreateUserRequest, out *ErrorResponse) error {
-	return h.AccountSVHandler.CreateUserInfoByOauthCode(ctx, in, out)
 }
 
 func (h *accountSVHandler) GetUserPasswordRandomStatus(ctx context.Context, in *UIDInput, out *PasswordRandomStatus) error {
