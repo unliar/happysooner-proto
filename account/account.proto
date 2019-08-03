@@ -64,20 +64,20 @@ message ErrorResponse {
 }
 // 创建用户
 message CreateUserInput {
-    string Type         = 1; // 类型 用户名、手机号、邮箱
-    string Value        = 2; // 值
-    string Password     = 3; // 密码
-    string Nickname     = 7; // 昵称
-    string Extension    = 4; // 扩展字段 比如手机的地区码
-    string IP           = 5; // ip字段
-    string RegisterFrom = 6; // 注册渠道
+    string Type                     = 1; // 类型 用户名、手机号、邮箱
+    string Value                    = 2; // 值
+    string Password                 = 3; // 密码
+    string Nickname                 = 7; // 昵称
+    string Extension                = 4; // 扩展字段 比如手机的地区码
+    string IP                       = 5; // ip字段
+    string RegisterFrom             = 6; // 注册渠道
 }
 // 用户登录
 message UserLoginRequest {
-    string Type         = 1;  // 登录类型
-    string Value        = 2;  // 登录类型值
-    string Password     = 3;  // 登录密码
-    bool   Validate     = 4;  // 密码校验
+    string Type                     = 1;  // 登录类型
+    string Value                    = 2;  // 登录类型值
+    string Password                 = 3;  // 登录密码
+    bool   Validate                 = 4;  // 密码校验
 }
 
 message UserToken {
@@ -86,14 +86,29 @@ message UserToken {
 
 // 更新用户密码
 message PutPassowrdRequest {
-    int64 UID               = 1; // 用户id
-    string Password         = 2; // 用户的老密码
-    string FreshPassword    = 3; // 用户的新密码
+    int64 UID                       = 1; // 用户id
+    string Password                 = 2; // 用户的老密码
+    string FreshPassword            = 3; // 用户的新密码
 }
 
 // 获取用户密码是否是随机生成的
 message PasswordRandomStatus {
-    int64 Random            = 1; // 用户的密码是否是随机生成的 如果是1 就是随机的 2就不是随机
+    int64 Random                    = 1; // 用户的密码是否是随机生成的 如果是1 就是随机的 2就不是随机
+}
+
+message PutUserNicknameRequest {
+    int64 UID                       = 1; // 用户id
+    string Nickname                 = 2; // 用户昵称
+}
+
+message PutUserAvatarRequest {
+    int64 UID                       = 1; // 用户id
+    string Avatar                   = 2; // 用户头像
+}
+
+message PutUserLoginNameRequest {
+    int64 UID                       = 1; // 用户id
+    string LoginName                = 2; // 用户头像
 }
 service AccountSV {
     // 查询用户信息
@@ -122,6 +137,15 @@ service AccountSV {
 
     // 更新用户密码
     rpc PutUserPassword(PutPassowrdRequest) returns (ErrorResponse){}
+
+    // 更新用户昵称
+    rpc PutUserNickname(PutUserNicknameRequest) returns (ErrorResponse){}
+
+    // 更新用户头像
+    rpc PutUserAvatar(PutUserAvatarRequest) returns (ErrorResponse){}
+
+    // 更新用户用户名
+    rpc PutUserLoginName(PutUserLoginNameRequest) returns (ErrorResponse){}
 
     // 通过第三方code获取用户token注册第账户
     rpc GetUserTokenByOauthCode(OauthLoginRequest) returns (UserInfoWithToken){}
