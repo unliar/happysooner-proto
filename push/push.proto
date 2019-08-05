@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package push;
+
+enum SendType {
+    Mail                                = 1; // 邮箱
+    Phone                               = 2; // 手机
+}
+
+message PushCaptchaRequest {
+    string Code                         = 1; // 验证码
+    string Sender                       = 2; // 发送人
+    SendType Type                       = 3; // 发送类型
+    string UID                          = 4; // 被发送人的UID
+    string Account                      = 5; // 被发送人的账户
+    string NationCode                   = 6; // 手机号区号
+}
+
+enum PushErrors {
+    None                                = 0;        // 默认值
+    PushCommonError                     = 2000001;  // 通用error
+}
+
+message ErrorResponse {
+    PushErrors ErrorInfo                = 1; // 错误信息
+}
+message PushEmailNotificationRequest {
+    string  To                          = 1; // 发送到
+    string  Html                        = 2; // 发送内容
+    string  Subject                     = 3; // 主题内容
+}
+message GetCaptchaVerifyRequest {
+    string Code                         = 1; 
+    string Account                      = 2; // 被发送人的账户
+
+}
+service pushSV {
+    
+    // 发送验证码
+    rpc PushCaptcha(PushCaptchaRequest) returns (ErrorResponse);
+    
+    // 校验验证码
+    rpc GetCaptchaVerify(GetCaptchaVerifyRequest) returns (ErrorResponse);
+
+    // 发送邮件通知
+    rpc PushEmailNotification(PushEmailNotificationRequest) returns (ErrorResponse);
+}
