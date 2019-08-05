@@ -3,6 +3,7 @@ syntax = "proto3";
 package push;
 
 enum SendType {
+    None                                = 0; // 默认值
     Mail                                = 1; // 邮箱
     Phone                               = 2; // 手机
 }
