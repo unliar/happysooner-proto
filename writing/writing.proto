@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+// 内容创作模块
+package writing;
+
+message ArticleInfo{
+    int64 Id                        = 1; // 文章id
+    string Title                    = 2; // 文章标题
+    string Summary                  = 3; // 文章摘要
+    int64 AuthorUID                 = 4; // 作者id
+    string AuthorNickname           = 5; // 作者昵称
+    string AuthorAvatar             = 6; // 作者头像
+    int64 CountComment              = 7; // 评论数量
+    int64 CountFavor                = 8; // 收藏数量
+    int64 CountLike                 = 9; // 喜欢数量
+    repeated ArticleTag Tags        = 10; // 标签列表
+    int64 CreatedAt                 = 11; // 创建时间
+    int64 Status                    = 12; // 状态
+    string Content                  = 13; // 文章主体内容 
+    
+}
+
+// Tag解构体
+message ArticleTag {
+    int64 Id                        = 1;  // tag标签
+    string Tag                      = 2;  // tag名称
+}
+
+message IntRequest {
+    int64 Value                     = 1;
+} 
+
+service WritingSV {
+
+    // 获取文章详情
+    rpc GetArticleById (IntRequest) returns (ArticleInfo){};
+
+    
+}
