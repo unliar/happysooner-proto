@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package counter;
+
+message IntRequest {
+    int64 Value                     = 1;
+} 
+
+message ArticleCountInfo {
+    int64 Comment                  = 1;      // 评论
+    int64 Like                     = 2;      // 喜欢
+    int64 Collect                  = 3;      // 收藏
+    int64 DisLike                  = 4;      // 不喜欢
+    int64 PageView                 = 5;      // 浏览量 
+}
+
+
+service counterSV {
+    
+    // 获取文章计数
+    rpc GetArticleCountInfo (IntRequest) returns (ArticleCountInfo);
+}

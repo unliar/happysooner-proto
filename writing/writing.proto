@@ -30,7 +30,7 @@ message IntRequest {
     int64 Value                     = 1;
 } 
 
-service WritingSV {
+service writingSV {
 
     // 获取文章详情
     rpc GetArticleById (IntRequest) returns (ArticleInfo){};
