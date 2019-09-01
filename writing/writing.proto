@@ -37,13 +37,13 @@ message ArticleCountInfo {
  
 // 作者信息
 message ArticleAuthorInfo {
-        int64 AuthorUID                                         = 1; // 作者id
-        string AuthorNickname                                   = 2; // 作者昵称
-        string AuthorAvatar                                     = 3; // 作者头像
+        int64 AuthorUID                                     = 1; // 作者id
+        string AuthorNickname                               = 2; // 作者昵称
+        string AuthorAvatar                                 = 3; // 作者头像
 }
 // 文章类别                  
 message Category {                   
-        int64 Id                                           = 1; // 类别id
+        int64 Id                                            = 1; // 类别id
         string CN                                           = 2; // 类别中文
         string EN                                           = 3; // 类别英文
 }
