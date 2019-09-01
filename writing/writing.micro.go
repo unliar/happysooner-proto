@@ -45,7 +45,7 @@ type WritingSVService interface {
 	// 创建分类
 	PostCategory(ctx context.Context, in *Category, opts ...client.CallOption) (*ErrorResponse, error)
 	// 获取所有分类
-	GetCategories(ctx context.Context, in *Empty, opts ...client.CallOption) (*ErrorResponse, error)
+	GetCategories(ctx context.Context, in *Empty, opts ...client.CallOption) (*CategoriesResponse, error)
 }
 
 type writingSVService struct {
@@ -106,9 +106,9 @@ func (c *writingSVService) PostCategory(ctx context.Context, in *Category, opts 
 	return out, nil
 }
 
-func (c *writingSVService) GetCategories(ctx context.Context, in *Empty, opts ...client.CallOption) (*ErrorResponse, error) {
+func (c *writingSVService) GetCategories(ctx context.Context, in *Empty, opts ...client.CallOption) (*CategoriesResponse, error) {
 	req := c.c.NewRequest(c.name, "WritingSV.GetCategories", in)
-	out := new(ErrorResponse)
+	out := new(CategoriesResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -128,7 +128,7 @@ type WritingSVHandler interface {
 	// 创建分类
 	PostCategory(context.Context, *Category, *ErrorResponse) error
 	// 获取所有分类
-	GetCategories(context.Context, *Empty, *ErrorResponse) error
+	GetCategories(context.Context, *Empty, *CategoriesResponse) error
 }
 
 func RegisterWritingSVHandler(s server.Server, hdlr WritingSVHandler, opts ...server.HandlerOption) error {
@@ -137,7 +137,7 @@ func RegisterWritingSVHandler(s server.Server, hdlr WritingSVHandler, opts ...se
 		GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleListResponse) error
 		PostArticle(ctx context.Context, in *PostArticleRequest, out *ErrorResponse) error
 		PostCategory(ctx context.Context, in *Category, out *ErrorResponse) error
-		GetCategories(ctx context.Context, in *Empty, out *ErrorResponse) error
+		GetCategories(ctx context.Context, in *Empty, out *CategoriesResponse) error
 	}
 	type WritingSV struct {
 		writingSV
@@ -166,6 +166,6 @@ func (h *writingSVHandler) PostCategory(ctx context.Context, in *Category, out *
 	return h.WritingSVHandler.PostCategory(ctx, in, out)
 }
 
-func (h *writingSVHandler) GetCategories(ctx context.Context, in *Empty, out *ErrorResponse) error {
+func (h *writingSVHandler) GetCategories(ctx context.Context, in *Empty, out *CategoriesResponse) error {
 	return h.WritingSVHandler.GetCategories(ctx, in, out)
 }
