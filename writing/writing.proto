@@ -85,6 +85,9 @@ message ErrorResponse {
 message ArticleListResponse {
         repeated ArticleInfo Articles                       = 1; // 文章列表
 }
+message CategoriesResponse{
+        repeated Category List                              = 1;
+}
 // --------------------------response  end-------------------------------
 service writingSV {
 
@@ -101,5 +104,5 @@ service writingSV {
     rpc PostCategory (Category) returns (ErrorResponse);
     
     // 获取所有分类
-    rpc GetCategories (Empty) returns (ErrorResponse);  
+    rpc GetCategories (Empty) returns (CategoriesResponse);  
 }
