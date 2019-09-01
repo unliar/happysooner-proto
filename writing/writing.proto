@@ -105,4 +105,7 @@ service writingSV {
     
     // 获取所有分类
     rpc GetCategories (Empty) returns (CategoriesResponse);  
+
+    // 更新分类
+    rpc PutCategory (Category) returns (ErrorResponse);
 }
