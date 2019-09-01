@@ -4,32 +4,49 @@ syntax = "proto3";
 package writing;
 
 message ArticleInfo{
-    int64 Id                        = 1; // 文章id
-    string Title                    = 2; // 文章标题
-    string Summary                  = 3; // 文章摘要
-    int64 AuthorUID                 = 4; // 作者id
-    string AuthorNickname           = 5; // 作者昵称
-    string AuthorAvatar             = 6; // 作者头像
-    int64 CountComment              = 7; // 评论数量
-    int64 CountFavor                = 8; // 收藏数量
-    int64 CountLike                 = 9; // 喜欢数量
-    repeated ArticleTag Tags        = 10; // 标签列表
-    int64 CreatedAt                 = 11; // 创建时间
-    int64 Status                    = 12; // 状态
-    string Content                  = 13; // 文章主体内容 
-    
+        int64 Id                                            = 1; // 文章id
+        string Title                                        = 2; // 文章标题
+        string Summary                                      = 3; // 文章摘要
+        repeated ArticleTag Tags                            = 4; // 标签列表
+        int64 CreatedAt                                     = 5; // 创建时间
+        int64 Status                                        = 6; // 状态
+        string Content                                      = 7; // 文章主体内容 
+        Category Category                                   = 8; // 文章分类 
+        ArticleCountInfo  ArticleCountInfo                  = 9; // 数据统计信息
+        ArticleAuthorInfo ArticleAuthorInfo                 = 10; // 作者信息  
 }
 
 // Tag解构体
 message ArticleTag {
-    int64 Id                        = 1;  // tag标签
-    string Tag                      = 2;  // tag名称
+        int64 Id                                            = 1;  // tag标签
+        string Tag                                          = 2;  // tag名称
+}                    
+            
+message IntRequest {                     
+         int64 Value                                        = 1;
+}                    
+
+// 数据统计信息
+message ArticleCountInfo {                   
+        int64 Comment                                       = 1;  // 评论
+        int64 Like                                          = 2;  // 喜欢
+        int64 Collect                                       = 3;  // 收藏
+        int64 DisLike                                       = 4;  // 不喜欢
+        int64 PageView                                      = 5;  // 浏览量 
+}                    
+ 
+// 作者信息
+message ArticleAuthorInfo {
+        int64 AuthorUID                                         = 1; // 作者id
+        string AuthorNickname                                   = 2; // 作者昵称
+        string AuthorAvatar                                     = 3; // 作者头像
 }
-
-message IntRequest {
-    int64 Value                     = 1;
-} 
-
+// 文章类别                  
+message Category {                   
+        uint64 Id                                           = 1; // 类别id
+        string CN                                           = 2; // 类别中文
+        string EN                                           = 3; // 类别英文
+}
 service writingSV {
 
     // 获取文章详情
