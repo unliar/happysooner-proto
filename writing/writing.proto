@@ -3,6 +3,8 @@ syntax = "proto3";
 // 内容创作模块
 package writing;
 
+message Empty{}
+
 message ArticleInfo{
         int64 Id                                            = 1; // 文章id
         string Title                                        = 2; // 文章标题
@@ -96,5 +98,8 @@ service writingSV {
     rpc PostArticle (PostArticleRequest) returns (ErrorResponse);  
 
     // 创建分类
-    rpc PostCategory (Category) returns (ErrorResponse);  
+    rpc PostCategory (Category) returns (ErrorResponse);
+    
+    // 获取所有分类
+    rpc GetCategories (Empty) returns (ErrorResponse);  
 }
