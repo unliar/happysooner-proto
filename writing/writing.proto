@@ -22,10 +22,6 @@ message ArticleTag {
         string Tag                                          = 2;  // tag名称
 }                    
             
-message IntRequest {                     
-         int64 Value                                        = 1;
-}                    
-
 // 数据统计信息
 message ArticleCountInfo {                   
         int64 Comment                                       = 1;  // 评论
@@ -47,10 +43,54 @@ message Category {
         string CN                                           = 2; // 类别中文
         string EN                                           = 3; // 类别英文
 }
+
+// --------------------------request  start------------------------------
+// int参数请求
+message IntRequest {                     
+        int64 Value                                         = 1;
+}
+
+message PostArticleRequest {                     
+        int64 CategoryID                                    = 1; // 分类id
+        string Title                                        = 2; // 标题
+        string Content                                      = 3; // 内容
+        int64 AuthorUID                                     = 4; // 作者id
+        string Summary                                      = 5; // 摘要
+ }   
+
+message GetArticleListRequest {
+        int64 LimitAriticleID                               = 1; // 列表最后一个文章id
+        int64 Page                                          = 2; // 页码
+        int64 Size                                          = 3; // 数量 
+        int64 CategoryID                                    = 4; // 分类id 
+        string OrderType                                    = 5; // 排序类型
+}
+
+// --------------------------request  end--------------------------------
+
+// --------------------------response  start-----------------------------
+enum WritingErrors {
+     None                                                   = 0;        // 默认值
+     ArticleNotFound                                        = 3000001;  // 文章不存在
+     PostArticleFailed                                      = 3000002;  // 创建文章失败
+     PostCategoryFailed                                     = 3000003;  // 创建分类失败
+}
+
+message ErrorResponse {
+    WritingErrors ErrorInfo                                 = 1;
+}
+// --------------------------response  end-------------------------------
 service writingSV {
 
     // 获取文章详情
     rpc GetArticleById (IntRequest) returns (ArticleInfo){};
 
-    
+    // 获取文章列表
+    rpc GetArticleList (GetArticleListRequest) returns (ArticleInfo){};
+  
+    // 创建文章
+    rpc PostArticle (PostArticleRequest) returns (ErrorResponse);  
+
+    // 创建分类
+    rpc PostCategory (Category) returns (ErrorResponse);  
 }
