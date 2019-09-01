@@ -77,7 +77,11 @@ enum WritingErrors {
 }
 
 message ErrorResponse {
-    WritingErrors ErrorInfo                                 = 1;
+        WritingErrors ErrorInfo                             = 1;
+}
+
+message ArticleListResponse {
+        repeated ArticleInfo Articles                       = 1; // 文章列表
 }
 // --------------------------response  end-------------------------------
 service writingSV {
@@ -86,7 +90,7 @@ service writingSV {
     rpc GetArticleById (IntRequest) returns (ArticleInfo){};
 
     // 获取文章列表
-    rpc GetArticleList (GetArticleListRequest) returns (ArticleInfo){};
+    rpc GetArticleList (GetArticleListRequest) returns (ArticleListResponse){};
   
     // 创建文章
     rpc PostArticle (PostArticleRequest) returns (ErrorResponse);  
