@@ -39,7 +39,7 @@ type WritingSVService interface {
 	// 获取文章详情
 	GetArticleById(ctx context.Context, in *IntRequest, opts ...client.CallOption) (*ArticleInfo, error)
 	// 获取文章列表
-	GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleInfo, error)
+	GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleListResponse, error)
 	// 创建文章
 	PostArticle(ctx context.Context, in *PostArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 创建分类
@@ -74,9 +74,9 @@ func (c *writingSVService) GetArticleById(ctx context.Context, in *IntRequest, o
 	return out, nil
 }
 
-func (c *writingSVService) GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleInfo, error) {
+func (c *writingSVService) GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleListResponse, error) {
 	req := c.c.NewRequest(c.name, "WritingSV.GetArticleList", in)
-	out := new(ArticleInfo)
+	out := new(ArticleListResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ type WritingSVHandler interface {
 	// 获取文章详情
 	GetArticleById(context.Context, *IntRequest, *ArticleInfo) error
 	// 获取文章列表
-	GetArticleList(context.Context, *GetArticleListRequest, *ArticleInfo) error
+	GetArticleList(context.Context, *GetArticleListRequest, *ArticleListResponse) error
 	// 创建文章
 	PostArticle(context.Context, *PostArticleRequest, *ErrorResponse) error
 	// 创建分类
@@ -120,7 +120,7 @@ type WritingSVHandler interface {
 func RegisterWritingSVHandler(s server.Server, hdlr WritingSVHandler, opts ...server.HandlerOption) error {
 	type writingSV interface {
 		GetArticleById(ctx context.Context, in *IntRequest, out *ArticleInfo) error
-		GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleInfo) error
+		GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleListResponse) error
 		PostArticle(ctx context.Context, in *PostArticleRequest, out *ErrorResponse) error
 		PostCategory(ctx context.Context, in *Category, out *ErrorResponse) error
 	}
@@ -139,7 +139,7 @@ func (h *writingSVHandler) GetArticleById(ctx context.Context, in *IntRequest, o
 	return h.WritingSVHandler.GetArticleById(ctx, in, out)
 }
 
-func (h *writingSVHandler) GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleInfo) error {
+func (h *writingSVHandler) GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleListResponse) error {
 	return h.WritingSVHandler.GetArticleList(ctx, in, out)
 }
 
