@@ -38,6 +38,12 @@ var _ server.Option
 type WritingSVService interface {
 	// 获取文章详情
 	GetArticleById(ctx context.Context, in *IntRequest, opts ...client.CallOption) (*ArticleInfo, error)
+	// 获取文章列表
+	GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleInfo, error)
+	// 创建文章
+	PostArticle(ctx context.Context, in *PostArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 创建分类
+	PostCategory(ctx context.Context, in *Category, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type writingSVService struct {
@@ -68,16 +74,55 @@ func (c *writingSVService) GetArticleById(ctx context.Context, in *IntRequest, o
 	return out, nil
 }
 
+func (c *writingSVService) GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleInfo, error) {
+	req := c.c.NewRequest(c.name, "WritingSV.GetArticleList", in)
+	out := new(ArticleInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *writingSVService) PostArticle(ctx context.Context, in *PostArticleRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "WritingSV.PostArticle", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *writingSVService) PostCategory(ctx context.Context, in *Category, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "WritingSV.PostCategory", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for WritingSV service
 
 type WritingSVHandler interface {
 	// 获取文章详情
 	GetArticleById(context.Context, *IntRequest, *ArticleInfo) error
+	// 获取文章列表
+	GetArticleList(context.Context, *GetArticleListRequest, *ArticleInfo) error
+	// 创建文章
+	PostArticle(context.Context, *PostArticleRequest, *ErrorResponse) error
+	// 创建分类
+	PostCategory(context.Context, *Category, *ErrorResponse) error
 }
 
 func RegisterWritingSVHandler(s server.Server, hdlr WritingSVHandler, opts ...server.HandlerOption) error {
 	type writingSV interface {
 		GetArticleById(ctx context.Context, in *IntRequest, out *ArticleInfo) error
+		GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleInfo) error
+		PostArticle(ctx context.Context, in *PostArticleRequest, out *ErrorResponse) error
+		PostCategory(ctx context.Context, in *Category, out *ErrorResponse) error
 	}
 	type WritingSV struct {
 		writingSV
@@ -92,4 +137,16 @@ type writingSVHandler struct {
 
 func (h *writingSVHandler) GetArticleById(ctx context.Context, in *IntRequest, out *ArticleInfo) error {
 	return h.WritingSVHandler.GetArticleById(ctx, in, out)
+}
+
+func (h *writingSVHandler) GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleInfo) error {
+	return h.WritingSVHandler.GetArticleList(ctx, in, out)
+}
+
+func (h *writingSVHandler) PostArticle(ctx context.Context, in *PostArticleRequest, out *ErrorResponse) error {
+	return h.WritingSVHandler.PostArticle(ctx, in, out)
+}
+
+func (h *writingSVHandler) PostCategory(ctx context.Context, in *Category, out *ErrorResponse) error {
+	return h.WritingSVHandler.PostCategory(ctx, in, out)
 }
