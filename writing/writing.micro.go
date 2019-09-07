@@ -42,6 +42,8 @@ type WritingSVService interface {
 	GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleListResponse, error)
 	// 创建文章
 	PostArticle(ctx context.Context, in *PostArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 更新文章
+	PutArticle(ctx context.Context, in *PutArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 创建分类
 	PostCategory(ctx context.Context, in *Category, opts ...client.CallOption) (*ErrorResponse, error)
 	// 获取所有分类
@@ -98,6 +100,16 @@ func (c *writingSVService) PostArticle(ctx context.Context, in *PostArticleReque
 	return out, nil
 }
 
+func (c *writingSVService) PutArticle(ctx context.Context, in *PutArticleRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "WritingSV.PutArticle", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *writingSVService) PostCategory(ctx context.Context, in *Category, opts ...client.CallOption) (*ErrorResponse, error) {
 	req := c.c.NewRequest(c.name, "WritingSV.PostCategory", in)
 	out := new(ErrorResponse)
@@ -137,6 +149,8 @@ type WritingSVHandler interface {
 	GetArticleList(context.Context, *GetArticleListRequest, *ArticleListResponse) error
 	// 创建文章
 	PostArticle(context.Context, *PostArticleRequest, *ErrorResponse) error
+	// 更新文章
+	PutArticle(context.Context, *PutArticleRequest, *ErrorResponse) error
 	// 创建分类
 	PostCategory(context.Context, *Category, *ErrorResponse) error
 	// 获取所有分类
@@ -150,6 +164,7 @@ func RegisterWritingSVHandler(s server.Server, hdlr WritingSVHandler, opts ...se
 		GetArticleById(ctx context.Context, in *IntRequest, out *ArticleInfo) error
 		GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleListResponse) error
 		PostArticle(ctx context.Context, in *PostArticleRequest, out *ErrorResponse) error
+		PutArticle(ctx context.Context, in *PutArticleRequest, out *ErrorResponse) error
 		PostCategory(ctx context.Context, in *Category, out *ErrorResponse) error
 		GetCategories(ctx context.Context, in *Empty, out *CategoriesResponse) error
 		PutCategory(ctx context.Context, in *Category, out *ErrorResponse) error
@@ -175,6 +190,10 @@ func (h *writingSVHandler) GetArticleList(ctx context.Context, in *GetArticleLis
 
 func (h *writingSVHandler) PostArticle(ctx context.Context, in *PostArticleRequest, out *ErrorResponse) error {
 	return h.WritingSVHandler.PostArticle(ctx, in, out)
+}
+
+func (h *writingSVHandler) PutArticle(ctx context.Context, in *PutArticleRequest, out *ErrorResponse) error {
+	return h.WritingSVHandler.PutArticle(ctx, in, out)
 }
 
 func (h *writingSVHandler) PostCategory(ctx context.Context, in *Category, out *ErrorResponse) error {
