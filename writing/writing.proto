@@ -58,7 +58,16 @@ message PostArticleRequest {
         string Content                                      = 3; // 内容
         int64 AuthorUID                                     = 4; // 作者id
         string Summary                                      = 5; // 摘要
- }   
+}
+
+message PutArticleRequest {
+        int64  PostID                                       = 1; // 文章id                     
+        string Title                                        = 2; // 标题
+        string Content                                      = 3; // 内容
+        int64 AuthorUID                                     = 4; // 作者id
+        string Summary                                      = 5; // 摘要
+        int64 CategoryID                                    = 6; // 分类id
+}   
 
 message GetArticleListRequest {
         int64 LimitAriticleID                               = 1; // 列表最后一个文章id
@@ -76,6 +85,7 @@ enum WritingErrors {
      ArticleNotFound                                        = 3000001;  // 文章不存在
      PostArticleFailed                                      = 3000002;  // 创建文章失败
      PostCategoryFailed                                     = 3000003;  // 创建分类失败
+     PutArticleFailed                                       = 3000004;  // 更新文章失败
 }
 
 message ErrorResponse {
@@ -100,6 +110,9 @@ service writingSV {
     // 创建文章
     rpc PostArticle (PostArticleRequest) returns (ErrorResponse);  
 
+    // 更新文章
+    rpc PutArticle (PutArticleRequest) returns (ErrorResponse);
+    
     // 创建分类
     rpc PostCategory (Category) returns (ErrorResponse);
     
