@@ -86,6 +86,7 @@ enum WritingErrors {
      PostArticleFailed                                      = 3000002;  // 创建文章失败
      PostCategoryFailed                                     = 3000003;  // 创建分类失败
      PutArticleFailed                                       = 3000004;  // 更新文章失败
+     OperationNotPermitted                                  = 3000006;  // 用户无权限进行操作
 }
 
 message ErrorResponse {
