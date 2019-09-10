@@ -57,6 +57,7 @@ enum AccountErrors {
     UserPhoneExist                  = 1000006;  // 用户手机号存在
     UserEmailExist                  = 1000007;  // 用户邮箱号存在
     UserPasswordCheckFailed         = 1000008;  // 用户密码不匹配
+    UserBindUserContactEmailFailed  = 1000009;  // 用户绑定邮箱失败
 }
 
 message ErrorResponse {
@@ -110,6 +111,19 @@ message PutUserLoginNameRequest {
     int64 UID                       = 1; // 用户id
     string LoginName                = 2; // 用户头像
 }
+
+message PutUserContactEmailRequest {
+    string Email                    = 1; // 邮箱
+    int64 UID                       = 2; // 用户id 
+}
+
+message PutUserContactPhoneRequest {
+    string Phone                    = 1; // 手机
+    string PhoneCode                = 2; // 区号
+    int64 UID                       = 3; // 用户id 
+}
+
+
 service AccountSV {
     // 查询用户信息
     rpc GetUserInfo(UIDInput) returns (UserInfo){}
@@ -152,4 +166,11 @@ service AccountSV {
     
     // 获取用户密码状态
     rpc GetUserPasswordRandomStatus (UIDInput) returns (PasswordRandomStatus);
+
+    // 绑定邮箱
+    rpc BindUserContactEmail (PutUserContactEmailRequest) returns (ErrorResponse);
+
+    // 绑定手机号
+    rpc BindUserContactPhone (PutUserContactPhoneRequest) returns (ErrorResponse);
+
 }
