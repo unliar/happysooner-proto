@@ -58,6 +58,7 @@ enum AccountErrors {
     UserEmailExist                  = 1000007;  // 用户邮箱号存在
     UserPasswordCheckFailed         = 1000008;  // 用户密码不匹配
     UserBindUserContactEmailFailed  = 1000009;  // 用户绑定邮箱失败
+    UserBindUserContactPhoneFailed  = 1000010;  // 用户绑定绑定手机失败
 }
 
 message ErrorResponse {
