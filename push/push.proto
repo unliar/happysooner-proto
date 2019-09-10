@@ -31,9 +31,10 @@ message PushEmailNotificationRequest {
     string  Subject                     = 3; // 主题内容
 }
 message GetCaptchaVerifyRequest {
-    string Code                         = 1; 
+    string Code                         = 1; // 验证码
     string Account                      = 2; // 被发送人的账户
-
+    string UID                          = 3; // 被发送人的UID
+    SendType Type                       = 4; // 验证类型
 }
 service pushSV {
     
