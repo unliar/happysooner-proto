@@ -12,7 +12,7 @@ message PushCaptchaRequest {
     string Code                         = 1; // 验证码
     string Sender                       = 2; // 发送人
     SendType Type                       = 3; // 发送类型
-    string UID                          = 4; // 被发送人的UID
+    int64 UID                           = 4; // 被发送人的UID
     string Account                      = 5; // 被发送人的账户
     string NationCode                   = 6; // 手机号区号
 }
@@ -33,7 +33,7 @@ message PushEmailNotificationRequest {
 message GetCaptchaVerifyRequest {
     string Code                         = 1; // 验证码
     string Account                      = 2; // 被发送人的账户
-    string UID                          = 3; // 被发送人的UID
+    int64 UID                           = 3; // 被发送人的UID
     SendType Type                       = 4; // 验证类型
 }
 service pushSV {
