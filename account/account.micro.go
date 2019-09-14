@@ -52,12 +52,8 @@ type AccountSVService interface {
 	CheckLoginName(ctx context.Context, in *UserInfo, opts ...client.CallOption) (*ErrorResponse, error)
 	// 更新用户密码
 	PutUserPassword(ctx context.Context, in *PutPassowrdRequest, opts ...client.CallOption) (*ErrorResponse, error)
-	// 更新用户昵称
-	PutUserNickname(ctx context.Context, in *PutUserNicknameRequest, opts ...client.CallOption) (*ErrorResponse, error)
-	// 更新用户头像
-	PutUserAvatar(ctx context.Context, in *PutUserAvatarRequest, opts ...client.CallOption) (*ErrorResponse, error)
-	// 更新用户用户名
-	PutUserLoginName(ctx context.Context, in *PutUserLoginNameRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 更新用户基础信息
+	PutUserBaseInfo(ctx context.Context, in *PutUserBaseRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 通过第三方code获取用户token注册第账户
 	GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, opts ...client.CallOption) (*UserInfoWithToken, error)
 	// 获取用户密码状态
@@ -176,28 +172,8 @@ func (c *accountSVService) PutUserPassword(ctx context.Context, in *PutPassowrdR
 	return out, nil
 }
 
-func (c *accountSVService) PutUserNickname(ctx context.Context, in *PutUserNicknameRequest, opts ...client.CallOption) (*ErrorResponse, error) {
-	req := c.c.NewRequest(c.name, "AccountSV.PutUserNickname", in)
-	out := new(ErrorResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountSVService) PutUserAvatar(ctx context.Context, in *PutUserAvatarRequest, opts ...client.CallOption) (*ErrorResponse, error) {
-	req := c.c.NewRequest(c.name, "AccountSV.PutUserAvatar", in)
-	out := new(ErrorResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountSVService) PutUserLoginName(ctx context.Context, in *PutUserLoginNameRequest, opts ...client.CallOption) (*ErrorResponse, error) {
-	req := c.c.NewRequest(c.name, "AccountSV.PutUserLoginName", in)
+func (c *accountSVService) PutUserBaseInfo(ctx context.Context, in *PutUserBaseRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.PutUserBaseInfo", in)
 	out := new(ErrorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -267,12 +243,8 @@ type AccountSVHandler interface {
 	CheckLoginName(context.Context, *UserInfo, *ErrorResponse) error
 	// 更新用户密码
 	PutUserPassword(context.Context, *PutPassowrdRequest, *ErrorResponse) error
-	// 更新用户昵称
-	PutUserNickname(context.Context, *PutUserNicknameRequest, *ErrorResponse) error
-	// 更新用户头像
-	PutUserAvatar(context.Context, *PutUserAvatarRequest, *ErrorResponse) error
-	// 更新用户用户名
-	PutUserLoginName(context.Context, *PutUserLoginNameRequest, *ErrorResponse) error
+	// 更新用户基础信息
+	PutUserBaseInfo(context.Context, *PutUserBaseRequest, *ErrorResponse) error
 	// 通过第三方code获取用户token注册第账户
 	GetUserTokenByOauthCode(context.Context, *OauthLoginRequest, *UserInfoWithToken) error
 	// 获取用户密码状态
@@ -294,9 +266,7 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		CheckEmail(ctx context.Context, in *UserInfo, out *ErrorResponse) error
 		CheckLoginName(ctx context.Context, in *UserInfo, out *ErrorResponse) error
 		PutUserPassword(ctx context.Context, in *PutPassowrdRequest, out *ErrorResponse) error
-		PutUserNickname(ctx context.Context, in *PutUserNicknameRequest, out *ErrorResponse) error
-		PutUserAvatar(ctx context.Context, in *PutUserAvatarRequest, out *ErrorResponse) error
-		PutUserLoginName(ctx context.Context, in *PutUserLoginNameRequest, out *ErrorResponse) error
+		PutUserBaseInfo(ctx context.Context, in *PutUserBaseRequest, out *ErrorResponse) error
 		GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, out *UserInfoWithToken) error
 		GetUserPasswordRandomStatus(ctx context.Context, in *UIDInput, out *PasswordRandomStatus) error
 		BindUserContactEmail(ctx context.Context, in *PutUserContactEmailRequest, out *ErrorResponse) error
@@ -349,16 +319,8 @@ func (h *accountSVHandler) PutUserPassword(ctx context.Context, in *PutPassowrdR
 	return h.AccountSVHandler.PutUserPassword(ctx, in, out)
 }
 
-func (h *accountSVHandler) PutUserNickname(ctx context.Context, in *PutUserNicknameRequest, out *ErrorResponse) error {
-	return h.AccountSVHandler.PutUserNickname(ctx, in, out)
-}
-
-func (h *accountSVHandler) PutUserAvatar(ctx context.Context, in *PutUserAvatarRequest, out *ErrorResponse) error {
-	return h.AccountSVHandler.PutUserAvatar(ctx, in, out)
-}
-
-func (h *accountSVHandler) PutUserLoginName(ctx context.Context, in *PutUserLoginNameRequest, out *ErrorResponse) error {
-	return h.AccountSVHandler.PutUserLoginName(ctx, in, out)
+func (h *accountSVHandler) PutUserBaseInfo(ctx context.Context, in *PutUserBaseRequest, out *ErrorResponse) error {
+	return h.AccountSVHandler.PutUserBaseInfo(ctx, in, out)
 }
 
 func (h *accountSVHandler) GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, out *UserInfoWithToken) error {
