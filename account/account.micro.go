@@ -62,6 +62,10 @@ type AccountSVService interface {
 	GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, opts ...client.CallOption) (*UserInfoWithToken, error)
 	// 获取用户密码状态
 	GetUserPasswordRandomStatus(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*PasswordRandomStatus, error)
+	// 绑定邮箱
+	BindUserContactEmail(ctx context.Context, in *PutUserContactEmailRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 绑定手机号
+	BindUserContactPhone(ctx context.Context, in *PutUserContactPhoneRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type accountSVService struct {
@@ -222,6 +226,26 @@ func (c *accountSVService) GetUserPasswordRandomStatus(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *accountSVService) BindUserContactEmail(ctx context.Context, in *PutUserContactEmailRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.BindUserContactEmail", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountSVService) BindUserContactPhone(ctx context.Context, in *PutUserContactPhoneRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.BindUserContactPhone", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AccountSV service
 
 type AccountSVHandler interface {
@@ -253,6 +277,10 @@ type AccountSVHandler interface {
 	GetUserTokenByOauthCode(context.Context, *OauthLoginRequest, *UserInfoWithToken) error
 	// 获取用户密码状态
 	GetUserPasswordRandomStatus(context.Context, *UIDInput, *PasswordRandomStatus) error
+	// 绑定邮箱
+	BindUserContactEmail(context.Context, *PutUserContactEmailRequest, *ErrorResponse) error
+	// 绑定手机号
+	BindUserContactPhone(context.Context, *PutUserContactPhoneRequest, *ErrorResponse) error
 }
 
 func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...server.HandlerOption) error {
@@ -271,6 +299,8 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		PutUserLoginName(ctx context.Context, in *PutUserLoginNameRequest, out *ErrorResponse) error
 		GetUserTokenByOauthCode(ctx context.Context, in *OauthLoginRequest, out *UserInfoWithToken) error
 		GetUserPasswordRandomStatus(ctx context.Context, in *UIDInput, out *PasswordRandomStatus) error
+		BindUserContactEmail(ctx context.Context, in *PutUserContactEmailRequest, out *ErrorResponse) error
+		BindUserContactPhone(ctx context.Context, in *PutUserContactPhoneRequest, out *ErrorResponse) error
 	}
 	type AccountSV struct {
 		accountSV
@@ -337,4 +367,12 @@ func (h *accountSVHandler) GetUserTokenByOauthCode(ctx context.Context, in *Oaut
 
 func (h *accountSVHandler) GetUserPasswordRandomStatus(ctx context.Context, in *UIDInput, out *PasswordRandomStatus) error {
 	return h.AccountSVHandler.GetUserPasswordRandomStatus(ctx, in, out)
+}
+
+func (h *accountSVHandler) BindUserContactEmail(ctx context.Context, in *PutUserContactEmailRequest, out *ErrorResponse) error {
+	return h.AccountSVHandler.BindUserContactEmail(ctx, in, out)
+}
+
+func (h *accountSVHandler) BindUserContactPhone(ctx context.Context, in *PutUserContactPhoneRequest, out *ErrorResponse) error {
+	return h.AccountSVHandler.BindUserContactPhone(ctx, in, out)
 }
