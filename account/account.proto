@@ -25,14 +25,15 @@ message UserInfo {
 }
 
 message PutUserBaseRequest {
-    string LoginName                = 1;    // 登录
-    string Nickname                 = 2;    // 昵称
-    int64 Age                       = 3;    // 年龄
-    int64 Gender                    = 4;    // 性别
-    string Avatar                   = 5;    // 头像
-    string Location                 = 6;    // 位置
-    string Profession               = 7;    // 职业
-    string Brief                    = 8;    // 简介
+    int64 Id                        = 1;    // id
+    string LoginName                = 2;    // 登录
+    string Nickname                 = 3;    // 昵称
+    int64 Age                       = 4;    // 年龄
+    int64 Gender                    = 5;    // 性别
+    string Avatar                   = 6;    // 头像
+    string Location                 = 7;    // 位置
+    string Profession               = 8;    // 职业
+    string Brief                    = 9;    // 简介
 }
 
 message UserInfoWithToken {
@@ -109,20 +110,6 @@ message PasswordRandomStatus {
     int64 Random                    = 1; // 用户的密码是否是随机生成的 如果是1 就是随机的 2就不是随机
 }
 
-message PutUserNicknameRequest {
-    int64 UID                       = 1; // 用户id
-    string Nickname                 = 2; // 用户昵称
-}
-
-message PutUserAvatarRequest {
-    int64 UID                       = 1; // 用户id
-    string Avatar                   = 2; // 用户头像
-}
-
-message PutUserLoginNameRequest {
-    int64 UID                       = 1; // 用户id
-    string LoginName                = 2; // 用户头像
-}
 
 message PutUserContactEmailRequest {
     string Email                    = 1; // 邮箱
