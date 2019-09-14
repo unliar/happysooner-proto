@@ -24,6 +24,17 @@ message UserInfo {
     repeated RoleInfo Roles         = 19;   // 用户角色信息
 }
 
+message PutUserBaseRequest {
+    string LoginName                = 1;    // 登录
+    string Nickname                 = 2;    // 昵称
+    int64 Age                       = 3;    // 年龄
+    int64 Gender                    = 4;    // 性别
+    string Avatar                   = 5;    // 头像
+    string Location                 = 6;    // 位置
+    string Profession               = 7;    // 职业
+    string Brief                    = 8;    // 简介
+}
+
 message UserInfoWithToken {
     UserInfo UserInfo               = 1;
     string   Token                  = 2;
@@ -137,15 +148,9 @@ service AccountSV {
 
     // 更新用户密码
     rpc PutUserPassword(PutPassowrdRequest) returns (ErrorResponse){}
-
-    // 更新用户昵称
-    rpc PutUserNickname(PutUserNicknameRequest) returns (ErrorResponse){}
-
-    // 更新用户头像
-    rpc PutUserAvatar(PutUserAvatarRequest) returns (ErrorResponse){}
-
-    // 更新用户用户名
-    rpc PutUserLoginName(PutUserLoginNameRequest) returns (ErrorResponse){}
+    
+    // 更新用户基础信息
+    rpc PutUserBaseInfo (PutUserBaseRequest) returns (ErrorResponse){};
 
     // 通过第三方code获取用户token注册第账户
     rpc GetUserTokenByOauthCode(OauthLoginRequest) returns (UserInfoWithToken){}
