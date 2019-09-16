@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package search;
+
+// 获取搜索结果
+message GetSearchRequest {
+    SearchTypes Type                                             = 1; // 类型
+    string Text                                                  = 2; // 文字 通过内容搜索key
+}
+
+// 搜索类型
+enum SearchTypes {
+    NoneType                                                     = 0;
+    Article                                                      = 1; // 文章类型
+    Author                                                       = 2; // 作者    
+}
+
+message ResultItem {
+    SearchTypes Type                                             = 1; // 搜索类型
+    int64       Key                                              = 2; // 类型                                                 
+}
+
+// 搜索结果
+message SearchResult {
+    repeated ResultItem Results                                  = 1; 
+}
+
+// 删除搜索
+message DelSearchRequest {
+    string Collection                                            = 1;// 类似于database的概念
+    string Bucket                                                = 2;// 类似于表的概念
+    string Object                                                = 3;// 这个类似于key的概念 搜索会根据value搜索key🔍
+}
+// 错误类型
+enum SearchErrors {
+    NoneError                                                    = 0;        // 默认值
+    SearchCommonError                                            = 4000001;  // 通用error
+}
+
+message ErrorResponse {
+    SearchErrors ErrorInfo                                       = 1;
+}
+
+service searchSV {
+    // 获取搜索结果
+    rpc GetSearchByType (GetSearchRequest) returns (SearchResult);
+    
+    // 删除搜索结果
+    rpc DelSearchByType (DelSearchRequest) returns (ErrorResponse);
+}
