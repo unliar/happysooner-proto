@@ -36,8 +36,12 @@ var _ server.Option
 type SearchSVService interface {
 	// 获取搜索结果
 	GetSearchByType(ctx context.Context, in *GetSearchRequest, opts ...client.CallOption) (*SearchResult, error)
-	// 删除搜索结果
-	DelSearchByType(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 删除某个搜索Object
+	DelSearchByObject(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 删除某个搜索Bucket
+	DelSearchByBucket(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 删除某个搜索Collection
+	DelSearchByCollection(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 插入搜索资源数据
 	PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
@@ -70,8 +74,28 @@ func (c *searchSVService) GetSearchByType(ctx context.Context, in *GetSearchRequ
 	return out, nil
 }
 
-func (c *searchSVService) DelSearchByType(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
-	req := c.c.NewRequest(c.name, "SearchSV.DelSearchByType", in)
+func (c *searchSVService) DelSearchByObject(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "SearchSV.DelSearchByObject", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *searchSVService) DelSearchByBucket(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "SearchSV.DelSearchByBucket", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *searchSVService) DelSearchByCollection(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "SearchSV.DelSearchByCollection", in)
 	out := new(ErrorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -95,8 +119,12 @@ func (c *searchSVService) PostSearchSource(ctx context.Context, in *PostSearchSo
 type SearchSVHandler interface {
 	// 获取搜索结果
 	GetSearchByType(context.Context, *GetSearchRequest, *SearchResult) error
-	// 删除搜索结果
-	DelSearchByType(context.Context, *DelSearchRequest, *ErrorResponse) error
+	// 删除某个搜索Object
+	DelSearchByObject(context.Context, *DelSearchRequest, *ErrorResponse) error
+	// 删除某个搜索Bucket
+	DelSearchByBucket(context.Context, *DelSearchRequest, *ErrorResponse) error
+	// 删除某个搜索Collection
+	DelSearchByCollection(context.Context, *DelSearchRequest, *ErrorResponse) error
 	// 插入搜索资源数据
 	PostSearchSource(context.Context, *PostSearchSourceRequest, *ErrorResponse) error
 }
@@ -104,7 +132,9 @@ type SearchSVHandler interface {
 func RegisterSearchSVHandler(s server.Server, hdlr SearchSVHandler, opts ...server.HandlerOption) error {
 	type searchSV interface {
 		GetSearchByType(ctx context.Context, in *GetSearchRequest, out *SearchResult) error
-		DelSearchByType(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error
+		DelSearchByObject(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error
+		DelSearchByBucket(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error
+		DelSearchByCollection(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error
 		PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, out *ErrorResponse) error
 	}
 	type SearchSV struct {
@@ -122,8 +152,16 @@ func (h *searchSVHandler) GetSearchByType(ctx context.Context, in *GetSearchRequ
 	return h.SearchSVHandler.GetSearchByType(ctx, in, out)
 }
 
-func (h *searchSVHandler) DelSearchByType(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error {
-	return h.SearchSVHandler.DelSearchByType(ctx, in, out)
+func (h *searchSVHandler) DelSearchByObject(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error {
+	return h.SearchSVHandler.DelSearchByObject(ctx, in, out)
+}
+
+func (h *searchSVHandler) DelSearchByBucket(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error {
+	return h.SearchSVHandler.DelSearchByBucket(ctx, in, out)
+}
+
+func (h *searchSVHandler) DelSearchByCollection(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error {
+	return h.SearchSVHandler.DelSearchByCollection(ctx, in, out)
 }
 
 func (h *searchSVHandler) PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, out *ErrorResponse) error {
