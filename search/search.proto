@@ -9,14 +9,10 @@ enum SearchTypes {
     Author                                                       = 2; // 作者    
 }
 
-message ResultItem {
-    SearchTypes Type                                             = 1; // 搜索类型
-    string       Key                                             = 2; // 返回的数据ID                                                 
-}
 
 // 搜索结果
 message SearchResult {
-    repeated ResultItem Results                                  = 1; 
+    repeated string Results                                  = 1; 
 }
 
 // 删除搜索
