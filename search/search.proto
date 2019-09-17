@@ -17,7 +17,7 @@ enum SearchTypes {
 
 message ResultItem {
     SearchTypes Type                                             = 1; // 搜索类型
-    int64       Key                                              = 2; // 类型                                                 
+    string       Key                                             = 2; // 返回的数据ID                                                 
 }
 
 // 搜索结果
