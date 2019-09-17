@@ -48,8 +48,14 @@ service searchSV {
     // 获取搜索结果
     rpc GetSearchByType (GetSearchRequest) returns (SearchResult);
     
-    // 删除搜索结果
-    rpc DelSearchByType (DelSearchRequest) returns (ErrorResponse);
+    // 删除某个搜索Object 
+    rpc DelSearchByObject (DelSearchRequest) returns (ErrorResponse);
+
+    // 删除某个搜索Bucket 
+    rpc DelSearchByBucket (DelSearchRequest) returns (ErrorResponse);
+
+    // 删除某个搜索Collection 
+    rpc DelSearchByCollection (DelSearchRequest) returns (ErrorResponse);
 
     // 插入搜索资源数据
     rpc PostSearchSource(PostSearchSourceRequest) returns (ErrorResponse);
