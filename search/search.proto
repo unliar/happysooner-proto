@@ -2,12 +2,6 @@ syntax = "proto3";
 
 package search;
 
-// 获取搜索结果
-message GetSearchRequest {
-    SearchTypes Type                                             = 1; // 类型
-    string Text                                                  = 2; // 文字 通过内容搜索key
-}
-
 // 搜索类型
 enum SearchTypes {
     NoneType                                                     = 0;
@@ -40,11 +34,27 @@ enum SearchErrors {
 message ErrorResponse {
     SearchErrors ErrorInfo                                       = 1;
 }
+// 插入搜索数据请求
+message PostSearchSourceRequest {
+    string Collection                                            = 1;// 类似于database的概念
+    string Bucket                                                = 2;// 类似于表的概念
+    string Object                                                = 3;// 这个类似于key的概念 搜索会根据value搜索key🔍
+    string Text                                                  = 4;// 数据分词内容
+}
 
+// 获取搜索结果
+message GetSearchRequest {
+    string Collection                                            = 1;// 类似于database的概念
+    string Bucket                                                = 2;// 类似于表的概念
+    string Text                                                  = 4;// 搜索数据
+}
 service searchSV {
     // 获取搜索结果
     rpc GetSearchByType (GetSearchRequest) returns (SearchResult);
     
     // 删除搜索结果
     rpc DelSearchByType (DelSearchRequest) returns (ErrorResponse);
+
+    // 插入搜索资源数据
+    rpc PostSearchSource(PostSearchSourceRequest) returns (ErrorResponse);
 }
