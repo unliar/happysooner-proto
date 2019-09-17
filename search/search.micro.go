@@ -38,6 +38,8 @@ type SearchSVService interface {
 	GetSearchByType(ctx context.Context, in *GetSearchRequest, opts ...client.CallOption) (*SearchResult, error)
 	// 删除搜索结果
 	DelSearchByType(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 插入搜索资源数据
+	PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type searchSVService struct {
@@ -78,6 +80,16 @@ func (c *searchSVService) DelSearchByType(ctx context.Context, in *DelSearchRequ
 	return out, nil
 }
 
+func (c *searchSVService) PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "SearchSV.PostSearchSource", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for SearchSV service
 
 type SearchSVHandler interface {
@@ -85,12 +97,15 @@ type SearchSVHandler interface {
 	GetSearchByType(context.Context, *GetSearchRequest, *SearchResult) error
 	// 删除搜索结果
 	DelSearchByType(context.Context, *DelSearchRequest, *ErrorResponse) error
+	// 插入搜索资源数据
+	PostSearchSource(context.Context, *PostSearchSourceRequest, *ErrorResponse) error
 }
 
 func RegisterSearchSVHandler(s server.Server, hdlr SearchSVHandler, opts ...server.HandlerOption) error {
 	type searchSV interface {
 		GetSearchByType(ctx context.Context, in *GetSearchRequest, out *SearchResult) error
 		DelSearchByType(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error
+		PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, out *ErrorResponse) error
 	}
 	type SearchSV struct {
 		searchSV
@@ -109,4 +124,8 @@ func (h *searchSVHandler) GetSearchByType(ctx context.Context, in *GetSearchRequ
 
 func (h *searchSVHandler) DelSearchByType(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error {
 	return h.SearchSVHandler.DelSearchByType(ctx, in, out)
+}
+
+func (h *searchSVHandler) PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, out *ErrorResponse) error {
+	return h.SearchSVHandler.PostSearchSource(ctx, in, out)
 }
