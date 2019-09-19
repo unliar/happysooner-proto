@@ -2,23 +2,27 @@ syntax = "proto3";
 
 package search;
 
-// 搜索类型
-enum SearchTypes {
+// 数据桶类型
+enum BucketTypes {
     NoneType                                                     = 0;
     Article                                                      = 1; // 文章类型
     Author                                                       = 2; // 作者    
 }
-
+// 数据仓库类型
+enum CollectionTypes {
+    Test                                                         = 0;
+    Happy                                                        = 1;
+}
 
 // 搜索结果
 message SearchResult {
-    repeated string Results                                  = 1; 
+    repeated string Results                                      = 1; 
 }
 
 // 删除搜索
 message DelSearchRequest {
-    string Collection                                            = 1;// 类似于database的概念
-    string Bucket                                                = 2;// 类似于表的概念
+    CollectionTypes Collection                                   = 1;// 类似于database的概念
+    BucketTypes Bucket                                           = 2;// 类似于表的概念
     string Object                                                = 3;// 这个类似于key的概念 搜索会根据value搜索key🔍
 }
 // 错误类型
@@ -32,17 +36,17 @@ message ErrorResponse {
 }
 // 插入搜索数据请求
 message PostSearchSourceRequest {
-    string Collection                                            = 1;// 类似于database的概念
-    string Bucket                                                = 2;// 类似于表的概念
+    CollectionTypes Collection                                   = 1;// 类似于database的概念
+    BucketTypes Bucket                                           = 2;// 类似于表的概念
     string Object                                                = 3;// 这个类似于key的概念 搜索会根据value搜索key🔍
     string Text                                                  = 4;// 数据分词内容
 }
 
 // 获取搜索结果
 message GetSearchRequest {
-    string Collection                                            = 1;// 类似于database的概念
-    string Bucket                                                = 2;// 类似于表的概念
-    string Text                                                  = 4;// 搜索数据
+    CollectionTypes Collection                                   = 1;// 类似于database的概念
+    BucketTypes Bucket                                           = 2;// 类似于表的概念
+    string Text                                                  = 3;// 搜索数据
 }
 service searchSV {
     // 获取搜索结果
