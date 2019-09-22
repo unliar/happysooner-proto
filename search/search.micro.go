@@ -36,12 +36,12 @@ var _ server.Option
 type SearchSVService interface {
 	// 获取搜索结果
 	GetSearchByType(ctx context.Context, in *GetSearchRequest, opts ...client.CallOption) (*SearchResult, error)
-	// 删除某个搜索Object
-	DelSearchByObject(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
-	// 删除某个搜索Bucket
-	DelSearchByBucket(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
-	// 删除某个搜索Collection
-	DelSearchByCollection(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// Flush某个搜索Object
+	FlushSearchByObject(ctx context.Context, in *FlushSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// Flush某个搜索Bucket
+	FlushSearchByBucket(ctx context.Context, in *FlushSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// Flush某个搜索Collection
+	FlushSearchByCollection(ctx context.Context, in *FlushSearchRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 插入搜索资源数据
 	PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
@@ -74,8 +74,8 @@ func (c *searchSVService) GetSearchByType(ctx context.Context, in *GetSearchRequ
 	return out, nil
 }
 
-func (c *searchSVService) DelSearchByObject(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
-	req := c.c.NewRequest(c.name, "SearchSV.DelSearchByObject", in)
+func (c *searchSVService) FlushSearchByObject(ctx context.Context, in *FlushSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "SearchSV.FlushSearchByObject", in)
 	out := new(ErrorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -84,8 +84,8 @@ func (c *searchSVService) DelSearchByObject(ctx context.Context, in *DelSearchRe
 	return out, nil
 }
 
-func (c *searchSVService) DelSearchByBucket(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
-	req := c.c.NewRequest(c.name, "SearchSV.DelSearchByBucket", in)
+func (c *searchSVService) FlushSearchByBucket(ctx context.Context, in *FlushSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "SearchSV.FlushSearchByBucket", in)
 	out := new(ErrorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -94,8 +94,8 @@ func (c *searchSVService) DelSearchByBucket(ctx context.Context, in *DelSearchRe
 	return out, nil
 }
 
-func (c *searchSVService) DelSearchByCollection(ctx context.Context, in *DelSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
-	req := c.c.NewRequest(c.name, "SearchSV.DelSearchByCollection", in)
+func (c *searchSVService) FlushSearchByCollection(ctx context.Context, in *FlushSearchRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "SearchSV.FlushSearchByCollection", in)
 	out := new(ErrorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -119,12 +119,12 @@ func (c *searchSVService) PostSearchSource(ctx context.Context, in *PostSearchSo
 type SearchSVHandler interface {
 	// 获取搜索结果
 	GetSearchByType(context.Context, *GetSearchRequest, *SearchResult) error
-	// 删除某个搜索Object
-	DelSearchByObject(context.Context, *DelSearchRequest, *ErrorResponse) error
-	// 删除某个搜索Bucket
-	DelSearchByBucket(context.Context, *DelSearchRequest, *ErrorResponse) error
-	// 删除某个搜索Collection
-	DelSearchByCollection(context.Context, *DelSearchRequest, *ErrorResponse) error
+	// Flush某个搜索Object
+	FlushSearchByObject(context.Context, *FlushSearchRequest, *ErrorResponse) error
+	// Flush某个搜索Bucket
+	FlushSearchByBucket(context.Context, *FlushSearchRequest, *ErrorResponse) error
+	// Flush某个搜索Collection
+	FlushSearchByCollection(context.Context, *FlushSearchRequest, *ErrorResponse) error
 	// 插入搜索资源数据
 	PostSearchSource(context.Context, *PostSearchSourceRequest, *ErrorResponse) error
 }
@@ -132,9 +132,9 @@ type SearchSVHandler interface {
 func RegisterSearchSVHandler(s server.Server, hdlr SearchSVHandler, opts ...server.HandlerOption) error {
 	type searchSV interface {
 		GetSearchByType(ctx context.Context, in *GetSearchRequest, out *SearchResult) error
-		DelSearchByObject(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error
-		DelSearchByBucket(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error
-		DelSearchByCollection(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error
+		FlushSearchByObject(ctx context.Context, in *FlushSearchRequest, out *ErrorResponse) error
+		FlushSearchByBucket(ctx context.Context, in *FlushSearchRequest, out *ErrorResponse) error
+		FlushSearchByCollection(ctx context.Context, in *FlushSearchRequest, out *ErrorResponse) error
 		PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, out *ErrorResponse) error
 	}
 	type SearchSV struct {
@@ -152,16 +152,16 @@ func (h *searchSVHandler) GetSearchByType(ctx context.Context, in *GetSearchRequ
 	return h.SearchSVHandler.GetSearchByType(ctx, in, out)
 }
 
-func (h *searchSVHandler) DelSearchByObject(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error {
-	return h.SearchSVHandler.DelSearchByObject(ctx, in, out)
+func (h *searchSVHandler) FlushSearchByObject(ctx context.Context, in *FlushSearchRequest, out *ErrorResponse) error {
+	return h.SearchSVHandler.FlushSearchByObject(ctx, in, out)
 }
 
-func (h *searchSVHandler) DelSearchByBucket(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error {
-	return h.SearchSVHandler.DelSearchByBucket(ctx, in, out)
+func (h *searchSVHandler) FlushSearchByBucket(ctx context.Context, in *FlushSearchRequest, out *ErrorResponse) error {
+	return h.SearchSVHandler.FlushSearchByBucket(ctx, in, out)
 }
 
-func (h *searchSVHandler) DelSearchByCollection(ctx context.Context, in *DelSearchRequest, out *ErrorResponse) error {
-	return h.SearchSVHandler.DelSearchByCollection(ctx, in, out)
+func (h *searchSVHandler) FlushSearchByCollection(ctx context.Context, in *FlushSearchRequest, out *ErrorResponse) error {
+	return h.SearchSVHandler.FlushSearchByCollection(ctx, in, out)
 }
 
 func (h *searchSVHandler) PostSearchSource(ctx context.Context, in *PostSearchSourceRequest, out *ErrorResponse) error {
