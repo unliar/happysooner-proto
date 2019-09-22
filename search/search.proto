@@ -20,7 +20,7 @@ message SearchResult {
 }
 
 // 删除搜索
-message DelSearchRequest {
+message FlushSearchRequest {
     CollectionTypes Collection                                   = 1;// 类似于database的概念
     BucketTypes Bucket                                           = 2;// 类似于表的概念
     string Object                                                = 3;// 这个类似于key的概念 搜索会根据value搜索key🔍
@@ -52,14 +52,14 @@ service searchSV {
     // 获取搜索结果
     rpc GetSearchByType (GetSearchRequest) returns (SearchResult);
     
-    // 删除某个搜索Object 
-    rpc DelSearchByObject (DelSearchRequest) returns (ErrorResponse);
+    // Flush某个搜索Object 
+    rpc FlushSearchByObject (FlushSearchRequest) returns (ErrorResponse);
 
-    // 删除某个搜索Bucket 
-    rpc DelSearchByBucket (DelSearchRequest) returns (ErrorResponse);
+    // Flush某个搜索Bucket 
+    rpc FlushSearchByBucket (FlushSearchRequest) returns (ErrorResponse);
 
-    // 删除某个搜索Collection 
-    rpc DelSearchByCollection (DelSearchRequest) returns (ErrorResponse);
+    // Flush某个搜索Collection 
+    rpc FlushSearchByCollection (FlushSearchRequest) returns (ErrorResponse);
 
     // 插入搜索资源数据
     rpc PostSearchSource(PostSearchSourceRequest) returns (ErrorResponse);
