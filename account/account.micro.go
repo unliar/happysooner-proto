@@ -62,6 +62,8 @@ type AccountSVService interface {
 	BindUserContactEmail(ctx context.Context, in *PutUserContactEmailRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 绑定手机号
 	BindUserContactPhone(ctx context.Context, in *PutUserContactPhoneRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 获取用户联系方式信息
+	GetUserContactInfo(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*UserContact, error)
 }
 
 type accountSVService struct {
@@ -222,6 +224,16 @@ func (c *accountSVService) BindUserContactPhone(ctx context.Context, in *PutUser
 	return out, nil
 }
 
+func (c *accountSVService) GetUserContactInfo(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*UserContact, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.GetUserContactInfo", in)
+	out := new(UserContact)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AccountSV service
 
 type AccountSVHandler interface {
@@ -253,6 +265,8 @@ type AccountSVHandler interface {
 	BindUserContactEmail(context.Context, *PutUserContactEmailRequest, *ErrorResponse) error
 	// 绑定手机号
 	BindUserContactPhone(context.Context, *PutUserContactPhoneRequest, *ErrorResponse) error
+	// 获取用户联系方式信息
+	GetUserContactInfo(context.Context, *UIDInput, *UserContact) error
 }
 
 func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...server.HandlerOption) error {
@@ -271,6 +285,7 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		GetUserPasswordRandomStatus(ctx context.Context, in *UIDInput, out *PasswordRandomStatus) error
 		BindUserContactEmail(ctx context.Context, in *PutUserContactEmailRequest, out *ErrorResponse) error
 		BindUserContactPhone(ctx context.Context, in *PutUserContactPhoneRequest, out *ErrorResponse) error
+		GetUserContactInfo(ctx context.Context, in *UIDInput, out *UserContact) error
 	}
 	type AccountSV struct {
 		accountSV
@@ -337,4 +352,8 @@ func (h *accountSVHandler) BindUserContactEmail(ctx context.Context, in *PutUser
 
 func (h *accountSVHandler) BindUserContactPhone(ctx context.Context, in *PutUserContactPhoneRequest, out *ErrorResponse) error {
 	return h.AccountSVHandler.BindUserContactPhone(ctx, in, out)
+}
+
+func (h *accountSVHandler) GetUserContactInfo(ctx context.Context, in *UIDInput, out *UserContact) error {
+	return h.AccountSVHandler.GetUserContactInfo(ctx, in, out)
 }
