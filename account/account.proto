@@ -122,6 +122,13 @@ message PutUserContactPhoneRequest {
     int64 UID                       = 3; // 用户id 
 }
 
+message UserContact {
+    string Phone                    = 1; // 手机
+    string PhoneCode                = 2; // 区号
+    string Email                    = 3; // 邮箱
+    string WeChatId                 = 4; // 微信id
+    string QQId                     = 5; // qq
+}
 
 service AccountSV {
     // 查询用户信息
@@ -166,4 +173,6 @@ service AccountSV {
     // 绑定手机号
     rpc BindUserContactPhone (PutUserContactPhoneRequest) returns (ErrorResponse);
 
+    // 获取用户联系方式信息
+    rpc GetUserContactInfo (UIDInput) returns (UserContact);
 }
