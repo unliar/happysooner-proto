@@ -75,6 +75,7 @@ message GetArticleListRequest {
         int64 Size                                          = 3; // 数量 
         int64 CategoryID                                    = 4; // 分类id 
         string OrderType                                    = 5; // 排序类型
+        int64 UID                                           = 6; // 作者id        
 }
 
 // --------------------------request  end--------------------------------
