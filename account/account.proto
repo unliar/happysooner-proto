@@ -141,6 +141,11 @@ message UserContact {
     string QQId                     = 5; // qq
 }
 
+message SetUserRoleRequest {
+    Role  Role                      = 1; // 角色
+    int64 UID                       = 2; // 用户id
+}
+
 service AccountSV {
     // 查询用户信息
     rpc GetUserInfo(UIDInput) returns (UserInfo){}
@@ -189,4 +194,10 @@ service AccountSV {
 
     // 获取用户角色
     rpc GetUserRoles (UIDInput) returns (UserRoles);
+    
+    // 设置角色
+    rpc SetUserRole (SetUserRoleRequest) returns (ErrorResponse);
+
+    // 删除角色
+    rpc DelUserRole (SetUserRoleRequest) returns (ErrorResponse);
 }
