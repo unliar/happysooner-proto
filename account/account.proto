@@ -47,8 +47,15 @@ message UIDInput {
 }
 
 message RoleInfo {
-    string Role                     = 1;
+    Role Role                     = 1;
     string Description              = 2;
+}
+
+enum Role {
+    DefaultRole                     = 0; // 默认
+    Admin                           = 1; // 超级管理员
+    Author                          = 2; // 创作者 可以发文章
+    Viewer                          = 3; // 观察者 绑定邮箱之后可获得
 }
 
 // 第三方登录请求
