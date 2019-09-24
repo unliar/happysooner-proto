@@ -66,6 +66,10 @@ type AccountSVService interface {
 	GetUserContactInfo(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*UserContact, error)
 	// 获取用户角色
 	GetUserRoles(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*UserRoles, error)
+	// 设置角色
+	SetUserRole(ctx context.Context, in *SetUserRoleRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 删除角色
+	DelUserRole(ctx context.Context, in *SetUserRoleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type accountSVService struct {
@@ -246,6 +250,26 @@ func (c *accountSVService) GetUserRoles(ctx context.Context, in *UIDInput, opts 
 	return out, nil
 }
 
+func (c *accountSVService) SetUserRole(ctx context.Context, in *SetUserRoleRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.SetUserRole", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountSVService) DelUserRole(ctx context.Context, in *SetUserRoleRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.DelUserRole", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AccountSV service
 
 type AccountSVHandler interface {
@@ -281,6 +305,10 @@ type AccountSVHandler interface {
 	GetUserContactInfo(context.Context, *UIDInput, *UserContact) error
 	// 获取用户角色
 	GetUserRoles(context.Context, *UIDInput, *UserRoles) error
+	// 设置角色
+	SetUserRole(context.Context, *SetUserRoleRequest, *ErrorResponse) error
+	// 删除角色
+	DelUserRole(context.Context, *SetUserRoleRequest, *ErrorResponse) error
 }
 
 func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...server.HandlerOption) error {
@@ -301,6 +329,8 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		BindUserContactPhone(ctx context.Context, in *PutUserContactPhoneRequest, out *ErrorResponse) error
 		GetUserContactInfo(ctx context.Context, in *UIDInput, out *UserContact) error
 		GetUserRoles(ctx context.Context, in *UIDInput, out *UserRoles) error
+		SetUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error
+		DelUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error
 	}
 	type AccountSV struct {
 		accountSV
@@ -375,4 +405,12 @@ func (h *accountSVHandler) GetUserContactInfo(ctx context.Context, in *UIDInput,
 
 func (h *accountSVHandler) GetUserRoles(ctx context.Context, in *UIDInput, out *UserRoles) error {
 	return h.AccountSVHandler.GetUserRoles(ctx, in, out)
+}
+
+func (h *accountSVHandler) SetUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error {
+	return h.AccountSVHandler.SetUserRole(ctx, in, out)
+}
+
+func (h *accountSVHandler) DelUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error {
+	return h.AccountSVHandler.DelUserRole(ctx, in, out)
 }
