@@ -47,7 +47,7 @@ message UIDInput {
 }
 
 message RoleInfo {
-    Role Role                     = 1;
+    string Role                     = 1;
     string Description              = 2;
 }
 
