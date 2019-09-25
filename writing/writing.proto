@@ -78,6 +78,34 @@ message GetArticleListRequest {
         int64 UID                                           = 6; // 作者id        
 }
 
+message PostCommentToArticleRequest {
+        int64 PostID                                        = 1; // 文章id
+        string Comment                                      = 2; // 评论内容
+        int64 ReplyCommentID                                = 3; // 回复评论ID
+        int64 CommentUID                                    = 4; // 发表评论人的id 
+        int64 ReplyCommentUID                               = 5; // 回复评论用户ID
+        int64 AuthorUID                                     = 6; // 文章作者ID    
+}
+
+message DelCommentToArticleRequest {
+        int64 PostID                                        = 1; // 文章id
+        int64 CommentID                                     = 2; // 评论ID
+        int64 UID                                           = 3; // 评论所属人ID 管理员可以不填
+}
+message GetCommentListOfArticleRequest {
+        int64 Page                                          = 1; // 页码
+        int64 Size                                          = 2; // 数量
+        int64 PostID                                        = 3; // 文章id
+        int64 AuthorUID                                     = 4; // 文章作者ID
+        int64 ReplyCommentUID                               = 5; // 回复评论用户ID
+        int64 CommentUID                                    = 6; // 发表评论人的id
+        string OrderType                                    = 7; // 排序类型 
+
+}
+message DelCommentListOfArticleRequest {
+        int64 PostID                                        = 1; // 文章id
+        int64 CommentUID                                    = 2; // 评论人的id
+}
 // --------------------------request  end--------------------------------
 
 // --------------------------response  start-----------------------------
@@ -88,6 +116,8 @@ enum WritingErrors {
      PostCategoryFailed                                     = 3000003;  // 创建分类失败
      PutArticleFailed                                       = 3000004;  // 更新文章失败
      OperationNotPermitted                                  = 3000006;  // 用户无权限进行操作
+     PostCommentFailed                                      = 3000007;  // 发表评论失败
+     DelCommentFailed                                       = 3000008;  // 删除评论失败    
 }
 
 message ErrorResponse {
@@ -123,4 +153,16 @@ service writingSV {
 
     // 更新分类
     rpc PutCategory (Category) returns (ErrorResponse);
+
+    // 创建评论 - 未完成 - 连接计数服务
+    rpc PostCommentToArticle (PostCommentToArticleRequest) returns (ErrorResponse);
+
+    // 删除评论 - 未完成 - 连接计数服务
+    rpc DelCommentToArticle (DelCommentToArticleRequest) returns (ErrorResponse);
+
+    // 获取文章评论列表 - 未完成
+    rpc GetCommentListOfArticle (GetCommentListOfArticleRequest) returns (ErrorResponse);
+
+    // 删除文章的评论列表 - 未完成
+    rpc DelCommentListOfArticle (DelCommentListOfArticleRequest) returns (ErrorResponse);
 }
