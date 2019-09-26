@@ -46,6 +46,13 @@ message Category {
         string EN                                           = 3; // 类别英文
 }
 
+message CommentInfo {
+        int64 Id                                            = 1; // 评论id
+        string Content                                      = 2; // 评论内容
+        AuthorInfo CommentUserInfo                          = 3; // 评论人信息
+        CommentInfo ReplyCommentInfo                        = 4; // 回复评论信息       
+}
+
 // --------------------------request  start------------------------------
 // int参数请求
 message IntRequest {                     
@@ -130,6 +137,9 @@ message ArticleListResponse {
 message CategoriesResponse{
         repeated Category List                              = 1;
 }
+message CommentListResponse {
+        repeated CommentInfo Comments                       = 1; 
+}
 // --------------------------response  end-------------------------------
 service writingSV {
 
@@ -161,7 +171,7 @@ service writingSV {
     rpc DelCommentToArticle (DelCommentToArticleRequest) returns (ErrorResponse);
 
     // 获取文章评论列表 - 未完成
-    rpc GetCommentListOfArticle (GetCommentListOfArticleRequest) returns (ErrorResponse);
+    rpc GetCommentListOfArticle (GetCommentListOfArticleRequest) returns (CommentListResponse);
 
     // 删除文章的评论列表 - 未完成
     rpc DelCommentListOfArticle (DelCommentListOfArticleRequest) returns (ErrorResponse);
