@@ -55,7 +55,7 @@ type WritingSVService interface {
 	// 删除评论 - 未完成 - 连接计数服务
 	DelCommentToArticle(ctx context.Context, in *DelCommentToArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 获取文章评论列表 - 未完成
-	GetCommentListOfArticle(ctx context.Context, in *GetCommentListOfArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	GetCommentListOfArticle(ctx context.Context, in *GetCommentListOfArticleRequest, opts ...client.CallOption) (*CommentListResponse, error)
 	// 删除文章的评论列表 - 未完成
 	DelCommentListOfArticle(ctx context.Context, in *DelCommentListOfArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
@@ -168,9 +168,9 @@ func (c *writingSVService) DelCommentToArticle(ctx context.Context, in *DelComme
 	return out, nil
 }
 
-func (c *writingSVService) GetCommentListOfArticle(ctx context.Context, in *GetCommentListOfArticleRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+func (c *writingSVService) GetCommentListOfArticle(ctx context.Context, in *GetCommentListOfArticleRequest, opts ...client.CallOption) (*CommentListResponse, error) {
 	req := c.c.NewRequest(c.name, "WritingSV.GetCommentListOfArticle", in)
-	out := new(ErrorResponse)
+	out := new(CommentListResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -210,7 +210,7 @@ type WritingSVHandler interface {
 	// 删除评论 - 未完成 - 连接计数服务
 	DelCommentToArticle(context.Context, *DelCommentToArticleRequest, *ErrorResponse) error
 	// 获取文章评论列表 - 未完成
-	GetCommentListOfArticle(context.Context, *GetCommentListOfArticleRequest, *ErrorResponse) error
+	GetCommentListOfArticle(context.Context, *GetCommentListOfArticleRequest, *CommentListResponse) error
 	// 删除文章的评论列表 - 未完成
 	DelCommentListOfArticle(context.Context, *DelCommentListOfArticleRequest, *ErrorResponse) error
 }
@@ -226,7 +226,7 @@ func RegisterWritingSVHandler(s server.Server, hdlr WritingSVHandler, opts ...se
 		PutCategory(ctx context.Context, in *Category, out *ErrorResponse) error
 		PostCommentToArticle(ctx context.Context, in *PostCommentToArticleRequest, out *ErrorResponse) error
 		DelCommentToArticle(ctx context.Context, in *DelCommentToArticleRequest, out *ErrorResponse) error
-		GetCommentListOfArticle(ctx context.Context, in *GetCommentListOfArticleRequest, out *ErrorResponse) error
+		GetCommentListOfArticle(ctx context.Context, in *GetCommentListOfArticleRequest, out *CommentListResponse) error
 		DelCommentListOfArticle(ctx context.Context, in *DelCommentListOfArticleRequest, out *ErrorResponse) error
 	}
 	type WritingSV struct {
@@ -276,7 +276,7 @@ func (h *writingSVHandler) DelCommentToArticle(ctx context.Context, in *DelComme
 	return h.WritingSVHandler.DelCommentToArticle(ctx, in, out)
 }
 
-func (h *writingSVHandler) GetCommentListOfArticle(ctx context.Context, in *GetCommentListOfArticleRequest, out *ErrorResponse) error {
+func (h *writingSVHandler) GetCommentListOfArticle(ctx context.Context, in *GetCommentListOfArticleRequest, out *CommentListResponse) error {
 	return h.WritingSVHandler.GetCommentListOfArticle(ctx, in, out)
 }
 
