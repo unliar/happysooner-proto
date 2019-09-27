@@ -50,7 +50,8 @@ message CommentInfo {
         int64 Id                                            = 1; // 评论id
         string Content                                      = 2; // 评论内容
         AuthorInfo CommentUserInfo                          = 3; // 评论人信息
-        CommentInfo ReplyCommentInfo                        = 4; // 回复评论信息       
+        CommentInfo ReplyCommentInfo                        = 4; // 回复评论信息
+        int64 CreatedAt                                     = 5; // 评论时间       
 }
 
 // --------------------------request  start------------------------------
