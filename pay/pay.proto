@@ -55,9 +55,22 @@ message CreateAliPayOrderRequest {
     string Subject                      = 5; // 订单标题   
 }
 
-message CreateAliPayOrderResponse {
-    string Result                       = 1; // 订单创建结果,告辞 自己去解析
+message GetPayOrderResultRequest {
+    string OutTradeNo                   = 1; //　商户的订单号 
 }
+
+message OrderResultResponse {
+    string Code                         = 1; // 错误代码
+    string Msg                          = 2; // 错误信息
+    string OutTradeNo                   = 3; // 商户的订单号
+    string QRCode                       = 4; // 订单的二维码链接
+    string Sign                         = 5; // 签名
+    string TradeStatus                  = 6; // 交易状态
+    string TradeNo                      = 7; // 支付宝交易号
+    string TotalAmount                  = 8; // 订单总金额
+    string BuyerLogonID                 = 9; // 用户支付宝ID  
+}
+
 service paySV {
 
     // 获取用户支付数据信息
@@ -75,7 +88,10 @@ service paySV {
     /*start 支付宝区域 start*/
 
     // 创建alipay账单
-    rpc CreateAliPayOrder (CreateAliPayOrderRequest) returns (CreateAliPayOrderResponse);
+    rpc CreateAliPayOrder (CreateAliPayOrderRequest) returns (OrderResultResponse);
+
+    // 查询订单结果
+    rpc GetAliPayOrderResult (GetPayOrderResultRequest) returns (OrderResultResponse);
 
     /*end 支付宝区域 end*/
 }
