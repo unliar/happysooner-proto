@@ -47,7 +47,7 @@ message ErrorResponse {
     PayErrors ErrorInfo                 = 1; // 错误信息
 }
 
-message CreateAlipayOrderRequest {
+message CreateAliPayOrderRequest {
     int64 CreatedAt                     = 1; // 创建订单时间
     double TotalAmount                  = 2; // 订单总金额
     double DiscountableAmountAmount     = 3; // 可打折金额 可选
@@ -71,7 +71,7 @@ service paySV {
     /*start 支付宝区域 start*/
 
     // 创建alipay账单
-    rpc CreateAlipayOrder (CreateAlipayOrderRequest) returns (ErrorResponse);
+    rpc CreateAliPayOrder (CreateAliPayOrderRequest) returns (ErrorResponse);
 
     /*end 支付宝区域 end*/
 }
