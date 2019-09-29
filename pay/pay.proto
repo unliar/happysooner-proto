@@ -75,7 +75,7 @@ service paySV {
     /*start 支付宝区域 start*/
 
     // 创建alipay账单
-    rpc CreateAliPayOrder (CreateAliPayOrderRequest) returns (ErrorResponse);
+    rpc CreateAliPayOrder (CreateAliPayOrderRequest) returns (CreateAliPayOrderResponse);
 
     /*end 支付宝区域 end*/
 }
