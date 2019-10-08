@@ -52,7 +52,8 @@ message CreateAliPayOrderRequest {
     string OrderType                    = 2; // 创建订单的类型 , 当前只有打赏类型
     int64 CreateForUserID               = 3; // 当前订单是为谁创建的 不传的话默认是1号用户 也就是可爱的管理员同志
     string TotalAmount                  = 4; // 订单总金额
-    string Subject                      = 5; // 订单标题   
+    string Subject                      = 5; // 订单标题
+    string OrderExtends                 = 6; // 订单额外参数   
 }
 
 message GetPayOrderResultRequest {
