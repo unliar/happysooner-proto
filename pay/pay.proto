@@ -58,8 +58,9 @@ message CreateAliPayOrderRequest {
 }
 
 message PayOrderResultRequest {
-    string OutTradeNo                   = 1; //　商户的订单号
-    string Status                       = 2; // 订单状态 wait_pay trade_success trade_close trade_done 
+    string OutTradeNo                   = 1; // 商户的订单号
+    string Status                       = 2; // 订单状态 wait_pay trade_success trade_close trade_done
+    string RawData                      = 3; // 回调的原始参数表单参数 
 }
 
 message OrderResultResponse {
