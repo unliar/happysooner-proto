@@ -45,7 +45,9 @@ type PaySVService interface {
 	// 创建alipay账单
 	CreateAliPayOrder(ctx context.Context, in *CreateAliPayOrderRequest, opts ...client.CallOption) (*OrderResultResponse, error)
 	// 查询订单结果
-	GetAliPayOrderResult(ctx context.Context, in *GetPayOrderResultRequest, opts ...client.CallOption) (*OrderResultResponse, error)
+	GetAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderResultResponse, error)
+	// 更新订单结果
+	UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type paySVService struct {
@@ -116,9 +118,19 @@ func (c *paySVService) CreateAliPayOrder(ctx context.Context, in *CreateAliPayOr
 	return out, nil
 }
 
-func (c *paySVService) GetAliPayOrderResult(ctx context.Context, in *GetPayOrderResultRequest, opts ...client.CallOption) (*OrderResultResponse, error) {
+func (c *paySVService) GetAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderResultResponse, error) {
 	req := c.c.NewRequest(c.name, "PaySV.GetAliPayOrderResult", in)
 	out := new(OrderResultResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paySVService) UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "PaySV.UpdateAliPayOrderResult", in)
+	out := new(ErrorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -140,7 +152,9 @@ type PaySVHandler interface {
 	// 创建alipay账单
 	CreateAliPayOrder(context.Context, *CreateAliPayOrderRequest, *OrderResultResponse) error
 	// 查询订单结果
-	GetAliPayOrderResult(context.Context, *GetPayOrderResultRequest, *OrderResultResponse) error
+	GetAliPayOrderResult(context.Context, *PayOrderResultRequest, *OrderResultResponse) error
+	// 更新订单结果
+	UpdateAliPayOrderResult(context.Context, *PayOrderResultRequest, *ErrorResponse) error
 }
 
 func RegisterPaySVHandler(s server.Server, hdlr PaySVHandler, opts ...server.HandlerOption) error {
@@ -150,7 +164,8 @@ func RegisterPaySVHandler(s server.Server, hdlr PaySVHandler, opts ...server.Han
 		DeleteUserPayWay(ctx context.Context, in *DeleteUserPayWayRequest, out *ErrorResponse) error
 		PutUserPayWay(ctx context.Context, in *PutUserPayWayRequest, out *ErrorResponse) error
 		CreateAliPayOrder(ctx context.Context, in *CreateAliPayOrderRequest, out *OrderResultResponse) error
-		GetAliPayOrderResult(ctx context.Context, in *GetPayOrderResultRequest, out *OrderResultResponse) error
+		GetAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *OrderResultResponse) error
+		UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *ErrorResponse) error
 	}
 	type PaySV struct {
 		paySV
@@ -183,6 +198,10 @@ func (h *paySVHandler) CreateAliPayOrder(ctx context.Context, in *CreateAliPayOr
 	return h.PaySVHandler.CreateAliPayOrder(ctx, in, out)
 }
 
-func (h *paySVHandler) GetAliPayOrderResult(ctx context.Context, in *GetPayOrderResultRequest, out *OrderResultResponse) error {
+func (h *paySVHandler) GetAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *OrderResultResponse) error {
 	return h.PaySVHandler.GetAliPayOrderResult(ctx, in, out)
+}
+
+func (h *paySVHandler) UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *ErrorResponse) error {
+	return h.PaySVHandler.UpdateAliPayOrderResult(ctx, in, out)
 }
