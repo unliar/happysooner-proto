@@ -58,7 +58,8 @@ message CreateAliPayOrderRequest {
 }
 
 message PayOrderResultRequest {
-    string OutTradeNo                   = 1; //　商户的订单号 
+    string OutTradeNo                   = 1; //　商户的订单号
+    string Status                       = 2; // 订单状态 wait_pay trade_success trade_close trade_done 
 }
 
 message OrderResultResponse {
@@ -95,7 +96,7 @@ service paySV {
     // 查询订单结果
     rpc GetAliPayOrderResult (PayOrderResultRequest) returns (OrderResultResponse){}
 
-    // 更新订单结果 只能await-pay =>  pay-done
+    // 更新订单结果
     rpc UpdateAliPayOrderResult(PayOrderResultRequest) returns (ErrorResponse){}
 
     /*end 支付宝区域 end*/
