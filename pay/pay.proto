@@ -37,7 +37,7 @@ enum PayErrors {
     PayWayNotFound                      = 2000001;  // 支付不存在
     PayWayOperationFailed               = 2000002;  // 操作失败
     CreateOrderFailed                   = 2000003;  // 创建alipay支付订单失败
-    UpdateOrderFauled                   = 2000004;  // 更新支付宝订单失败
+    UpdateOrderFailed                   = 2000004;  // 更新支付宝订单失败
 }
 
 message UserPayWays {
