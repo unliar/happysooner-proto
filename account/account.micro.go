@@ -70,6 +70,8 @@ type AccountSVService interface {
 	SetUserRole(ctx context.Context, in *SetUserRoleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 删除角色
 	DelUserRole(ctx context.Context, in *SetUserRoleRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 获取用户UID
+	GetUserUID(ctx context.Context, in *CreateUserInput, opts ...client.CallOption) (*UIDInput, error)
 }
 
 type accountSVService struct {
@@ -270,6 +272,16 @@ func (c *accountSVService) DelUserRole(ctx context.Context, in *SetUserRoleReque
 	return out, nil
 }
 
+func (c *accountSVService) GetUserUID(ctx context.Context, in *CreateUserInput, opts ...client.CallOption) (*UIDInput, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.GetUserUID", in)
+	out := new(UIDInput)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AccountSV service
 
 type AccountSVHandler interface {
@@ -309,6 +321,8 @@ type AccountSVHandler interface {
 	SetUserRole(context.Context, *SetUserRoleRequest, *ErrorResponse) error
 	// 删除角色
 	DelUserRole(context.Context, *SetUserRoleRequest, *ErrorResponse) error
+	// 获取用户UID
+	GetUserUID(context.Context, *CreateUserInput, *UIDInput) error
 }
 
 func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...server.HandlerOption) error {
@@ -331,6 +345,7 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		GetUserRoles(ctx context.Context, in *UIDInput, out *UserRoles) error
 		SetUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error
 		DelUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error
+		GetUserUID(ctx context.Context, in *CreateUserInput, out *UIDInput) error
 	}
 	type AccountSV struct {
 		accountSV
@@ -413,4 +428,8 @@ func (h *accountSVHandler) SetUserRole(ctx context.Context, in *SetUserRoleReque
 
 func (h *accountSVHandler) DelUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error {
 	return h.AccountSVHandler.DelUserRole(ctx, in, out)
+}
+
+func (h *accountSVHandler) GetUserUID(ctx context.Context, in *CreateUserInput, out *UIDInput) error {
+	return h.AccountSVHandler.GetUserUID(ctx, in, out)
 }
