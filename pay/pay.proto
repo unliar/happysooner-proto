@@ -36,7 +36,8 @@ enum PayErrors {
     None                                = 0;        // 默认值
     PayWayNotFound                      = 2000001;  // 支付不存在
     PayWayOperationFailed               = 2000002;  // 操作失败
-    CreateAlipayOrderFailed             = 2000003;  // 创建alipay支付订单失败
+    CreateOrderFailed                   = 2000003;  // 创建alipay支付订单失败
+    UpdateOrderFailed                   = 2000004;  // 更新支付宝订单失败
 }
 
 message UserPayWays {
@@ -52,11 +53,14 @@ message CreateAliPayOrderRequest {
     string OrderType                    = 2; // 创建订单的类型 , 当前只有打赏类型
     int64 CreateForUserID               = 3; // 当前订单是为谁创建的 不传的话默认是1号用户 也就是可爱的管理员同志
     string TotalAmount                  = 4; // 订单总金额
-    string Subject                      = 5; // 订单标题   
+    string Subject                      = 5; // 订单标题
+    string OrderExtends                 = 6; // 订单额外参数   
 }
 
-message GetPayOrderResultRequest {
-    string OutTradeNo                   = 1; //　商户的订单号 
+message PayOrderResultRequest {
+    string OutTradeNo                   = 1; // 商户的订单号
+    string Status                       = 2; // 订单状态 wait_pay trade_success trade_close trade_done
+    string RawData                      = 3; // 回调的原始参数表单参数 
 }
 
 message OrderResultResponse {
@@ -116,10 +120,13 @@ service paySV {
     /*start 支付宝区域 start*/
 
     // 创建alipay账单
-    rpc CreateAliPayOrder (CreateAliPayOrderRequest) returns (OrderResultResponse);
+    rpc CreateAliPayOrder (CreateAliPayOrderRequest) returns (OrderResultResponse){}
 
     // 查询订单结果
-    rpc GetAliPayOrderResult (GetPayOrderResultRequest) returns (OrderResultResponse);
+    rpc GetAliPayOrderResult (PayOrderResultRequest) returns (OrderResultResponse){}
+
+    // 更新订单结果
+    rpc UpdateAliPayOrderResult(PayOrderResultRequest) returns (ErrorResponse){}
 
     // 查询订单列表
     rpc GetOrderList (GetOrderListRequest) returns (OrderListResponse);
