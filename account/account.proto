@@ -200,4 +200,7 @@ service AccountSV {
 
     // 删除角色
     rpc DelUserRole (SetUserRoleRequest) returns (ErrorResponse);
+
+    // 获取用户UID 
+    rpc GetUserUID (CreateUserInput) returns (UIDInput);
 }
