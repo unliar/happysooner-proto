@@ -92,7 +92,7 @@ message OrderInfo {
     string PlatForm                     = 3; //  订单的平台
     string Type                         = 4; //  订单的类型
     string CreateByUID                  = 5; //  订单创建人
-    string createForUID                 = 6; //  订单创建对象人
+    string CreateForUID                 = 6; //  订单创建对象人
     string Extends                      = 7; //  订单扩展
     string Amount                       = 8; //  订单金额
     int64 CreatedAt                     = 9; //  订单创建时间
