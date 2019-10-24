@@ -75,6 +75,17 @@ message OrderResultResponse {
     string BuyerLogonID                 = 9; // 用户支付宝ID  
 }
 
+message GetOrderRequest {
+    string No                           = 1; // 订单id
+    string Status                       = 2; // 订单状态
+    string Platform                     = 3; // 订单平台
+    string Type                         = 4; // 订单类型
+    string CreateByUID                  = 5; // 创建人
+    string CreateForUID                 = 6; // 目标id
+    string Extends                      = 7; // 扩展字段
+    string Amount                       = 8; // 金额
+}
+
 service paySV {
 
     // 获取用户支付数据信息
@@ -100,5 +111,7 @@ service paySV {
     // 更新订单结果
     rpc UpdateAliPayOrderResult(PayOrderResultRequest) returns (ErrorResponse){}
 
+    // 获取订单列表
+    rpc GetPayOrders () returns ()
     /*end 支付宝区域 end*/
 }
