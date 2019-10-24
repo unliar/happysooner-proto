@@ -75,18 +75,34 @@ message OrderResultResponse {
     string BuyerLogonID                 = 9; // 用户支付宝ID  
 }
 
-message GetOrderRequest {
-    string No                           = 1; // 订单id
-    string Status                       = 2; // 订单状态
-    string Platform                     = 3; // 订单平台
-    string Type                         = 4; // 订单类型
-    string CreateByUID                  = 5; // 创建人
-    string CreateForUID                 = 6; // 目标id
-    string Extends                      = 7; // 扩展字段
-    string Amount                       = 8; // 金额
+message GetOrderListRequest {
+    int64 OrderCreateByUID              = 1; // 创建订单用户ID
+    string OrderType                    = 2; // 创建订单的类型 , 当前只有打赏类型
+    int64 OrdercreateForUID             = 3; // 当前订单是为谁创建的 不传的话默认是1号用户 也就是可爱的管理员同志
+    int64 Page                          = 4; // 页码
+    int64 Size                          = 5; // 数量
+    string Status                       = 6; // 订单状态
+    string OrderPlatForm                = 7; // 平台
+    string OrderExtends                 = 9; // 订单扩展字段
 }
 
+message OrderInfo {
+    string OutTradeNo                   = 1; //　商户的订单号 
+    string Status                       = 2; //  订单状态
+    string PlatForm                     = 3; //  订单的平台
+    string Type                         = 4; //  订单的类型
+    string CreateByUID                  = 5; //  订单创建人
+    string createForUID                 = 6; //  订单创建对象人
+    string Extends                      = 7; //  订单扩展
+    string Amount                       = 8; //  订单金额
+    int64 CreatedAt                     = 9; //  订单创建时间
+    bool Expired                        = 10;//  订单是否失效 - 目前是90分钟
+    string QRCode                       = 11;//  订单的二维码
+ }
 
+message OrderListResponse {
+    repeated OrderInfo List             = 1; // 订单列表
+}
 service paySV {
 
     // 获取用户支付数据信息
@@ -112,7 +128,8 @@ service paySV {
     // 更新订单结果
     rpc UpdateAliPayOrderResult(PayOrderResultRequest) returns (ErrorResponse){}
 
-    // 获取订单列表
-    rpc GetPayOrders () returns ()
+    // 查询订单列表
+    rpc GetOrderList (GetOrderListRequest) returns (OrderListResponse);
+
     /*end 支付宝区域 end*/
 }
