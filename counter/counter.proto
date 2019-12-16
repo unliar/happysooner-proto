@@ -12,7 +12,7 @@ enum CounterErrors {
 }
 
 message ErrorResponse {
-    CounterErrors ErrorInfo                             = 1;
+    CounterErrors ErrorInfo         = 1;
 }
 
 message ArticleCountInfo {
@@ -32,7 +32,7 @@ message UserCountInfo {
     uint64 RewardTimes              = 3;       // 打赏个数
     uint64 Articles                 = 4;       // 文章个数
     uint64 RewardTimes              = 5;       // 打赏次数
-    double RewardTotal              = 7;       // 打赏总金额
+    double RewardTotal              = 6;       // 打赏总金额
 
 }
 message UpdateRequest {
