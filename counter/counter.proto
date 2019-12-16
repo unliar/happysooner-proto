@@ -29,10 +29,9 @@ message ArticleCountInfo {
 message UserCountInfo {
     uint64 Articles                 = 1;       // 文章个数
     uint64 Comments                 = 2;       // 评论个数
-    uint64 RewardTimes              = 3;       // 打赏个数
-    uint64 Articles                 = 4;       // 文章个数
-    uint64 RewardTimes              = 5;       // 打赏次数
-    double RewardTotal              = 6;       // 打赏总金额
+    uint64 Commented                = 3;       // 被评论个数
+    uint64 RewardTimes              = 4;       // 打赏次数
+    double RewardTotal              = 5;       // 打赏总金额
 
 }
 message UpdateRequest {
@@ -48,9 +47,9 @@ service counterSV {
     rpc GetUserCount (IntRequest) returns (UserCountInfo);
 
     // 增加用户计数
-    rpc UpdateUserCount(UpdateRequest) returns (ErrorResponse);
+    rpc UpdateUserCount (UpdateRequest) returns (ErrorResponse);
     
     // 增加文章计数
-    rpc UpdateArticleCount(UpdateRequest) returns (ErrorResponse);
+    rpc UpdateArticleCount (UpdateRequest) returns (ErrorResponse);
 
 }
