@@ -72,6 +72,10 @@ type AccountSVService interface {
 	DelUserRole(ctx context.Context, in *SetUserRoleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 获取用户UID
 	GetUserUID(ctx context.Context, in *CreateUserInput, opts ...client.CallOption) (*UIDInput, error)
+	// vapcha验证
+	GetVaptchaVerify(ctx context.Context, in *VaptchaVerifyRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// vapcha离线验证
+	GetVaptchaOfflineVerify(ctx context.Context, in *VaptchaVerifyOfflineRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type accountSVService struct {
@@ -282,6 +286,26 @@ func (c *accountSVService) GetUserUID(ctx context.Context, in *CreateUserInput, 
 	return out, nil
 }
 
+func (c *accountSVService) GetVaptchaVerify(ctx context.Context, in *VaptchaVerifyRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.GetVaptchaVerify", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountSVService) GetVaptchaOfflineVerify(ctx context.Context, in *VaptchaVerifyOfflineRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.GetVaptchaOfflineVerify", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AccountSV service
 
 type AccountSVHandler interface {
@@ -323,6 +347,10 @@ type AccountSVHandler interface {
 	DelUserRole(context.Context, *SetUserRoleRequest, *ErrorResponse) error
 	// 获取用户UID
 	GetUserUID(context.Context, *CreateUserInput, *UIDInput) error
+	// vapcha验证
+	GetVaptchaVerify(context.Context, *VaptchaVerifyRequest, *ErrorResponse) error
+	// vapcha离线验证
+	GetVaptchaOfflineVerify(context.Context, *VaptchaVerifyOfflineRequest, *ErrorResponse) error
 }
 
 func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...server.HandlerOption) error {
@@ -346,6 +374,8 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		SetUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error
 		DelUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error
 		GetUserUID(ctx context.Context, in *CreateUserInput, out *UIDInput) error
+		GetVaptchaVerify(ctx context.Context, in *VaptchaVerifyRequest, out *ErrorResponse) error
+		GetVaptchaOfflineVerify(ctx context.Context, in *VaptchaVerifyOfflineRequest, out *ErrorResponse) error
 	}
 	type AccountSV struct {
 		accountSV
@@ -432,4 +462,12 @@ func (h *accountSVHandler) DelUserRole(ctx context.Context, in *SetUserRoleReque
 
 func (h *accountSVHandler) GetUserUID(ctx context.Context, in *CreateUserInput, out *UIDInput) error {
 	return h.AccountSVHandler.GetUserUID(ctx, in, out)
+}
+
+func (h *accountSVHandler) GetVaptchaVerify(ctx context.Context, in *VaptchaVerifyRequest, out *ErrorResponse) error {
+	return h.AccountSVHandler.GetVaptchaVerify(ctx, in, out)
+}
+
+func (h *accountSVHandler) GetVaptchaOfflineVerify(ctx context.Context, in *VaptchaVerifyOfflineRequest, out *ErrorResponse) error {
+	return h.AccountSVHandler.GetVaptchaOfflineVerify(ctx, in, out)
 }
