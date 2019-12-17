@@ -82,6 +82,7 @@ enum AccountErrors {
     UserPasswordCheckFailed         = 1000008;  // 用户密码不匹配
     UserBindUserContactEmailFailed  = 1000009;  // 用户绑定邮箱失败
     UserBindUserContactPhoneFailed  = 1000010;  // 用户绑定绑定手机失败
+    UserVapchaVerifyFailed          = 1000011;  // 用户校验验证码失败
 }
 
 message ErrorResponse {
@@ -146,6 +147,17 @@ message SetUserRoleRequest {
     int64 UID                       = 2; // 用户id
 }
 
+message VaptchaVerifyRequest {
+    string Token                    = 1; // 前端验证传来的逻辑
+    string IP                       = 2; // 请求的IP
+}
+
+message VaptchaVerifyOfflineRequest {
+    string OfflineAction                    = 1; // 值为get获取验证图片，值为verify进行人机验证
+    string Callback                         = 2; // jsonp回调函数名
+    string V                                = 3; // 轨迹图
+    string Knock                            = 4; // 流水号       
+}
 service AccountSV {
     // 查询用户信息
     rpc GetUserInfo(UIDInput) returns (UserInfo){}
@@ -203,4 +215,11 @@ service AccountSV {
 
     // 获取用户UID 
     rpc GetUserUID (CreateUserInput) returns (UIDInput);
+
+    // vapcha验证
+    rpc GetVaptchaVerify (VaptchaVerifyRequest) returns (ErrorResponse);
+
+    // vapcha离线验证
+    rpc GetVaptchaOfflineVerify (VaptchaVerifyOfflineRequest) returns (ErrorResponse);
+
 }
