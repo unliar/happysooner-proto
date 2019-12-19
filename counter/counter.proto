@@ -36,7 +36,8 @@ message UserCountInfo {
 }
 message UpdateRequest {
     string Field                    = 1;       // 字段
-    string Value                    = 2;       // 字段加减值                    
+    string Value                    = 2;       // 字段加减值
+    uint64 ID                       = 3;       // 请求资源ID                     
 }
 service counterSV {
     
