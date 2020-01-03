@@ -54,9 +54,9 @@ type WritingSVService interface {
 	PostCommentToArticle(ctx context.Context, in *PostCommentToArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 删除评论 - 未完成 - 连接计数服务
 	DelCommentToArticle(ctx context.Context, in *DelCommentToArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
-	// 获取文章评论列表 - 未完成
+	// 获取文章评论列表 - 完成
 	GetCommentListOfArticle(ctx context.Context, in *GetCommentListOfArticleRequest, opts ...client.CallOption) (*CommentListResponse, error)
-	// 删除文章的评论列表 - 未完成
+	// 删除文章的评论列表 - 完成
 	DelCommentListOfArticle(ctx context.Context, in *DelCommentListOfArticleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
@@ -209,9 +209,9 @@ type WritingSVHandler interface {
 	PostCommentToArticle(context.Context, *PostCommentToArticleRequest, *ErrorResponse) error
 	// 删除评论 - 未完成 - 连接计数服务
 	DelCommentToArticle(context.Context, *DelCommentToArticleRequest, *ErrorResponse) error
-	// 获取文章评论列表 - 未完成
+	// 获取文章评论列表 - 完成
 	GetCommentListOfArticle(context.Context, *GetCommentListOfArticleRequest, *CommentListResponse) error
-	// 删除文章的评论列表 - 未完成
+	// 删除文章的评论列表 - 完成
 	DelCommentListOfArticle(context.Context, *DelCommentListOfArticleRequest, *ErrorResponse) error
 }
 
