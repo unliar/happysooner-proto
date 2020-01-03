@@ -66,6 +66,7 @@ message PostArticleRequest {
         string Content                                      = 3; // 内容
         int64 AuthorUID                                     = 4; // 作者id
         string Summary                                      = 5; // 摘要
+        int64  Status                                       = 6; // 文章状态 1 = 正常
 }
 
 message PutArticleRequest {
@@ -75,6 +76,7 @@ message PutArticleRequest {
         int64 AuthorUID                                     = 4; // 作者id
         string Summary                                      = 5; // 摘要
         int64 CategoryID                                    = 6; // 分类id
+        int64  Status                                       = 7; // 文章状态 1 = 正常
 }   
 
 message GetArticleListRequest {
@@ -171,9 +173,9 @@ service writingSV {
     // 删除评论 - 未完成 - 连接计数服务
     rpc DelCommentToArticle (DelCommentToArticleRequest) returns (ErrorResponse);
 
-    // 获取文章评论列表 - 未完成
+    // 获取文章评论列表 - 完成
     rpc GetCommentListOfArticle (GetCommentListOfArticleRequest) returns (CommentListResponse);
 
-    // 删除文章的评论列表 - 未完成
+    // 删除文章的评论列表 - 完成
     rpc DelCommentListOfArticle (DelCommentListOfArticleRequest) returns (ErrorResponse);
 }
