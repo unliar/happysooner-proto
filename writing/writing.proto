@@ -127,7 +127,8 @@ enum WritingErrors {
      PutArticleFailed                                       = 3000004;  // 更新文章失败
      OperationNotPermitted                                  = 3000006;  // 用户无权限进行操作
      PostCommentFailed                                      = 3000007;  // 发表评论失败
-     DelCommentFailed                                       = 3000008;  // 删除评论失败    
+     DelCommentFailed                                       = 3000008;  // 删除评论失败
+     PostContentForbidden                                   = 3000009;  // 内容触发文本审核策略
 }
 
 message ErrorResponse {
