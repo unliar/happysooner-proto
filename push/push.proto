@@ -36,6 +36,14 @@ message GetCaptchaVerifyRequest {
     int64 UID                           = 3; // 被发送人的UID
     SendType Type                       = 4; // 验证类型
 }
+
+message StoreOrderMailRequest {
+    int64 ToUID                         = 1; // 目标用户id
+    string OrderID                      = 2; // 来源订单
+    string HTML                         = 3; // 邮件信息
+    int64 ExpireAt                      = 4; // 过期时间
+}
+
 service pushSV {
     
     // 发送验证码
@@ -46,4 +54,10 @@ service pushSV {
 
     // 发送邮件通知
     rpc PushEmailNotification(PushEmailNotificationRequest) returns (ErrorResponse);
+
+    // 存储订单临时邮件信息
+    rpc StoreOrderMail (StoreOrderMailRequest) returns (ErrorResponse);
+
+    // 消费订单邮件信息
+    rpc PostOrderMail (StoreOrderMailRequest) returns (ErrorResponse);
 }
