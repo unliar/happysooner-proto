@@ -40,6 +40,10 @@ type PushSVService interface {
 	GetCaptchaVerify(ctx context.Context, in *GetCaptchaVerifyRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 发送邮件通知
 	PushEmailNotification(ctx context.Context, in *PushEmailNotificationRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 存储订单临时邮件信息
+	StoreOrderMail(ctx context.Context, in *StoreOrderMailRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 消费订单邮件信息
+	PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type pushSVService struct {
@@ -90,6 +94,26 @@ func (c *pushSVService) PushEmailNotification(ctx context.Context, in *PushEmail
 	return out, nil
 }
 
+func (c *pushSVService) StoreOrderMail(ctx context.Context, in *StoreOrderMailRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "PushSV.StoreOrderMail", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *pushSVService) PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "PushSV.PostOrderMail", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for PushSV service
 
 type PushSVHandler interface {
@@ -99,6 +123,10 @@ type PushSVHandler interface {
 	GetCaptchaVerify(context.Context, *GetCaptchaVerifyRequest, *ErrorResponse) error
 	// 发送邮件通知
 	PushEmailNotification(context.Context, *PushEmailNotificationRequest, *ErrorResponse) error
+	// 存储订单临时邮件信息
+	StoreOrderMail(context.Context, *StoreOrderMailRequest, *ErrorResponse) error
+	// 消费订单邮件信息
+	PostOrderMail(context.Context, *StoreOrderMailRequest, *ErrorResponse) error
 }
 
 func RegisterPushSVHandler(s server.Server, hdlr PushSVHandler, opts ...server.HandlerOption) error {
@@ -106,6 +134,8 @@ func RegisterPushSVHandler(s server.Server, hdlr PushSVHandler, opts ...server.H
 		PushCaptcha(ctx context.Context, in *PushCaptchaRequest, out *ErrorResponse) error
 		GetCaptchaVerify(ctx context.Context, in *GetCaptchaVerifyRequest, out *ErrorResponse) error
 		PushEmailNotification(ctx context.Context, in *PushEmailNotificationRequest, out *ErrorResponse) error
+		StoreOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error
+		PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error
 	}
 	type PushSV struct {
 		pushSV
@@ -128,4 +158,12 @@ func (h *pushSVHandler) GetCaptchaVerify(ctx context.Context, in *GetCaptchaVeri
 
 func (h *pushSVHandler) PushEmailNotification(ctx context.Context, in *PushEmailNotificationRequest, out *ErrorResponse) error {
 	return h.PushSVHandler.PushEmailNotification(ctx, in, out)
+}
+
+func (h *pushSVHandler) StoreOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error {
+	return h.PushSVHandler.StoreOrderMail(ctx, in, out)
+}
+
+func (h *pushSVHandler) PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error {
+	return h.PushSVHandler.PostOrderMail(ctx, in, out)
 }
