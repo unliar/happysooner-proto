@@ -55,6 +55,7 @@ message CreateAliPayOrderRequest {
     string TotalAmount                  = 4; // 订单总金额
     string Subject                      = 5; // 订单标题
     string OrderExtends                 = 6; // 订单额外参数   
+    string ExtraInfo                    = 7; // 额外的评论字段
 }
 
 message PayOrderResultRequest {
