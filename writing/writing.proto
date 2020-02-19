@@ -101,6 +101,7 @@ message DelCommentToArticleRequest {
         int64 PostID                                        = 1; // 文章id
         int64 CommentID                                     = 2; // 评论ID
         int64 UID                                           = 3; // 评论所属人ID 管理员可以不填
+        int64 AuthorUID                                     = 4; // 作者uid 可以不填
 }
 message GetCommentListOfArticleRequest {
         int64 Page                                          = 1; // 页码
