@@ -115,6 +115,7 @@ message GetCommentListOfArticleRequest {
 message DelCommentListOfArticleRequest {
         int64 PostID                                        = 1; // 文章id
         int64 CommentUID                                    = 2; // 评论人的id
+        int64 AuthorUID                                     = 3; // 作者uid
 }
 // --------------------------request  end--------------------------------
 
