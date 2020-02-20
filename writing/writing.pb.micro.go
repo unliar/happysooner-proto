@@ -37,7 +37,7 @@ var _ server.Option
 
 type WritingSVService interface {
 	// 获取文章详情
-	GetArticleById(ctx context.Context, in *IntRequest, opts ...client.CallOption) (*ArticleInfo, error)
+	GetArticleById(ctx context.Context, in *GetArticleByIdRequest, opts ...client.CallOption) (*ArticleInfo, error)
 	// 获取文章列表
 	GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleListResponse, error)
 	// 创建文章
@@ -78,7 +78,7 @@ func NewWritingSVService(name string, c client.Client) WritingSVService {
 	}
 }
 
-func (c *writingSVService) GetArticleById(ctx context.Context, in *IntRequest, opts ...client.CallOption) (*ArticleInfo, error) {
+func (c *writingSVService) GetArticleById(ctx context.Context, in *GetArticleByIdRequest, opts ...client.CallOption) (*ArticleInfo, error) {
 	req := c.c.NewRequest(c.name, "WritingSV.GetArticleById", in)
 	out := new(ArticleInfo)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -192,7 +192,7 @@ func (c *writingSVService) DelCommentListOfArticle(ctx context.Context, in *DelC
 
 type WritingSVHandler interface {
 	// 获取文章详情
-	GetArticleById(context.Context, *IntRequest, *ArticleInfo) error
+	GetArticleById(context.Context, *GetArticleByIdRequest, *ArticleInfo) error
 	// 获取文章列表
 	GetArticleList(context.Context, *GetArticleListRequest, *ArticleListResponse) error
 	// 创建文章
@@ -217,7 +217,7 @@ type WritingSVHandler interface {
 
 func RegisterWritingSVHandler(s server.Server, hdlr WritingSVHandler, opts ...server.HandlerOption) error {
 	type writingSV interface {
-		GetArticleById(ctx context.Context, in *IntRequest, out *ArticleInfo) error
+		GetArticleById(ctx context.Context, in *GetArticleByIdRequest, out *ArticleInfo) error
 		GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleListResponse) error
 		PostArticle(ctx context.Context, in *PostArticleRequest, out *ErrorResponse) error
 		PutArticle(ctx context.Context, in *PutArticleRequest, out *ErrorResponse) error
@@ -240,7 +240,7 @@ type writingSVHandler struct {
 	WritingSVHandler
 }
 
-func (h *writingSVHandler) GetArticleById(ctx context.Context, in *IntRequest, out *ArticleInfo) error {
+func (h *writingSVHandler) GetArticleById(ctx context.Context, in *GetArticleByIdRequest, out *ArticleInfo) error {
 	return h.WritingSVHandler.GetArticleById(ctx, in, out)
 }
 
