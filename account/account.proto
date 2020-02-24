@@ -158,6 +158,18 @@ message VaptchaVerifyOfflineRequest {
     string V                                = 3; // 轨迹图
     string Knock                            = 4; // 流水号       
 }
+
+message NewRoleRequest {
+    string Title                            = 1; // 角色名称
+    string Description                      = 2; // 角色描述
+    int64 RID                               = 3; // roleID 新建角色不需要    
+}
+
+
+message NewRoleList {
+    repeated NewRoleRequest List            = 1; // 列表
+}
+
 service AccountSV {
     // 查询用户信息
     rpc GetUserInfo(UIDInput) returns (UserInfo){}
@@ -212,6 +224,18 @@ service AccountSV {
 
     // 删除角色
     rpc DelUserRole (SetUserRoleRequest) returns (ErrorResponse);
+
+    // 新建角色 2020-02-24
+    rpc PostNewRole (NewRoleRequest) returns (ErrorResponse);
+
+    // 更新角色
+    rpc PutNewRole (NewRoleRequest) returns (ErrorResponse);
+
+    // 删除角色 
+    rpc DelNewRole (NewRoleRequest) returns (ErrorResponse);
+    
+    // 获取所有角色
+    rpc GetNewRoles (NewRoleRequest) returns (NewRoleList);
 
     // 获取用户UID 
     rpc GetUserUID (CreateUserInput) returns (UIDInput);
