@@ -165,6 +165,7 @@ message PermissionInfo {
     string CN                              = 1; // 中文权限名称
     string EU                              = 2; // 英文名
     string Description                     = 3; // 描述信息
+    int64 PID                              = 4; // 权限ID
 }
 
 message PermissionInfoList {
