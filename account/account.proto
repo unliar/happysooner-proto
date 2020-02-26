@@ -161,6 +161,15 @@ message NewRoleList {
     repeated NewRoleRequest List            = 1; // 列表
 }
 
+message PermissionInfo {
+    string CN                              = 1; // 中文权限名称
+    string EU                              = 2; // 英文名
+    string Description                     = 3; // 描述信息
+}
+
+message PermissionInfoList {
+    repeated PermissionInfo List            = 1; // 权限列表
+}
 service AccountSV {
     // 查询用户信息
     rpc GetUserInfo(UIDInput) returns (UserInfo){}
@@ -210,6 +219,9 @@ service AccountSV {
     // 获取用户角色
     rpc GetUserNewRoles (UIDInput) returns (NewRoleList);
     
+    // 获取用户的权限
+    rpc GetUserPermissions (UIDInput) returns (PermissionInfoList);
+
     // 设置角色
     rpc SetUserRole (SetUserRoleRequest) returns (ErrorResponse);
 
