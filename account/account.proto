@@ -21,7 +21,7 @@ message UserInfo {
     string WeChatId                 = 16;   // 微信id
     string QQId                     = 17;   // qqid
     string Password                 = 18;   // 用户加密后的密码
-    repeated RoleInfo Roles         = 19;   // 用户角色信息
+    repeated NewRoleRequest Roles   = 19;   // 用户角色信息
 }
 
 message PutUserBaseRequest {
@@ -40,19 +40,10 @@ message UserInfoWithToken {
     UserInfo UserInfo               = 1;
     string   Token                  = 2;
 }
-// 用户角色
-message UserRoles {
-    repeated RoleInfo Roles         = 11;   // 用户角色信息
-}
 
 // id查询用户信息
 message UIDInput {
     int64 UID                       = 1;    // 用户id
-}
-
-message RoleInfo {
-    string Role                     = 1;
-    string Description              = 2;
 }
 
 enum Role {
@@ -217,7 +208,7 @@ service AccountSV {
     rpc GetUserContactInfo (UIDInput) returns (UserContact);
 
     // 获取用户角色
-    rpc GetUserRoles (UIDInput) returns (UserRoles);
+    rpc GetUserNewRoles (UIDInput) returns (NewRoleList);
     
     // 设置角色
     rpc SetUserRole (SetUserRoleRequest) returns (ErrorResponse);
