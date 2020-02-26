@@ -66,6 +66,8 @@ type AccountSVService interface {
 	GetUserContactInfo(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*UserContact, error)
 	// 获取用户角色
 	GetUserNewRoles(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*NewRoleList, error)
+	// 获取用户的权限
+	GetUserPermissions(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*PermissionInfoList, error)
 	// 设置角色
 	SetUserRole(ctx context.Context, in *SetUserRoleRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 删除角色
@@ -264,6 +266,16 @@ func (c *accountSVService) GetUserNewRoles(ctx context.Context, in *UIDInput, op
 	return out, nil
 }
 
+func (c *accountSVService) GetUserPermissions(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*PermissionInfoList, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.GetUserPermissions", in)
+	out := new(PermissionInfoList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *accountSVService) SetUserRole(ctx context.Context, in *SetUserRoleRequest, opts ...client.CallOption) (*ErrorResponse, error) {
 	req := c.c.NewRequest(c.name, "AccountSV.SetUserRole", in)
 	out := new(ErrorResponse)
@@ -389,6 +401,8 @@ type AccountSVHandler interface {
 	GetUserContactInfo(context.Context, *UIDInput, *UserContact) error
 	// 获取用户角色
 	GetUserNewRoles(context.Context, *UIDInput, *NewRoleList) error
+	// 获取用户的权限
+	GetUserPermissions(context.Context, *UIDInput, *PermissionInfoList) error
 	// 设置角色
 	SetUserRole(context.Context, *SetUserRoleRequest, *ErrorResponse) error
 	// 删除角色
@@ -427,6 +441,7 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		BindUserContactPhone(ctx context.Context, in *PutUserContactPhoneRequest, out *ErrorResponse) error
 		GetUserContactInfo(ctx context.Context, in *UIDInput, out *UserContact) error
 		GetUserNewRoles(ctx context.Context, in *UIDInput, out *NewRoleList) error
+		GetUserPermissions(ctx context.Context, in *UIDInput, out *PermissionInfoList) error
 		SetUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error
 		DelUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error
 		PostNewRole(ctx context.Context, in *NewRoleRequest, out *ErrorResponse) error
@@ -510,6 +525,10 @@ func (h *accountSVHandler) GetUserContactInfo(ctx context.Context, in *UIDInput,
 
 func (h *accountSVHandler) GetUserNewRoles(ctx context.Context, in *UIDInput, out *NewRoleList) error {
 	return h.AccountSVHandler.GetUserNewRoles(ctx, in, out)
+}
+
+func (h *accountSVHandler) GetUserPermissions(ctx context.Context, in *UIDInput, out *PermissionInfoList) error {
+	return h.AccountSVHandler.GetUserPermissions(ctx, in, out)
 }
 
 func (h *accountSVHandler) SetUserRole(ctx context.Context, in *SetUserRoleRequest, out *ErrorResponse) error {
