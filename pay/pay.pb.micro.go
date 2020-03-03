@@ -50,6 +50,8 @@ type PaySVService interface {
 	UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 查询订单列表
 	GetOrderList(ctx context.Context, in *GetOrderListRequest, opts ...client.CallOption) (*OrderListResponse, error)
+	// 获取订单详情
+	GetOrderDetail(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderInfo, error)
 }
 
 type paySVService struct {
@@ -150,6 +152,16 @@ func (c *paySVService) GetOrderList(ctx context.Context, in *GetOrderListRequest
 	return out, nil
 }
 
+func (c *paySVService) GetOrderDetail(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderInfo, error) {
+	req := c.c.NewRequest(c.name, "PaySV.GetOrderDetail", in)
+	out := new(OrderInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for PaySV service
 
 type PaySVHandler interface {
@@ -169,6 +181,8 @@ type PaySVHandler interface {
 	UpdateAliPayOrderResult(context.Context, *PayOrderResultRequest, *ErrorResponse) error
 	// 查询订单列表
 	GetOrderList(context.Context, *GetOrderListRequest, *OrderListResponse) error
+	// 获取订单详情
+	GetOrderDetail(context.Context, *PayOrderResultRequest, *OrderInfo) error
 }
 
 func RegisterPaySVHandler(s server.Server, hdlr PaySVHandler, opts ...server.HandlerOption) error {
@@ -181,6 +195,7 @@ func RegisterPaySVHandler(s server.Server, hdlr PaySVHandler, opts ...server.Han
 		GetAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *OrderResultResponse) error
 		UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *ErrorResponse) error
 		GetOrderList(ctx context.Context, in *GetOrderListRequest, out *OrderListResponse) error
+		GetOrderDetail(ctx context.Context, in *PayOrderResultRequest, out *OrderInfo) error
 	}
 	type PaySV struct {
 		paySV
@@ -223,4 +238,8 @@ func (h *paySVHandler) UpdateAliPayOrderResult(ctx context.Context, in *PayOrder
 
 func (h *paySVHandler) GetOrderList(ctx context.Context, in *GetOrderListRequest, out *OrderListResponse) error {
 	return h.PaySVHandler.GetOrderList(ctx, in, out)
+}
+
+func (h *paySVHandler) GetOrderDetail(ctx context.Context, in *PayOrderResultRequest, out *OrderInfo) error {
+	return h.PaySVHandler.GetOrderDetail(ctx, in, out)
 }
