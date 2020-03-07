@@ -132,5 +132,8 @@ service paySV {
     // 查询订单列表
     rpc GetOrderList (GetOrderListRequest) returns (OrderListResponse);
 
+    // 获取订单详情
+    rpc GetOrderDetail (PayOrderResultRequest) returns (OrderInfo);
+    
     /*end 支付宝区域 end*/
 }

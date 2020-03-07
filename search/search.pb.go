@@ -367,7 +367,9 @@ func init() {
 	proto.RegisterType((*GetSearchRequest)(nil), "search.GetSearchRequest")
 }
 
-func init() { proto.RegisterFile("search/search.proto", fileDescriptor_3c662bebbc5127a4) }
+func init() {
+	proto.RegisterFile("search/search.proto", fileDescriptor_3c662bebbc5127a4)
+}
 
 var fileDescriptor_3c662bebbc5127a4 = []byte{
 	// 432 bytes of a gzipped FileDescriptorProto

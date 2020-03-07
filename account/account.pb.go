@@ -1391,7 +1391,9 @@ func init() {
 	proto.RegisterType((*PermissionInfoList)(nil), "account.PermissionInfoList")
 }
 
-func init() { proto.RegisterFile("account/account.proto", fileDescriptor_d66906c5773c9d08) }
+func init() {
+	proto.RegisterFile("account/account.proto", fileDescriptor_d66906c5773c9d08)
+}
 
 var fileDescriptor_d66906c5773c9d08 = []byte{
 	// 1450 bytes of a gzipped FileDescriptorProto

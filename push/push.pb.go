@@ -374,7 +374,9 @@ func init() {
 	proto.RegisterType((*StoreOrderMailRequest)(nil), "push.StoreOrderMailRequest")
 }
 
-func init() { proto.RegisterFile("push/push.proto", fileDescriptor_ae0042da44e9a7a7) }
+func init() {
+	proto.RegisterFile("push/push.proto", fileDescriptor_ae0042da44e9a7a7)
+}
 
 var fileDescriptor_ae0042da44e9a7a7 = []byte{
 	// 490 bytes of a gzipped FileDescriptorProto

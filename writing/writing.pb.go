@@ -1277,7 +1277,9 @@ func init() {
 	proto.RegisterType((*CommentListResponse)(nil), "writing.CommentListResponse")
 }
 
-func init() { proto.RegisterFile("writing/writing.proto", fileDescriptor_db9b9589ec5f9fbc) }
+func init() {
+	proto.RegisterFile("writing/writing.proto", fileDescriptor_db9b9589ec5f9fbc)
+}
 
 var fileDescriptor_db9b9589ec5f9fbc = []byte{
 	// 1179 bytes of a gzipped FileDescriptorProto
