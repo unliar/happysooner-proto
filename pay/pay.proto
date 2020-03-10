@@ -55,8 +55,9 @@ message CreateAliPayOrderRequest {
     string TotalAmount                  = 4; // 订单总金额
     string Subject                      = 5; // 订单标题
     string OrderExtends                 = 6; // 订单额外参数
-    string QuitURL                      = 7; // wap支付订单退出页面
-    string ReturnURL                    = 8; // wap支付订单成功支付页面
+    string AliPayMode                   = 7; // 支付宝订单支付模式 alipay = 当面付 alipayweb = 电脑网站支付  alipaywap = 手机网站支付
+    string QuitURL                      = 8; // wap支付订单退出页面
+    string ReturnURL                    = 9; // wap支付订单成功支付页面   
 }
 
 message PayOrderResultRequest {
