@@ -44,6 +44,8 @@ type PushSVService interface {
 	StoreOrderMail(ctx context.Context, in *StoreOrderMailRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 消费订单邮件信息
 	PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 发送微信机器人通知
+	PushWechatWorkGroupRobotNotification(ctx context.Context, in *PushWechatWorkGroupRobotNotificationRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type pushSVService struct {
@@ -114,6 +116,16 @@ func (c *pushSVService) PostOrderMail(ctx context.Context, in *StoreOrderMailReq
 	return out, nil
 }
 
+func (c *pushSVService) PushWechatWorkGroupRobotNotification(ctx context.Context, in *PushWechatWorkGroupRobotNotificationRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "PushSV.PushWechatWorkGroupRobotNotification", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for PushSV service
 
 type PushSVHandler interface {
@@ -127,6 +139,8 @@ type PushSVHandler interface {
 	StoreOrderMail(context.Context, *StoreOrderMailRequest, *ErrorResponse) error
 	// 消费订单邮件信息
 	PostOrderMail(context.Context, *StoreOrderMailRequest, *ErrorResponse) error
+	// 发送微信机器人通知
+	PushWechatWorkGroupRobotNotification(context.Context, *PushWechatWorkGroupRobotNotificationRequest, *ErrorResponse) error
 }
 
 func RegisterPushSVHandler(s server.Server, hdlr PushSVHandler, opts ...server.HandlerOption) error {
@@ -136,6 +150,7 @@ func RegisterPushSVHandler(s server.Server, hdlr PushSVHandler, opts ...server.H
 		PushEmailNotification(ctx context.Context, in *PushEmailNotificationRequest, out *ErrorResponse) error
 		StoreOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error
 		PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error
+		PushWechatWorkGroupRobotNotification(ctx context.Context, in *PushWechatWorkGroupRobotNotificationRequest, out *ErrorResponse) error
 	}
 	type PushSV struct {
 		pushSV
@@ -166,4 +181,8 @@ func (h *pushSVHandler) StoreOrderMail(ctx context.Context, in *StoreOrderMailRe
 
 func (h *pushSVHandler) PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error {
 	return h.PushSVHandler.PostOrderMail(ctx, in, out)
+}
+
+func (h *pushSVHandler) PushWechatWorkGroupRobotNotification(ctx context.Context, in *PushWechatWorkGroupRobotNotificationRequest, out *ErrorResponse) error {
+	return h.PushSVHandler.PushWechatWorkGroupRobotNotification(ctx, in, out)
 }
