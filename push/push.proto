@@ -43,6 +43,10 @@ message StoreOrderMailRequest {
     string ExpireIn                     = 3; // 有效时间
 }
 
+message PushWechatWorkGroupRobotNotificationRequest {
+    string Content                      = 1; // 内容信息
+    int64 Retry                         = 2; // 重试次数
+}
 service pushSV {
     
     // 发送验证码
@@ -59,4 +63,7 @@ service pushSV {
 
     // 消费订单邮件信息
     rpc PostOrderMail (StoreOrderMailRequest) returns (ErrorResponse);
+
+    // 发送微信机器人通知
+    rpc PushWechatWorkGroupRobotNotification (PushWechatWorkGroupRobotNotificationRequest) returns (ErrorResponse);
 }
