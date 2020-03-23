@@ -60,6 +60,16 @@ message CreateAliPayOrderRequest {
     string ReturnURL                    = 9; // wap支付订单成功支付页面   
 }
 
+message CreateWechatPayRequest {
+    int64 CreateUserID                  = 1; // 创建订单用户ID
+    string OrderType                    = 2; // 创建订单的类型 , 当前只有打赏类型
+    int64 CreateForUserID               = 3; // 当前订单是为谁创建的 不传的话默认是1号用户 也就是可爱的管理员同志
+    string TotalAmount                  = 4; // 订单总金额
+    string Subject                      = 5; // 订单标题
+    string OrderExtends                 = 6; // 订单额外参数
+    string WechatMode                   = 7; // 订单支付模式  JSAPI -JSAPI支付  NATIVE -Native支付 APP -APP支付 
+    string OrderIP                      = 8; // 订单IP
+}
 message PayOrderResultRequest {
     string OutTradeNo                   = 1; // 商户的订单号
     string Status                       = 2; // 订单状态 wait_pay trade_success trade_close trade_done
@@ -124,6 +134,9 @@ service paySV {
 
     // 创建alipay账单
     rpc CreateAliPayOrder (CreateAliPayOrderRequest) returns (OrderResultResponse){}
+
+    // 创建微信订单
+    rpc CreateWechatPayOrder (CreateWechatPayRequest) returns (OrderResultResponse);
 
     // 查询订单结果
     rpc GetAliPayOrderResult (PayOrderResultRequest) returns (OrderResultResponse){}
