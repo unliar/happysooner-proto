@@ -42,12 +42,10 @@ type PaySVService interface {
 	DeleteUserPayWay(ctx context.Context, in *DeleteUserPayWayRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 更新一个支付数据类型
 	PutUserPayWay(ctx context.Context, in *PutUserPayWayRequest, opts ...client.CallOption) (*ErrorResponse, error)
-	// 创建alipay账单
-	CreateAliPayOrder(ctx context.Context, in *CreateAliPayOrderRequest, opts ...client.CallOption) (*OrderResultResponse, error)
-	// 创建微信订单
-	CreateWechatPayOrder(ctx context.Context, in *CreateWechatPayRequest, opts ...client.CallOption) (*OrderResultResponse, error)
+	// 创建统一下单
+	CreatePayOrder(ctx context.Context, in *CreateOrderCommonRequest, opts ...client.CallOption) (*OrderResultResponse, error)
 	// 查询订单结果
-	GetAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderResultResponse, error)
+	GetPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderResultResponse, error)
 	// 更新订单结果
 	UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 查询订单列表
@@ -114,8 +112,8 @@ func (c *paySVService) PutUserPayWay(ctx context.Context, in *PutUserPayWayReque
 	return out, nil
 }
 
-func (c *paySVService) CreateAliPayOrder(ctx context.Context, in *CreateAliPayOrderRequest, opts ...client.CallOption) (*OrderResultResponse, error) {
-	req := c.c.NewRequest(c.name, "PaySV.CreateAliPayOrder", in)
+func (c *paySVService) CreatePayOrder(ctx context.Context, in *CreateOrderCommonRequest, opts ...client.CallOption) (*OrderResultResponse, error) {
+	req := c.c.NewRequest(c.name, "PaySV.CreatePayOrder", in)
 	out := new(OrderResultResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -124,18 +122,8 @@ func (c *paySVService) CreateAliPayOrder(ctx context.Context, in *CreateAliPayOr
 	return out, nil
 }
 
-func (c *paySVService) CreateWechatPayOrder(ctx context.Context, in *CreateWechatPayRequest, opts ...client.CallOption) (*OrderResultResponse, error) {
-	req := c.c.NewRequest(c.name, "PaySV.CreateWechatPayOrder", in)
-	out := new(OrderResultResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *paySVService) GetAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderResultResponse, error) {
-	req := c.c.NewRequest(c.name, "PaySV.GetAliPayOrderResult", in)
+func (c *paySVService) GetPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderResultResponse, error) {
+	req := c.c.NewRequest(c.name, "PaySV.GetPayOrderResult", in)
 	out := new(OrderResultResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -185,12 +173,10 @@ type PaySVHandler interface {
 	DeleteUserPayWay(context.Context, *DeleteUserPayWayRequest, *ErrorResponse) error
 	// 更新一个支付数据类型
 	PutUserPayWay(context.Context, *PutUserPayWayRequest, *ErrorResponse) error
-	// 创建alipay账单
-	CreateAliPayOrder(context.Context, *CreateAliPayOrderRequest, *OrderResultResponse) error
-	// 创建微信订单
-	CreateWechatPayOrder(context.Context, *CreateWechatPayRequest, *OrderResultResponse) error
+	// 创建统一下单
+	CreatePayOrder(context.Context, *CreateOrderCommonRequest, *OrderResultResponse) error
 	// 查询订单结果
-	GetAliPayOrderResult(context.Context, *PayOrderResultRequest, *OrderResultResponse) error
+	GetPayOrderResult(context.Context, *PayOrderResultRequest, *OrderResultResponse) error
 	// 更新订单结果
 	UpdateAliPayOrderResult(context.Context, *PayOrderResultRequest, *ErrorResponse) error
 	// 查询订单列表
@@ -205,9 +191,8 @@ func RegisterPaySVHandler(s server.Server, hdlr PaySVHandler, opts ...server.Han
 		CreateUserPayWay(ctx context.Context, in *CreateUserPayWayRequest, out *ErrorResponse) error
 		DeleteUserPayWay(ctx context.Context, in *DeleteUserPayWayRequest, out *ErrorResponse) error
 		PutUserPayWay(ctx context.Context, in *PutUserPayWayRequest, out *ErrorResponse) error
-		CreateAliPayOrder(ctx context.Context, in *CreateAliPayOrderRequest, out *OrderResultResponse) error
-		CreateWechatPayOrder(ctx context.Context, in *CreateWechatPayRequest, out *OrderResultResponse) error
-		GetAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *OrderResultResponse) error
+		CreatePayOrder(ctx context.Context, in *CreateOrderCommonRequest, out *OrderResultResponse) error
+		GetPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *OrderResultResponse) error
 		UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *ErrorResponse) error
 		GetOrderList(ctx context.Context, in *GetOrderListRequest, out *OrderListResponse) error
 		GetOrderDetail(ctx context.Context, in *PayOrderResultRequest, out *OrderInfo) error
@@ -239,16 +224,12 @@ func (h *paySVHandler) PutUserPayWay(ctx context.Context, in *PutUserPayWayReque
 	return h.PaySVHandler.PutUserPayWay(ctx, in, out)
 }
 
-func (h *paySVHandler) CreateAliPayOrder(ctx context.Context, in *CreateAliPayOrderRequest, out *OrderResultResponse) error {
-	return h.PaySVHandler.CreateAliPayOrder(ctx, in, out)
+func (h *paySVHandler) CreatePayOrder(ctx context.Context, in *CreateOrderCommonRequest, out *OrderResultResponse) error {
+	return h.PaySVHandler.CreatePayOrder(ctx, in, out)
 }
 
-func (h *paySVHandler) CreateWechatPayOrder(ctx context.Context, in *CreateWechatPayRequest, out *OrderResultResponse) error {
-	return h.PaySVHandler.CreateWechatPayOrder(ctx, in, out)
-}
-
-func (h *paySVHandler) GetAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *OrderResultResponse) error {
-	return h.PaySVHandler.GetAliPayOrderResult(ctx, in, out)
+func (h *paySVHandler) GetPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *OrderResultResponse) error {
+	return h.PaySVHandler.GetPayOrderResult(ctx, in, out)
 }
 
 func (h *paySVHandler) UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *ErrorResponse) error {
