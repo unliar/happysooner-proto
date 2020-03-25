@@ -132,8 +132,8 @@ service paySV {
     // 查询订单结果
     rpc GetPayOrderResult (PayOrderResultRequest) returns (OrderResultResponse){}
 
-    // 更新订单结果
-    rpc UpdateAliPayOrderResult(PayOrderResultRequest) returns (ErrorResponse){}
+    // 更新订单结果 检测签名
+    rpc UpdatePayOrderResult(PayOrderResultRequest) returns (ErrorResponse){}
 
     // 查询订单列表
     rpc GetOrderList (GetOrderListRequest) returns (OrderListResponse);
