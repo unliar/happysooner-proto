@@ -46,8 +46,8 @@ type PaySVService interface {
 	CreatePayOrder(ctx context.Context, in *CreateOrderCommonRequest, opts ...client.CallOption) (*OrderResultResponse, error)
 	// 查询订单结果
 	GetPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderResultResponse, error)
-	// 更新订单结果
-	UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 更新订单结果 检测签名
+	UpdatePayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 查询订单列表
 	GetOrderList(ctx context.Context, in *GetOrderListRequest, opts ...client.CallOption) (*OrderListResponse, error)
 	// 获取订单详情
@@ -132,8 +132,8 @@ func (c *paySVService) GetPayOrderResult(ctx context.Context, in *PayOrderResult
 	return out, nil
 }
 
-func (c *paySVService) UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*ErrorResponse, error) {
-	req := c.c.NewRequest(c.name, "PaySV.UpdateAliPayOrderResult", in)
+func (c *paySVService) UpdatePayOrderResult(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "PaySV.UpdatePayOrderResult", in)
 	out := new(ErrorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -177,8 +177,8 @@ type PaySVHandler interface {
 	CreatePayOrder(context.Context, *CreateOrderCommonRequest, *OrderResultResponse) error
 	// 查询订单结果
 	GetPayOrderResult(context.Context, *PayOrderResultRequest, *OrderResultResponse) error
-	// 更新订单结果
-	UpdateAliPayOrderResult(context.Context, *PayOrderResultRequest, *ErrorResponse) error
+	// 更新订单结果 检测签名
+	UpdatePayOrderResult(context.Context, *PayOrderResultRequest, *ErrorResponse) error
 	// 查询订单列表
 	GetOrderList(context.Context, *GetOrderListRequest, *OrderListResponse) error
 	// 获取订单详情
@@ -193,7 +193,7 @@ func RegisterPaySVHandler(s server.Server, hdlr PaySVHandler, opts ...server.Han
 		PutUserPayWay(ctx context.Context, in *PutUserPayWayRequest, out *ErrorResponse) error
 		CreatePayOrder(ctx context.Context, in *CreateOrderCommonRequest, out *OrderResultResponse) error
 		GetPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *OrderResultResponse) error
-		UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *ErrorResponse) error
+		UpdatePayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *ErrorResponse) error
 		GetOrderList(ctx context.Context, in *GetOrderListRequest, out *OrderListResponse) error
 		GetOrderDetail(ctx context.Context, in *PayOrderResultRequest, out *OrderInfo) error
 	}
@@ -232,8 +232,8 @@ func (h *paySVHandler) GetPayOrderResult(ctx context.Context, in *PayOrderResult
 	return h.PaySVHandler.GetPayOrderResult(ctx, in, out)
 }
 
-func (h *paySVHandler) UpdateAliPayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *ErrorResponse) error {
-	return h.PaySVHandler.UpdateAliPayOrderResult(ctx, in, out)
+func (h *paySVHandler) UpdatePayOrderResult(ctx context.Context, in *PayOrderResultRequest, out *ErrorResponse) error {
+	return h.PaySVHandler.UpdatePayOrderResult(ctx, in, out)
 }
 
 func (h *paySVHandler) GetOrderList(ctx context.Context, in *GetOrderListRequest, out *OrderListResponse) error {
