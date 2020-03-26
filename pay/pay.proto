@@ -105,6 +105,7 @@ message OrderInfo {
     int64 CreatedAt                     = 9; //  订单创建时间
     bool Expired                        = 10;//  订单是否失效 - 目前是90分钟
     string QRCode                       = 11;//  订单的二维码
+    string PlatFormMode                 = 12;//  订单平台的模式
  }
 
 message OrderListResponse {
@@ -129,9 +130,6 @@ service paySV {
     // 创建统一下单
     rpc CreatePayOrder (CreateOrderCommonRequest) returns (OrderResultResponse){}
 
-    // 查询订单结果
-    rpc GetPayOrderResult (PayOrderResultRequest) returns (OrderResultResponse){}
-
     // 更新订单结果 检测签名
     rpc UpdatePayOrderResult(PayOrderResultRequest) returns (ErrorResponse){}
 
@@ -140,6 +138,8 @@ service paySV {
 
     // 获取订单详情
     rpc GetOrderDetail (PayOrderResultRequest) returns (OrderInfo);
-    
+
+    // 从平台查询订单状态
+    rpc GetOrderPlatFormStatus (PayOrderResultRequest) returns (OrderInfo);
     /*end 支付宝区域 end*/
 }
