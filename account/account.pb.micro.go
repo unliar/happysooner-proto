@@ -36,6 +36,8 @@ var _ server.Option
 type AccountSVService interface {
 	// 查询用户信息
 	GetUserInfo(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*UserInfo, error)
+	// 获取多个用户ID信息
+	GetUsersInfoByIDS(ctx context.Context, in *UIDSInput, opts ...client.CallOption) (*UserInfoList, error)
 	// 通过UserToken获取用户信息
 	GetUserInfoByToken(ctx context.Context, in *UserToken, opts ...client.CallOption) (*UserInfo, error)
 	// 创建用户
@@ -109,6 +111,16 @@ func NewAccountSVService(name string, c client.Client) AccountSVService {
 func (c *accountSVService) GetUserInfo(ctx context.Context, in *UIDInput, opts ...client.CallOption) (*UserInfo, error) {
 	req := c.c.NewRequest(c.name, "AccountSV.GetUserInfo", in)
 	out := new(UserInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountSVService) GetUsersInfoByIDS(ctx context.Context, in *UIDSInput, opts ...client.CallOption) (*UserInfoList, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.GetUsersInfoByIDS", in)
+	out := new(UserInfoList)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -371,6 +383,8 @@ func (c *accountSVService) GetVaptchaOfflineVerify(ctx context.Context, in *Vapt
 type AccountSVHandler interface {
 	// 查询用户信息
 	GetUserInfo(context.Context, *UIDInput, *UserInfo) error
+	// 获取多个用户ID信息
+	GetUsersInfoByIDS(context.Context, *UIDSInput, *UserInfoList) error
 	// 通过UserToken获取用户信息
 	GetUserInfoByToken(context.Context, *UserToken, *UserInfo) error
 	// 创建用户
@@ -426,6 +440,7 @@ type AccountSVHandler interface {
 func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...server.HandlerOption) error {
 	type accountSV interface {
 		GetUserInfo(ctx context.Context, in *UIDInput, out *UserInfo) error
+		GetUsersInfoByIDS(ctx context.Context, in *UIDSInput, out *UserInfoList) error
 		GetUserInfoByToken(ctx context.Context, in *UserToken, out *UserInfo) error
 		CreateUserInfoByLoginName(ctx context.Context, in *CreateUserInput, out *ErrorResponse) error
 		GetUserToken(ctx context.Context, in *UserLoginRequest, out *UserInfoWithToken) error
@@ -465,6 +480,10 @@ type accountSVHandler struct {
 
 func (h *accountSVHandler) GetUserInfo(ctx context.Context, in *UIDInput, out *UserInfo) error {
 	return h.AccountSVHandler.GetUserInfo(ctx, in, out)
+}
+
+func (h *accountSVHandler) GetUsersInfoByIDS(ctx context.Context, in *UIDSInput, out *UserInfoList) error {
+	return h.AccountSVHandler.GetUsersInfoByIDS(ctx, in, out)
 }
 
 func (h *accountSVHandler) GetUserInfoByToken(ctx context.Context, in *UserToken, out *UserInfo) error {
