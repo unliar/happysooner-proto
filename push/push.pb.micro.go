@@ -46,6 +46,8 @@ type PushSVService interface {
 	PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 发送微信机器人通知
 	PushWechatWorkGroupRobotNotification(ctx context.Context, in *PushWechatWorkGroupRobotNotificationRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 获取微信 accessToken
+	GetWechatAccessToken(ctx context.Context, in *GetWechatAccessTokenRequest, opts ...client.CallOption) (*CommonResponse, error)
 }
 
 type pushSVService struct {
@@ -126,6 +128,16 @@ func (c *pushSVService) PushWechatWorkGroupRobotNotification(ctx context.Context
 	return out, nil
 }
 
+func (c *pushSVService) GetWechatAccessToken(ctx context.Context, in *GetWechatAccessTokenRequest, opts ...client.CallOption) (*CommonResponse, error) {
+	req := c.c.NewRequest(c.name, "PushSV.GetWechatAccessToken", in)
+	out := new(CommonResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for PushSV service
 
 type PushSVHandler interface {
@@ -141,6 +153,8 @@ type PushSVHandler interface {
 	PostOrderMail(context.Context, *StoreOrderMailRequest, *ErrorResponse) error
 	// 发送微信机器人通知
 	PushWechatWorkGroupRobotNotification(context.Context, *PushWechatWorkGroupRobotNotificationRequest, *ErrorResponse) error
+	// 获取微信 accessToken
+	GetWechatAccessToken(context.Context, *GetWechatAccessTokenRequest, *CommonResponse) error
 }
 
 func RegisterPushSVHandler(s server.Server, hdlr PushSVHandler, opts ...server.HandlerOption) error {
@@ -151,6 +165,7 @@ func RegisterPushSVHandler(s server.Server, hdlr PushSVHandler, opts ...server.H
 		StoreOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error
 		PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error
 		PushWechatWorkGroupRobotNotification(ctx context.Context, in *PushWechatWorkGroupRobotNotificationRequest, out *ErrorResponse) error
+		GetWechatAccessToken(ctx context.Context, in *GetWechatAccessTokenRequest, out *CommonResponse) error
 	}
 	type PushSV struct {
 		pushSV
@@ -185,4 +200,8 @@ func (h *pushSVHandler) PostOrderMail(ctx context.Context, in *StoreOrderMailReq
 
 func (h *pushSVHandler) PushWechatWorkGroupRobotNotification(ctx context.Context, in *PushWechatWorkGroupRobotNotificationRequest, out *ErrorResponse) error {
 	return h.PushSVHandler.PushWechatWorkGroupRobotNotification(ctx, in, out)
+}
+
+func (h *pushSVHandler) GetWechatAccessToken(ctx context.Context, in *GetWechatAccessTokenRequest, out *CommonResponse) error {
+	return h.PushSVHandler.GetWechatAccessToken(ctx, in, out)
 }
