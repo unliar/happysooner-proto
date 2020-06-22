@@ -47,6 +47,16 @@ message PushWechatWorkGroupRobotNotificationRequest {
     string Content                      = 1; // 内容信息
     int64 Retry                         = 2; // 重试次数
 }
+
+message GetWechatAccessTokenRequest {
+   string AppID                         = 1;// 应用ID
+   string Secret                        = 2;// 应用密钥
+}
+
+message CommonResponse {
+    string Content                      = 1; // 是
+}
+
 service pushSV {
     
     // 发送验证码
@@ -66,4 +76,7 @@ service pushSV {
 
     // 发送微信机器人通知
     rpc PushWechatWorkGroupRobotNotification (PushWechatWorkGroupRobotNotificationRequest) returns (ErrorResponse);
+
+    // 获取微信 accessToken 
+    rpc GetWechatAccessToken (GetWechatAccessTokenRequest) returns (CommonResponse);
 }
