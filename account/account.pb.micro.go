@@ -88,6 +88,8 @@ type AccountSVService interface {
 	GetVaptchaVerify(ctx context.Context, in *VaptchaVerifyRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// vapcha离线验证
 	GetVaptchaOfflineVerify(ctx context.Context, in *VaptchaVerifyOfflineRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 获取微信 accessToken
+	GetWechatAccessToken(ctx context.Context, in *GetWechatAccessTokenRequest, opts ...client.CallOption) (*CommonResponse, error)
 }
 
 type accountSVService struct {
@@ -378,6 +380,16 @@ func (c *accountSVService) GetVaptchaOfflineVerify(ctx context.Context, in *Vapt
 	return out, nil
 }
 
+func (c *accountSVService) GetWechatAccessToken(ctx context.Context, in *GetWechatAccessTokenRequest, opts ...client.CallOption) (*CommonResponse, error) {
+	req := c.c.NewRequest(c.name, "AccountSV.GetWechatAccessToken", in)
+	out := new(CommonResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AccountSV service
 
 type AccountSVHandler interface {
@@ -435,6 +447,8 @@ type AccountSVHandler interface {
 	GetVaptchaVerify(context.Context, *VaptchaVerifyRequest, *ErrorResponse) error
 	// vapcha离线验证
 	GetVaptchaOfflineVerify(context.Context, *VaptchaVerifyOfflineRequest, *ErrorResponse) error
+	// 获取微信 accessToken
+	GetWechatAccessToken(context.Context, *GetWechatAccessTokenRequest, *CommonResponse) error
 }
 
 func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...server.HandlerOption) error {
@@ -466,6 +480,7 @@ func RegisterAccountSVHandler(s server.Server, hdlr AccountSVHandler, opts ...se
 		GetUserUID(ctx context.Context, in *CreateUserInput, out *UIDInput) error
 		GetVaptchaVerify(ctx context.Context, in *VaptchaVerifyRequest, out *ErrorResponse) error
 		GetVaptchaOfflineVerify(ctx context.Context, in *VaptchaVerifyOfflineRequest, out *ErrorResponse) error
+		GetWechatAccessToken(ctx context.Context, in *GetWechatAccessTokenRequest, out *CommonResponse) error
 	}
 	type AccountSV struct {
 		accountSV
@@ -584,4 +599,8 @@ func (h *accountSVHandler) GetVaptchaVerify(ctx context.Context, in *VaptchaVeri
 
 func (h *accountSVHandler) GetVaptchaOfflineVerify(ctx context.Context, in *VaptchaVerifyOfflineRequest, out *ErrorResponse) error {
 	return h.AccountSVHandler.GetVaptchaOfflineVerify(ctx, in, out)
+}
+
+func (h *accountSVHandler) GetWechatAccessToken(ctx context.Context, in *GetWechatAccessTokenRequest, out *CommonResponse) error {
+	return h.AccountSVHandler.GetWechatAccessToken(ctx, in, out)
 }
