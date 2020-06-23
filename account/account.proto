@@ -179,6 +179,16 @@ message PermissionInfo {
 message PermissionInfoList {
     repeated PermissionInfo List            = 1; // 权限列表
 }
+
+message GetWechatAccessTokenRequest {
+    string AppID                         = 1;// 应用ID
+    string Secret                        = 2;// 应用密钥
+ }
+ 
+message CommonResponse {
+     string Content                      = 1; // 是
+ }
+
 service AccountSV {
     // 查询用户信息
     rpc GetUserInfo(UIDInput) returns (UserInfo){}
@@ -261,4 +271,6 @@ service AccountSV {
     // vapcha离线验证
     rpc GetVaptchaOfflineVerify (VaptchaVerifyOfflineRequest) returns (ErrorResponse);
 
+    // 获取微信 accessToken 
+    rpc GetWechatAccessToken (GetWechatAccessTokenRequest) returns (CommonResponse);
 }
