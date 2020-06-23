@@ -48,6 +48,13 @@ message PushWechatWorkGroupRobotNotificationRequest {
     int64 Retry                         = 2; // 重试次数
 }
 
+message PushWechatTemplateMessageRequest {
+    string ToUser                       = 1; // 用户的OpenID 
+    string Type                         = 2; // 默认微信 mp
+    string URL                          = 3; // 模板消息地址
+    string Data                         = 4; // 数据消息 
+}
+
 service pushSV {
     
     // 发送验证码
@@ -67,5 +74,8 @@ service pushSV {
 
     // 发送微信机器人通知
     rpc PushWechatWorkGroupRobotNotification (PushWechatWorkGroupRobotNotificationRequest) returns (ErrorResponse);
+
+    // 发送公众号模板消息
+    rpc PushWechatTemplateMessage (PushWechatTemplateMessageRequest) returns (ErrorResponse);
 
 }
