@@ -189,6 +189,19 @@ message CommonResponse {
      string Content                      = 1; // 是
  }
 
+ message GetWechatUserInfoByCodeRequest {
+     string Code                         = 1; 
+ }
+
+message WechatUserInfo {
+    string UnionID                       = 1; // 绑定公众平台的ID
+    string OpenID                        = 2; // openid 
+    string Nickname                      = 3; // 用户昵称
+    int64 Sex                            = 4; // 性别
+    string HeadimgURL                    = 5; // 头像
+    int32 UID                            = 6; // 用户
+}
+
 service AccountSV {
     // 查询用户信息
     rpc GetUserInfo(UIDInput) returns (UserInfo){}
@@ -273,4 +286,7 @@ service AccountSV {
 
     // 获取微信 accessToken 
     rpc GetWechatAccessToken (GetWechatAccessTokenRequest) returns (CommonResponse);
+
+    // 微信用户网页code获取用户 openid 和 unionid
+    rpc GetWechatUserInfoByCode (GetWechatUserInfoByCodeRequest) returns (WechatUserInfo);
 }
