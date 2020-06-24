@@ -200,6 +200,8 @@ message WechatUserInfo {
     int64 Sex                            = 4; // 性别
     string HeadimgURL                    = 5; // 头像
     int64 UID                            = 6; // 用户
+    string City                          = 7; // 城市
+    string Country                       = 8; // 国家
 }
 
 service AccountSV {
