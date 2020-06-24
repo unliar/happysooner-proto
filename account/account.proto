@@ -199,7 +199,7 @@ message WechatUserInfo {
     string Nickname                      = 3; // 用户昵称
     int64 Sex                            = 4; // 性别
     string HeadimgURL                    = 5; // 头像
-    int32 UID                            = 6; // 用户
+    int64 UID                            = 6; // 用户
 }
 
 service AccountSV {
