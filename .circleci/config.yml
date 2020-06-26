@@ -1,42 +1,42 @@
 version: 2
 jobs:
-    build:
-      docker:
-        - image: circleci/golang:1.12
-          environment:
-            GO111MODULE: "on"
-            GOPROXY: "https://goproxy.cn"
-      working_directory: /go/src/github.com/unliar/happysooner-proto
-      steps:
-        - add_ssh_keys:
-            fingerprints:
-              - "13:d1:c8:8f:6a:5c:72:59:6a:0d:08:b0:47:73:a6:4b"
-        - checkout      
-        - run: echo "build start to run"
-        - run: export
-        - run: sudo apt install protobuf-compiler
-        - run: go get github.com/golang/protobuf/protoc-gen-go
-        - run: go get github.com/micro/protoc-gen-micro
-        - run: protoc
-        - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./account/account.proto
-        - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./pay/pay.proto        
-        - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./push/push.proto
-        - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./writing/writing.proto    
-        - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./counter/counter.proto             
-        - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./search/search.proto             
-        # - run: make      
-        - run: echo "build done"
-        - run: git config --global user.email "370732889@qq.com"
-        - run: git config --global user.name "unliar"
-        - run: git add . && git commit -am "[ci skip] happy ci" && git push origin master || echo "hi"
-  
+  build:
+    docker:
+      - image: circleci/golang:1.14
+        environment:
+          GO111MODULE: "on"
+          GOPROXY: "https://goproxy.cn"
+    working_directory: /go/src/github.com/unliar/happysooner-proto
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "13:d1:c8:8f:6a:5c:72:59:6a:0d:08:b0:47:73:a6:4b"
+      - checkout
+      - run: echo "build start to run"
+      - run: export
+      - run: sudo apt install protobuf-compiler
+      - run: go get github.com/golang/protobuf/protoc-gen-go
+      - run: go get github.com/micro/protoc-gen-micro
+      - run: protoc
+      - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./account/account.proto
+      - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./pay/pay.proto
+      - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./push/push.proto
+      - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./writing/writing.proto
+      - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./counter/counter.proto
+      - run: protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./search/search.proto
+      # - run: make
+      - run: echo "build done"
+      - run: git config --global user.email "370732889@qq.com"
+      - run: git config --global user.name "unliar"
+      - run: git add . && git commit -am "[ci skip] happy ci" && git push origin master || echo "hi"
+
 workflows:
-    version: 2
-    tagged-build:
-        jobs:
-            - build:
-                filters:
-                    branches:
-                        only: master
-                    tags:
-                        only: /^v.*/
+  version: 2
+  tagged-build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /^v.*/
