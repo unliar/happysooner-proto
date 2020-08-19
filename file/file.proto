@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package file;
+ 
+// 传图   111.jpg
+message PostFileRequest {
+    string  Data                = 1; // 数据
+    string  FileName            = 2; // 文件名  111
+    string  FileExtension       = 3; // 文件类型 jpg
+}
+
+message PostFileResponse {
+    string FileURL                  = 1; // 资源地址
+}
+
+service fileSV {
+    // 获取用户支付数据信息
+    rpc PostImage(PostFileRequest) returns (PostFileResponse){}
+ 
+}
