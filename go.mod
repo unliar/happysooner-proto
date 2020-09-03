@@ -1,4 +1,4 @@
-module github.com/unliar/happysooner-proto
+module github.com/unliar/happysooner-proto/v2
 
 go 1.14
 
