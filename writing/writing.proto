@@ -81,7 +81,7 @@ message PutArticleRequest {
 }   
 
 message GetArticleListRequest {
-        int64 LimitAriticleID                               = 1; // 列表最后一个文章id
+        int64 LimitArticleID                                = 1; // 列表最后一个文章id
         int64 Page                                          = 2; // 页码
         int64 Size                                          = 3; // 数量 
         int64 CategoryID                                    = 4; // 分类id 
