@@ -111,6 +111,18 @@ message OrderInfo {
 message OrderListResponse {
     repeated OrderInfo List             = 1; // 订单列表
 }
+
+message GetSponsorsRequest {
+    string Type                         = 1; //  订单的类型
+    string CreateByUID                  = 2; //  订单创建人
+    string CreateForUID                 = 3; //  创建对象
+    string Extends                      = 4; //  类型对应扩展值
+}
+
+message StringList {
+    repeated string List                = 1; // 数值列表
+}
+
 service paySV {
 
     // 获取用户支付数据信息
@@ -141,5 +153,8 @@ service paySV {
 
     // 从平台查询订单状态
     rpc GetOrderPlatFormStatus (PayOrderResultRequest) returns (OrderInfo);
+
+    // 获取用户 ID 列表 string[]
+    rpc GetSponsors (GetSponsorsRequest) returns (StringList);
     /*end 支付宝区域 end*/
 }
