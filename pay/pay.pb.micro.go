@@ -60,6 +60,8 @@ type PaySVService interface {
 	GetOrderDetail(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderInfo, error)
 	// 从平台查询订单状态
 	GetOrderPlatFormStatus(ctx context.Context, in *PayOrderResultRequest, opts ...client.CallOption) (*OrderInfo, error)
+	// 获取用户 ID 列表 string[]
+	GetSponsors(ctx context.Context, in *GetSponsorsRequest, opts ...client.CallOption) (*StringList, error)
 }
 
 type paySVService struct {
@@ -164,6 +166,16 @@ func (c *paySVService) GetOrderPlatFormStatus(ctx context.Context, in *PayOrderR
 	return out, nil
 }
 
+func (c *paySVService) GetSponsors(ctx context.Context, in *GetSponsorsRequest, opts ...client.CallOption) (*StringList, error) {
+	req := c.c.NewRequest(c.name, "PaySV.GetSponsors", in)
+	out := new(StringList)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for PaySV service
 
 type PaySVHandler interface {
@@ -185,6 +197,8 @@ type PaySVHandler interface {
 	GetOrderDetail(context.Context, *PayOrderResultRequest, *OrderInfo) error
 	// 从平台查询订单状态
 	GetOrderPlatFormStatus(context.Context, *PayOrderResultRequest, *OrderInfo) error
+	// 获取用户 ID 列表 string[]
+	GetSponsors(context.Context, *GetSponsorsRequest, *StringList) error
 }
 
 func RegisterPaySVHandler(s server.Server, hdlr PaySVHandler, opts ...server.HandlerOption) error {
@@ -198,6 +212,7 @@ func RegisterPaySVHandler(s server.Server, hdlr PaySVHandler, opts ...server.Han
 		GetOrderList(ctx context.Context, in *GetOrderListRequest, out *OrderListResponse) error
 		GetOrderDetail(ctx context.Context, in *PayOrderResultRequest, out *OrderInfo) error
 		GetOrderPlatFormStatus(ctx context.Context, in *PayOrderResultRequest, out *OrderInfo) error
+		GetSponsors(ctx context.Context, in *GetSponsorsRequest, out *StringList) error
 	}
 	type PaySV struct {
 		paySV
@@ -244,4 +259,8 @@ func (h *paySVHandler) GetOrderDetail(ctx context.Context, in *PayOrderResultReq
 
 func (h *paySVHandler) GetOrderPlatFormStatus(ctx context.Context, in *PayOrderResultRequest, out *OrderInfo) error {
 	return h.PaySVHandler.GetOrderPlatFormStatus(ctx, in, out)
+}
+
+func (h *paySVHandler) GetSponsors(ctx context.Context, in *GetSponsorsRequest, out *StringList) error {
+	return h.PaySVHandler.GetSponsors(ctx, in, out)
 }
