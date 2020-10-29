@@ -14,8 +14,8 @@ jobs:
       - uses: actions/setup-go@v2-beta
         with:
           go-version: "^1.14.0"
-      - run: |
-          sudo apt update
+      - name: proto-compiler-go
+        run: |
           sudo apt install protobuf-compiler
           protoc --version
           go get -u github.com/golang/protobuf/protoc-gen-go
@@ -27,8 +27,6 @@ jobs:
           protoc --micro_out=. --go_out=. ./counter/counter.proto
           protoc --micro_out=. --go_out=. ./search/search.proto
           protoc --micro_out=. --go_out=. ./file/file.proto
-          ls
-          git status
           git config --global user.name "unliar"
           git config --global user.email "370732889@qq.com"
           git commit -am "github action auto-commit" && git push || echo "nothing commit"
