@@ -14,4 +14,8 @@ jobs:
       - uses: actions/setup-go@v2-beta
         with:
           go-version: "^1.14.0"
-      - run: go env
+      - run: |
+          sudo apt install protobuf-compiler
+          go get -u github.com/golang/protobuf/protoc-gen-go
+          go get -u github.com/micro/protoc-gen-micro/v2
+          protoc
