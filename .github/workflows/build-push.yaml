@@ -16,6 +16,7 @@ jobs:
           go-version: "^1.14.0"
       - run: |
           sudo apt install protobuf-compiler
+          protoc --version
           go get -u github.com/golang/protobuf/protoc-gen-go
           go get -u github.com/micro/protoc-gen-micro/v2
           protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./account/account.proto
