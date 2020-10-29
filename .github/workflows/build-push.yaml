@@ -30,7 +30,7 @@ jobs:
           git status
           git config --global user.name "unliar"
           git config --global user.email "370732889@qq.com"
-          git commit -am "github action auto-commit"
+          git commit -am "github action auto-commit" || echo "nothing commit"
           git push
       - name: wechat-work-bot-success-build
         uses: chf007/action-wechat-work@master
