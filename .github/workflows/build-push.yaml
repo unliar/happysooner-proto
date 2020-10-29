@@ -4,7 +4,7 @@ on: [push]
 
 env:
   GO111MODULE: "on"
-  GOPROXY: "https://goproxy.cn"
+  GOPROXY: "https://goproxy.io"
 
 jobs:
   build:
