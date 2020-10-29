@@ -19,13 +19,13 @@ jobs:
           protoc --version
           go get -u github.com/golang/protobuf/protoc-gen-go
           go get -u github.com/micro/protoc-gen-micro/v2
-          protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./account/account.proto
-          protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./pay/pay.proto
-          protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./push/push.proto
-          protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./writing/writing.proto
-          protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./counter/counter.proto
-          protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./search/search.proto
-          protoc --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./file/file.proto
+          protoc --micro_out=. --go_out=. ./account/account.proto
+          protoc --micro_out=. --go_out=. ./pay/pay.proto
+          protoc --micro_out=. --go_out=. ./push/push.proto
+          protoc --micro_out=. --go_out=. ./writing/writing.proto
+          protoc --micro_out=. --go_out=. ./counter/counter.proto
+          protoc --micro_out=. --go_out=. ./search/search.proto
+          protoc --micro_out=. --go_out=. ./file/file.proto
           ls
           git status
           git config --global user.name "unliar"
