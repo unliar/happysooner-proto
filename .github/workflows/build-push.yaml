@@ -39,6 +39,7 @@ jobs:
           msgtype: markdown
           content: "#### ✅ [proto文件构建成功](https://github.com/${{github.repository}}) \n
           > link: [项目地址](https://github.com/${{github.repository}})   \n  
+          > 快去打 TAG 吧
           "
       - name: wechat-work-bot-failed-build
         if: ${{ failure() }}
