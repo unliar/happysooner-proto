@@ -47,7 +47,7 @@ jobs:
           msgtype: markdown
           content: "#### ✅ [proto编译成功](https://github.com/${{github.repository}}) \n
           > link: [项目地址](https://github.com/${{github.repository}})   \n  
-          > desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 快去新增 TAG 吧
+          > desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 文件变动 快去新增 TAG 吧
           "
       - name: wechat-work-bot-success-nocommited
         if: ${{steps.protocgo.outputs.commited == 0}}
