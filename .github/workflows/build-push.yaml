@@ -15,6 +15,7 @@ jobs:
         with:
           go-version: "^1.14.0"
       - name: proto-compiler-go
+        id: protocgo
         run: |
           sudo apt install protobuf-compiler
           protoc --version
@@ -31,8 +32,12 @@ jobs:
           git config --global user.name "unliar"
           git config --global user.email "370732889@qq.com"
           git add .
-          git commit -am "github action auto-commit" && git push || echo "nothing commit"
+          git commit -am "github action auto-commit" && git push && echo ::set-output name=commited::1 || echo ::set-output name=commited::0
+      - name: 'get-previous-tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@master"
       - name: wechat-work-bot-success-build
+        if: ${{steps.protocgo.outputs.commited}} == 1
         uses: chf007/action-wechat-work@master
         env:
           WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
@@ -40,7 +45,7 @@ jobs:
           msgtype: markdown
           content: "#### ✅ [proto文件构建成功](https://github.com/${{github.repository}}) \n
           > link: [项目地址](https://github.com/${{github.repository}})   \n  
-          > 快去打 TAG 吧
+          > desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 快去新增 TAG 吧
           "
       - name: wechat-work-bot-failed-build
         if: ${{ failure() }}
@@ -49,9 +54,9 @@ jobs:
           WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
         with:
           msgtype: markdown
-          content: "#### ❎ ${{ github.event.repository.name }}文件构建失败 \n
-          > link: [项目地址](https://github.com/${{github.repository}})   \n  
-          "    
+          content: "#### ❌ ${{ github.event.repository.name }} 构建文件失败 \n
+          > link: [项目地址](https://github.com/${{github.repository}})   \n 
+          "
   #        protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./pay/pay.proto
   #        protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./push/push.proto
   #        protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./writing/writing.proto
