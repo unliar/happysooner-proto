@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package account;
 // option go_package = "github.com/unliar/happysooner-proto/v2/account";
-
+// ddd
 message UserInfo {
     int64 Id                        = 1;    // id
     string LoginName                = 2;    // 登录
