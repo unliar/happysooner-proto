@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package counter;
+option go_package = "github.com/unliar/happysooner-proto/v2/counter";
 
 message IntRequest {
     int64 Value                     = 1;

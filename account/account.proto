@@ -2,7 +2,7 @@ syntax = "proto3";
 
 
 package account;
-
+option go_package = "github.com/unliar/happysooner-proto/v2/account";
 
 message UserInfo {
     int64 Id                        = 1;    // id
