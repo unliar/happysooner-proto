@@ -155,6 +155,8 @@ func (AccountErrors) EnumDescriptor() ([]byte, []int) {
 	return file_account_account_proto_rawDescGZIP(), []int{1}
 }
 
+// option go_package = "github.com/unliar/happysooner-proto/v2/account";
+// ddd
 type UserInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
