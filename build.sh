@@ -3,5 +3,6 @@
 find . -name *.proto |
 while read filename
 do
-    protoc --micro_out=. --go_out=. ./account/account.proto $filename    
+    echo "proto-compiler $filename running...."
+    protoc --micro_out=. --go_out=. $filename    
 done
