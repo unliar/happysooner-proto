@@ -41,7 +41,7 @@ jobs:
           WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
         with:
           msgtype: markdown
-          content: "#### ${{ github.event.repository.name }} ❎ proto文件构建失败 \n
+          content: "#### ❎ ${{ github.event.repository.name }}文件构建失败 \n
           > link: [项目地址](https://github.com/${{github.repository}})   \n  
           "    
   #        protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./pay/pay.proto
