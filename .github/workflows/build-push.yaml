@@ -26,14 +26,15 @@ jobs:
           protoc --version
           go get -u github.com/golang/protobuf/protoc-gen-go
           go get -u github.com/micro/protoc-gen-micro/v2
-          find  -name "*.proto" 
-          protoc --micro_out=. --go_out=. ./account/account.proto
-          protoc --micro_out=. --go_out=. ./pay/pay.proto
-          protoc --micro_out=. --go_out=. ./push/push.proto
-          protoc --micro_out=. --go_out=. ./writing/writing.proto
-          protoc --micro_out=. --go_out=. ./counter/counter.proto
-          protoc --micro_out=. --go_out=. ./search/search.proto
-          protoc --micro_out=. --go_out=. ./file/file.proto
+          find . -name "*.proto" 
+          # protoc --micro_out=. --go_out=. ./account/account.proto
+          # protoc --micro_out=. --go_out=. ./pay/pay.proto
+          # protoc --micro_out=. --go_out=. ./push/push.proto
+          # protoc --micro_out=. --go_out=. ./writing/writing.proto
+          # protoc --micro_out=. --go_out=. ./counter/counter.proto
+          # protoc --micro_out=. --go_out=. ./search/search.proto
+          # protoc --micro_out=. --go_out=. ./file/file.proto
+          sh build.sh
           git config --global user.name "unliar"
           git config --global user.email "370732889@qq.com"
           git add .
