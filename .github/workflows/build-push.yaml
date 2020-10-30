@@ -38,17 +38,28 @@ jobs:
           git config --global user.email "370732889@qq.com"
           git add .
           git commit -am "github action auto-commit" && git push && echo ::set-output name=commited::1 || echo ::set-output name=commited::0
-      - name: wechat-work-bot-success-build
-        if: ${{steps.protocgo.outputs.commited==1}}
+      - name: wechat-work-bot-success-commited
+        if: ${{steps.protocgo.outputs.commited == 1}}
         uses: chf007/action-wechat-work@master
         env:
           WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
         with:
           msgtype: markdown
-          content: "#### ✅ [proto文件构建成功](https://github.com/${{github.repository}}) \n
+          content: "#### ✅ [proto编译成功](https://github.com/${{github.repository}}) \n
           > link: [项目地址](https://github.com/${{github.repository}})   \n  
           > desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 快去新增 TAG 吧
           "
+      - name: wechat-work-bot-success-nocommited
+        if: ${{steps.protocgo.outputs.commited == 0}}
+        uses: chf007/action-wechat-work@master
+        env:
+          WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
+        with:
+          msgtype: markdown
+          content: "#### ✅ [proto编译成功](https://github.com/${{github.repository}}) \n
+          > link: [项目地址](https://github.com/${{github.repository}})   \n  
+          > desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 文件无变动 无需新增 TAG
+          "    
       - name: wechat-work-bot-failed-build
         if: ${{ failure() }}
         uses: chf007/action-wechat-work@master
