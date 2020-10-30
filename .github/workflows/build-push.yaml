@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+      - name: 'get-previous-tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@master"
       - uses: actions/setup-go@v2-beta
         with:
           go-version: "^1.14.0"
@@ -33,9 +36,6 @@ jobs:
           git config --global user.email "370732889@qq.com"
           git add .
           git commit -am "github action auto-commit" && git push && echo ::set-output name=commited::1 || echo ::set-output name=commited::0
-      - name: 'get-previous-tag'
-        id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@master"
       - name: wechat-work-bot-success-build
         if: ${{steps.protocgo.outputs.commited}} == 1
         uses: chf007/action-wechat-work@master
