@@ -37,7 +37,7 @@ jobs:
           git add .
           git commit -am "github action auto-commit" && git push && echo ::set-output name=commited::1 || echo ::set-output name=commited::0
       - name: wechat-work-bot-success-build
-        if: ${{steps.protocgo.outputs.commited}} == 1
+        if: ${{steps.protocgo.outputs.commited==1}}
         uses: chf007/action-wechat-work@master
         env:
           WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
