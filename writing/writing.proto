@@ -2,7 +2,7 @@ syntax = "proto3";
 
 // 内容创作模块
 package writing;
-option go_package = "github.com/unliar/happysooner-proto/v2/writing";
+// option go_package = "github.com/unliar/happysooner-proto/v2/writing";
 
 message Empty{}
 
