@@ -39,6 +39,13 @@ message AuthorInfo {
         int64 UID                                           = 1; // 作者id
         string Nickname                                     = 2; // 作者昵称
         string Avatar                                       = 3; // 作者头像
+        repeated NewRoleRequest Roles                       = 4;   // 用户角色信息
+
+}
+message NewRoleRequest {
+        string Title                                        = 1; // 角色名称
+        string Description                                  = 2; // 角色描述
+        int64 RID                                           = 3; // roleID 新建角色不需要    
 }
 // 文章类别                  
 message Category {                   
