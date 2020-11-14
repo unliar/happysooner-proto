@@ -46,6 +46,10 @@ func NewWritingSVEndpoints() []*api.Endpoint {
 type WritingSVService interface {
 	// 获取文章详情
 	GetArticleById(ctx context.Context, in *GetArticleByIdRequest, opts ...client.CallOption) (*ArticleInfo, error)
+	// 使用ID列表获取文章列表 todo
+	GetArticleListByIds(ctx context.Context, in *IDList, opts ...client.CallOption) (*ArticleListResponse, error)
+	// 使用ID 获取上一篇和下一篇 todo
+	GetPreviousAndNextArticleById(ctx context.Context, in *GetArticleByIdRequest, opts ...client.CallOption) (*PreviousAndNextArticleResponse, error)
 	// 获取文章列表
 	GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleListResponse, error)
 	// 创建文章
@@ -83,6 +87,26 @@ func NewWritingSVService(name string, c client.Client) WritingSVService {
 func (c *writingSVService) GetArticleById(ctx context.Context, in *GetArticleByIdRequest, opts ...client.CallOption) (*ArticleInfo, error) {
 	req := c.c.NewRequest(c.name, "WritingSV.GetArticleById", in)
 	out := new(ArticleInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *writingSVService) GetArticleListByIds(ctx context.Context, in *IDList, opts ...client.CallOption) (*ArticleListResponse, error) {
+	req := c.c.NewRequest(c.name, "WritingSV.GetArticleListByIds", in)
+	out := new(ArticleListResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *writingSVService) GetPreviousAndNextArticleById(ctx context.Context, in *GetArticleByIdRequest, opts ...client.CallOption) (*PreviousAndNextArticleResponse, error) {
+	req := c.c.NewRequest(c.name, "WritingSV.GetPreviousAndNextArticleById", in)
+	out := new(PreviousAndNextArticleResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -195,6 +219,10 @@ func (c *writingSVService) DelCommentListOfArticle(ctx context.Context, in *DelC
 type WritingSVHandler interface {
 	// 获取文章详情
 	GetArticleById(context.Context, *GetArticleByIdRequest, *ArticleInfo) error
+	// 使用ID列表获取文章列表 todo
+	GetArticleListByIds(context.Context, *IDList, *ArticleListResponse) error
+	// 使用ID 获取上一篇和下一篇 todo
+	GetPreviousAndNextArticleById(context.Context, *GetArticleByIdRequest, *PreviousAndNextArticleResponse) error
 	// 获取文章列表
 	GetArticleList(context.Context, *GetArticleListRequest, *ArticleListResponse) error
 	// 创建文章
@@ -220,6 +248,8 @@ type WritingSVHandler interface {
 func RegisterWritingSVHandler(s server.Server, hdlr WritingSVHandler, opts ...server.HandlerOption) error {
 	type writingSV interface {
 		GetArticleById(ctx context.Context, in *GetArticleByIdRequest, out *ArticleInfo) error
+		GetArticleListByIds(ctx context.Context, in *IDList, out *ArticleListResponse) error
+		GetPreviousAndNextArticleById(ctx context.Context, in *GetArticleByIdRequest, out *PreviousAndNextArticleResponse) error
 		GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleListResponse) error
 		PostArticle(ctx context.Context, in *PostArticleRequest, out *ErrorResponse) error
 		PutArticle(ctx context.Context, in *PutArticleRequest, out *ErrorResponse) error
@@ -244,6 +274,14 @@ type writingSVHandler struct {
 
 func (h *writingSVHandler) GetArticleById(ctx context.Context, in *GetArticleByIdRequest, out *ArticleInfo) error {
 	return h.WritingSVHandler.GetArticleById(ctx, in, out)
+}
+
+func (h *writingSVHandler) GetArticleListByIds(ctx context.Context, in *IDList, out *ArticleListResponse) error {
+	return h.WritingSVHandler.GetArticleListByIds(ctx, in, out)
+}
+
+func (h *writingSVHandler) GetPreviousAndNextArticleById(ctx context.Context, in *GetArticleByIdRequest, out *PreviousAndNextArticleResponse) error {
+	return h.WritingSVHandler.GetPreviousAndNextArticleById(ctx, in, out)
 }
 
 func (h *writingSVHandler) GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleListResponse) error {
