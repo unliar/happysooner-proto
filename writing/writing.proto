@@ -69,6 +69,16 @@ message GetArticleByIdRequest {
         int64 RequestUID                                    = 2; // 发起请求的用户ID
 }
 
+message GetPreNextArticleRequest {
+        int64 ArticleID                                     = 1; // 文章ID
+        int64 CategoryID                                    = 2; // 分类id      
+}
+// 
+message GetArticleCountsByRequest {
+        int64 CategoryID                                    = 1; // 分类id
+        int64 AuthorID                                      = 2; // 作者ID      
+}
+
 message PostArticleRequest {                     
         int64 CategoryID                                    = 1; // 分类id
         string Title                                        = 2; // 标题
@@ -156,16 +166,24 @@ message ErrorResponse {
 message ArticleListResponse {
         repeated ArticleInfo Articles                       = 1; // 文章列表
 }
+
 message CategoriesResponse{
         repeated Category List                              = 1;
 }
+
 message CommentListResponse {
         repeated CommentInfo Comments                       = 1; 
 }
+
 message PreviousAndNextArticleResponse  {
         ArticleInfo  Pre                                    = 1;
         ArticleInfo  Next                                   = 2;    
 }
+
+message ArticleCountsResponse {
+        int64        Count                                  = 1; // 计数
+}
+
 // --------------------------response  end-------------------------------
 service writingSV {
 
@@ -176,7 +194,10 @@ service writingSV {
     rpc GetArticleListByIds (IDList) returns (ArticleListResponse){};
 
     // 使用ID 获取上一篇和下一篇 todo
-    rpc GetPreviousAndNextArticleById (GetArticleByIdRequest) returns (PreviousAndNextArticleResponse);
+    rpc GetPreviousAndNextArticleById (GetPreNextArticleRequest) returns (PreviousAndNextArticleResponse);
+    
+    // 获取文章数量计数
+    rpc GetArticleCounts (GetArticleCountsByRequest) returns (ArticleCountsResponse);    
 
     // 获取文章列表
     rpc GetArticleList (GetArticleListRequest) returns (ArticleListResponse){};
