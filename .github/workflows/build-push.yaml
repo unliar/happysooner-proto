@@ -39,7 +39,7 @@ jobs:
           WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
         with:
           msgtype: markdown
-          content: "#### ✅ [proto编译成功](https://github.com/${{github.repository}}) \n
+          content: "#### ✅ [happysooner-proto 编译成功](https://github.com/${{github.repository}}) \n
           > link: [项目地址](https://github.com/${{github.repository}})   \n  
           > desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 文件变动 快去新增 TAG 吧
           "
@@ -50,7 +50,7 @@ jobs:
           WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
         with:
           msgtype: markdown
-          content: "#### ✅ [proto编译成功](https://github.com/${{github.repository}}) \n
+          content: "#### ✅ [happysooner-proto 编译成功](https://github.com/${{github.repository}}) \n
           > link: [项目地址](https://github.com/${{github.repository}})   \n  
           > desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 文件无变动 无需新增 TAG
           "    
