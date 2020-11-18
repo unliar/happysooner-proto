@@ -49,7 +49,9 @@ type WritingSVService interface {
 	// 使用ID列表获取文章列表 todo
 	GetArticleListByIds(ctx context.Context, in *IDList, opts ...client.CallOption) (*ArticleListResponse, error)
 	// 使用ID 获取上一篇和下一篇 todo
-	GetPreviousAndNextArticleById(ctx context.Context, in *GetArticleByIdRequest, opts ...client.CallOption) (*PreviousAndNextArticleResponse, error)
+	GetPreviousAndNextArticleById(ctx context.Context, in *GetPreNextArticleRequest, opts ...client.CallOption) (*PreviousAndNextArticleResponse, error)
+	// 获取文章数量计数
+	GetArticleCounts(ctx context.Context, in *GetArticleCountsByRequest, opts ...client.CallOption) (*ArticleCountsResponse, error)
 	// 获取文章列表
 	GetArticleList(ctx context.Context, in *GetArticleListRequest, opts ...client.CallOption) (*ArticleListResponse, error)
 	// 创建文章
@@ -104,9 +106,19 @@ func (c *writingSVService) GetArticleListByIds(ctx context.Context, in *IDList, 
 	return out, nil
 }
 
-func (c *writingSVService) GetPreviousAndNextArticleById(ctx context.Context, in *GetArticleByIdRequest, opts ...client.CallOption) (*PreviousAndNextArticleResponse, error) {
+func (c *writingSVService) GetPreviousAndNextArticleById(ctx context.Context, in *GetPreNextArticleRequest, opts ...client.CallOption) (*PreviousAndNextArticleResponse, error) {
 	req := c.c.NewRequest(c.name, "WritingSV.GetPreviousAndNextArticleById", in)
 	out := new(PreviousAndNextArticleResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *writingSVService) GetArticleCounts(ctx context.Context, in *GetArticleCountsByRequest, opts ...client.CallOption) (*ArticleCountsResponse, error) {
+	req := c.c.NewRequest(c.name, "WritingSV.GetArticleCounts", in)
+	out := new(ArticleCountsResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -222,7 +234,9 @@ type WritingSVHandler interface {
 	// 使用ID列表获取文章列表 todo
 	GetArticleListByIds(context.Context, *IDList, *ArticleListResponse) error
 	// 使用ID 获取上一篇和下一篇 todo
-	GetPreviousAndNextArticleById(context.Context, *GetArticleByIdRequest, *PreviousAndNextArticleResponse) error
+	GetPreviousAndNextArticleById(context.Context, *GetPreNextArticleRequest, *PreviousAndNextArticleResponse) error
+	// 获取文章数量计数
+	GetArticleCounts(context.Context, *GetArticleCountsByRequest, *ArticleCountsResponse) error
 	// 获取文章列表
 	GetArticleList(context.Context, *GetArticleListRequest, *ArticleListResponse) error
 	// 创建文章
@@ -249,7 +263,8 @@ func RegisterWritingSVHandler(s server.Server, hdlr WritingSVHandler, opts ...se
 	type writingSV interface {
 		GetArticleById(ctx context.Context, in *GetArticleByIdRequest, out *ArticleInfo) error
 		GetArticleListByIds(ctx context.Context, in *IDList, out *ArticleListResponse) error
-		GetPreviousAndNextArticleById(ctx context.Context, in *GetArticleByIdRequest, out *PreviousAndNextArticleResponse) error
+		GetPreviousAndNextArticleById(ctx context.Context, in *GetPreNextArticleRequest, out *PreviousAndNextArticleResponse) error
+		GetArticleCounts(ctx context.Context, in *GetArticleCountsByRequest, out *ArticleCountsResponse) error
 		GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleListResponse) error
 		PostArticle(ctx context.Context, in *PostArticleRequest, out *ErrorResponse) error
 		PutArticle(ctx context.Context, in *PutArticleRequest, out *ErrorResponse) error
@@ -280,8 +295,12 @@ func (h *writingSVHandler) GetArticleListByIds(ctx context.Context, in *IDList, 
 	return h.WritingSVHandler.GetArticleListByIds(ctx, in, out)
 }
 
-func (h *writingSVHandler) GetPreviousAndNextArticleById(ctx context.Context, in *GetArticleByIdRequest, out *PreviousAndNextArticleResponse) error {
+func (h *writingSVHandler) GetPreviousAndNextArticleById(ctx context.Context, in *GetPreNextArticleRequest, out *PreviousAndNextArticleResponse) error {
 	return h.WritingSVHandler.GetPreviousAndNextArticleById(ctx, in, out)
+}
+
+func (h *writingSVHandler) GetArticleCounts(ctx context.Context, in *GetArticleCountsByRequest, out *ArticleCountsResponse) error {
+	return h.WritingSVHandler.GetArticleCounts(ctx, in, out)
 }
 
 func (h *writingSVHandler) GetArticleList(ctx context.Context, in *GetArticleListRequest, out *ArticleListResponse) error {
