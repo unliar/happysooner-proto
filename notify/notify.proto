@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package nofify;
+
+enum NotifyErrors {
+    None                            = 0;  // 默认值
+}
+
+message ErrorResponse {
+    NotifyErrors ErrorInfo         = 1;
+}
+
+message SendChatMessageRequest {
+    string MessageID               = 1; // 消息ID
+}
+
+service nofifySV {
+    rpc SendChatMessage (SendChatMessageRequest) returns (ErrorResponse);
+}
