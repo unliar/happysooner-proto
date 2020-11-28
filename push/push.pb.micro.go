@@ -56,6 +56,8 @@ type PushSVService interface {
 	PushWechatWorkGroupRobotNotification(ctx context.Context, in *PushWechatWorkGroupRobotNotificationRequest, opts ...client.CallOption) (*ErrorResponse, error)
 	// 发送公众号模板消息
 	PushWechatTemplateMessage(ctx context.Context, in *PushWechatTemplateMessageRequest, opts ...client.CallOption) (*ErrorResponse, error)
+	// 通用发送消息接口
+	PushCommonMessage(ctx context.Context, in *PushCommonMessageRequest, opts ...client.CallOption) (*ErrorResponse, error)
 }
 
 type pushSVService struct {
@@ -140,6 +142,16 @@ func (c *pushSVService) PushWechatTemplateMessage(ctx context.Context, in *PushW
 	return out, nil
 }
 
+func (c *pushSVService) PushCommonMessage(ctx context.Context, in *PushCommonMessageRequest, opts ...client.CallOption) (*ErrorResponse, error) {
+	req := c.c.NewRequest(c.name, "PushSV.PushCommonMessage", in)
+	out := new(ErrorResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for PushSV service
 
 type PushSVHandler interface {
@@ -157,6 +169,8 @@ type PushSVHandler interface {
 	PushWechatWorkGroupRobotNotification(context.Context, *PushWechatWorkGroupRobotNotificationRequest, *ErrorResponse) error
 	// 发送公众号模板消息
 	PushWechatTemplateMessage(context.Context, *PushWechatTemplateMessageRequest, *ErrorResponse) error
+	// 通用发送消息接口
+	PushCommonMessage(context.Context, *PushCommonMessageRequest, *ErrorResponse) error
 }
 
 func RegisterPushSVHandler(s server.Server, hdlr PushSVHandler, opts ...server.HandlerOption) error {
@@ -168,6 +182,7 @@ func RegisterPushSVHandler(s server.Server, hdlr PushSVHandler, opts ...server.H
 		PostOrderMail(ctx context.Context, in *StoreOrderMailRequest, out *ErrorResponse) error
 		PushWechatWorkGroupRobotNotification(ctx context.Context, in *PushWechatWorkGroupRobotNotificationRequest, out *ErrorResponse) error
 		PushWechatTemplateMessage(ctx context.Context, in *PushWechatTemplateMessageRequest, out *ErrorResponse) error
+		PushCommonMessage(ctx context.Context, in *PushCommonMessageRequest, out *ErrorResponse) error
 	}
 	type PushSV struct {
 		pushSV
@@ -206,4 +221,8 @@ func (h *pushSVHandler) PushWechatWorkGroupRobotNotification(ctx context.Context
 
 func (h *pushSVHandler) PushWechatTemplateMessage(ctx context.Context, in *PushWechatTemplateMessageRequest, out *ErrorResponse) error {
 	return h.PushSVHandler.PushWechatTemplateMessage(ctx, in, out)
+}
+
+func (h *pushSVHandler) PushCommonMessage(ctx context.Context, in *PushCommonMessageRequest, out *ErrorResponse) error {
+	return h.PushSVHandler.PushCommonMessage(ctx, in, out)
 }

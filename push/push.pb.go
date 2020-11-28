@@ -120,6 +120,61 @@ func (PushErrors) EnumDescriptor() ([]byte, []int) {
 	return file_push_push_proto_rawDescGZIP(), []int{1}
 }
 
+type CommonMessageType int32
+
+const (
+	CommonMessageType_NoneMessageType CommonMessageType = 0 // 默认值
+	CommonMessageType_Email           CommonMessageType = 1 // 邮箱消息
+	CommonMessageType_SMS             CommonMessageType = 2 // 短信消息
+	CommonMessageType_Chat            CommonMessageType = 3 // 聊天消息
+	CommonMessageType_Bot             CommonMessageType = 4 // 机器人消息  - 企业微信 + 钉钉 + TG + 飞书
+)
+
+// Enum value maps for CommonMessageType.
+var (
+	CommonMessageType_name = map[int32]string{
+		0: "NoneMessageType",
+		1: "Email",
+		2: "SMS",
+		3: "Chat",
+		4: "Bot",
+	}
+	CommonMessageType_value = map[string]int32{
+		"NoneMessageType": 0,
+		"Email":           1,
+		"SMS":             2,
+		"Chat":            3,
+		"Bot":             4,
+	}
+)
+
+func (x CommonMessageType) Enum() *CommonMessageType {
+	p := new(CommonMessageType)
+	*p = x
+	return p
+}
+
+func (x CommonMessageType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CommonMessageType) Descriptor() protoreflect.EnumDescriptor {
+	return file_push_push_proto_enumTypes[2].Descriptor()
+}
+
+func (CommonMessageType) Type() protoreflect.EnumType {
+	return &file_push_push_proto_enumTypes[2]
+}
+
+func (x CommonMessageType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CommonMessageType.Descriptor instead.
+func (CommonMessageType) EnumDescriptor() ([]byte, []int) {
+	return file_push_push_proto_rawDescGZIP(), []int{2}
+}
+
 type PushCaptchaRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -577,6 +632,324 @@ func (x *PushWechatTemplateMessageRequest) GetData() string {
 	return ""
 }
 
+type SenderInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	IP          string `protobuf:"bytes,1,opt,name=IP,proto3" json:"IP,omitempty"`                   // 发送方IP
+	ServiceName string `protobuf:"bytes,2,opt,name=ServiceName,proto3" json:"ServiceName,omitempty"` // 发送方名称
+}
+
+func (x *SenderInfo) Reset() {
+	*x = SenderInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_push_push_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SenderInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SenderInfo) ProtoMessage() {}
+
+func (x *SenderInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_push_push_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SenderInfo.ProtoReflect.Descriptor instead.
+func (*SenderInfo) Descriptor() ([]byte, []int) {
+	return file_push_push_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *SenderInfo) GetIP() string {
+	if x != nil {
+		return x.IP
+	}
+	return ""
+}
+
+func (x *SenderInfo) GetServiceName() string {
+	if x != nil {
+		return x.ServiceName
+	}
+	return ""
+}
+
+// 邮件消息
+type EmailNotification struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	To      string `protobuf:"bytes,1,opt,name=To,proto3" json:"To,omitempty"`           // 目标邮箱
+	Html    string `protobuf:"bytes,2,opt,name=Html,proto3" json:"Html,omitempty"`       // 发送内容
+	Subject string `protobuf:"bytes,3,opt,name=Subject,proto3" json:"Subject,omitempty"` // 标题
+}
+
+func (x *EmailNotification) Reset() {
+	*x = EmailNotification{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_push_push_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *EmailNotification) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EmailNotification) ProtoMessage() {}
+
+func (x *EmailNotification) ProtoReflect() protoreflect.Message {
+	mi := &file_push_push_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EmailNotification.ProtoReflect.Descriptor instead.
+func (*EmailNotification) Descriptor() ([]byte, []int) {
+	return file_push_push_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *EmailNotification) GetTo() string {
+	if x != nil {
+		return x.To
+	}
+	return ""
+}
+
+func (x *EmailNotification) GetHtml() string {
+	if x != nil {
+		return x.Html
+	}
+	return ""
+}
+
+func (x *EmailNotification) GetSubject() string {
+	if x != nil {
+		return x.Subject
+	}
+	return ""
+}
+
+// 手机短信消息
+type SMSNotification struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TemlateID      string   `protobuf:"bytes,1,opt,name=TemlateID,proto3" json:"TemlateID,omitempty"`           // 短信模板ID
+	PhoneNumber    string   `protobuf:"bytes,2,opt,name=PhoneNumber,proto3" json:"PhoneNumber,omitempty"`       // 手机号
+	NationCode     string   `protobuf:"bytes,3,opt,name=NationCode,proto3" json:"NationCode,omitempty"`         // 手机号区号
+	TemplateParams []string `protobuf:"bytes,4,rep,name=TemplateParams,proto3" json:"TemplateParams,omitempty"` // 短信模板参数
+}
+
+func (x *SMSNotification) Reset() {
+	*x = SMSNotification{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_push_push_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SMSNotification) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SMSNotification) ProtoMessage() {}
+
+func (x *SMSNotification) ProtoReflect() protoreflect.Message {
+	mi := &file_push_push_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SMSNotification.ProtoReflect.Descriptor instead.
+func (*SMSNotification) Descriptor() ([]byte, []int) {
+	return file_push_push_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *SMSNotification) GetTemlateID() string {
+	if x != nil {
+		return x.TemlateID
+	}
+	return ""
+}
+
+func (x *SMSNotification) GetPhoneNumber() string {
+	if x != nil {
+		return x.PhoneNumber
+	}
+	return ""
+}
+
+func (x *SMSNotification) GetNationCode() string {
+	if x != nil {
+		return x.NationCode
+	}
+	return ""
+}
+
+func (x *SMSNotification) GetTemplateParams() []string {
+	if x != nil {
+		return x.TemplateParams
+	}
+	return nil
+}
+
+// 机器人消息
+type BotNotification struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Content string `protobuf:"bytes,1,opt,name=Content,proto3" json:"Content,omitempty"` // 消息内容 markdown
+}
+
+func (x *BotNotification) Reset() {
+	*x = BotNotification{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_push_push_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BotNotification) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BotNotification) ProtoMessage() {}
+
+func (x *BotNotification) ProtoReflect() protoreflect.Message {
+	mi := &file_push_push_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BotNotification.ProtoReflect.Descriptor instead.
+func (*BotNotification) Descriptor() ([]byte, []int) {
+	return file_push_push_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *BotNotification) GetContent() string {
+	if x != nil {
+		return x.Content
+	}
+	return ""
+}
+
+type PushCommonMessageRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MessageType       CommonMessageType  `protobuf:"varint,1,opt,name=MessageType,proto3,enum=push.CommonMessageType" json:"MessageType,omitempty"` // 消息类型
+	SenderInfo        *SenderInfo        `protobuf:"bytes,2,opt,name=SenderInfo,proto3" json:"SenderInfo,omitempty"`                                // 推送方信息
+	EmailNotification *EmailNotification `protobuf:"bytes,3,opt,name=EmailNotification,proto3" json:"EmailNotification,omitempty"`                  // 邮件消息结构
+	SMSNotification   *SMSNotification   `protobuf:"bytes,4,opt,name=SMSNotification,proto3" json:"SMSNotification,omitempty"`                      // 短信消息结构
+	BotNotification   *BotNotification   `protobuf:"bytes,5,opt,name=BotNotification,proto3" json:"BotNotification,omitempty"`                      // 机器人消息结构
+}
+
+func (x *PushCommonMessageRequest) Reset() {
+	*x = PushCommonMessageRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_push_push_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PushCommonMessageRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PushCommonMessageRequest) ProtoMessage() {}
+
+func (x *PushCommonMessageRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_push_push_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PushCommonMessageRequest.ProtoReflect.Descriptor instead.
+func (*PushCommonMessageRequest) Descriptor() ([]byte, []int) {
+	return file_push_push_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *PushCommonMessageRequest) GetMessageType() CommonMessageType {
+	if x != nil {
+		return x.MessageType
+	}
+	return CommonMessageType_NoneMessageType
+}
+
+func (x *PushCommonMessageRequest) GetSenderInfo() *SenderInfo {
+	if x != nil {
+		return x.SenderInfo
+	}
+	return nil
+}
+
+func (x *PushCommonMessageRequest) GetEmailNotification() *EmailNotification {
+	if x != nil {
+		return x.EmailNotification
+	}
+	return nil
+}
+
+func (x *PushCommonMessageRequest) GetSMSNotification() *SMSNotification {
+	if x != nil {
+		return x.SMSNotification
+	}
+	return nil
+}
+
+func (x *PushCommonMessageRequest) GetBotNotification() *BotNotification {
+	if x != nil {
+		return x.BotNotification
+	}
+	return nil
+}
+
 var File_push_push_proto protoreflect.FileDescriptor
 
 var file_push_push_proto_rawDesc = []byte{
@@ -630,13 +1003,61 @@ var file_push_push_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x54, 0x79, 0x70, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x55, 0x52,
 	0x4c, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x55, 0x52, 0x4c, 0x12, 0x12, 0x0a, 0x04,
 	0x44, 0x61, 0x74, 0x61, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x44, 0x61, 0x74, 0x61,
-	0x2a, 0x31, 0x0a, 0x08, 0x53, 0x65, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x12, 0x10, 0x0a, 0x0c,
-	0x4e, 0x6f, 0x6e, 0x65, 0x53, 0x65, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x10, 0x00, 0x12, 0x08,
-	0x0a, 0x04, 0x4d, 0x61, 0x69, 0x6c, 0x10, 0x01, 0x12, 0x09, 0x0a, 0x05, 0x50, 0x68, 0x6f, 0x6e,
-	0x65, 0x10, 0x02, 0x2a, 0x2d, 0x0a, 0x0a, 0x50, 0x75, 0x73, 0x68, 0x45, 0x72, 0x72, 0x6f, 0x72,
-	0x73, 0x12, 0x08, 0x0a, 0x04, 0x4e, 0x6f, 0x6e, 0x65, 0x10, 0x00, 0x12, 0x15, 0x0a, 0x0f, 0x50,
-	0x75, 0x73, 0x68, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x10, 0x81,
-	0x89, 0x7a, 0x32, 0xb1, 0x04, 0x0a, 0x06, 0x70, 0x75, 0x73, 0x68, 0x53, 0x56, 0x12, 0x3c, 0x0a,
+	0x22, 0x3e, 0x0a, 0x0a, 0x53, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x0e,
+	0x0a, 0x02, 0x49, 0x50, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x50, 0x12, 0x20,
+	0x0a, 0x0b, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0b, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65,
+	0x22, 0x51, 0x0a, 0x11, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x54, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x02, 0x54, 0x6f, 0x12, 0x12, 0x0a, 0x04, 0x48, 0x74, 0x6d, 0x6c, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x48, 0x74, 0x6d, 0x6c, 0x12, 0x18, 0x0a, 0x07, 0x53, 0x75, 0x62,
+	0x6a, 0x65, 0x63, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x53, 0x75, 0x62, 0x6a,
+	0x65, 0x63, 0x74, 0x22, 0x99, 0x01, 0x0a, 0x0f, 0x53, 0x4d, 0x53, 0x4e, 0x6f, 0x74, 0x69, 0x66,
+	0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x1c, 0x0a, 0x09, 0x54, 0x65, 0x6d, 0x6c, 0x61,
+	0x74, 0x65, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x54, 0x65, 0x6d, 0x6c,
+	0x61, 0x74, 0x65, 0x49, 0x44, 0x12, 0x20, 0x0a, 0x0b, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x4e, 0x75,
+	0x6d, 0x62, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x50, 0x68, 0x6f, 0x6e,
+	0x65, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x1e, 0x0a, 0x0a, 0x4e, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x43, 0x6f, 0x64, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x4e, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x26, 0x0a, 0x0e, 0x54, 0x65, 0x6d, 0x70, 0x6c,
+	0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x04, 0x20, 0x03, 0x28, 0x09, 0x52,
+	0x0e, 0x54, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22,
+	0x2b, 0x0a, 0x0f, 0x42, 0x6f, 0x74, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x12, 0x18, 0x0a, 0x07, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x07, 0x43, 0x6f, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0xd0, 0x02, 0x0a,
+	0x18, 0x50, 0x75, 0x73, 0x68, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x4d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x39, 0x0a, 0x0b, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x54, 0x79, 0x70, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x17,
+	0x2e, 0x70, 0x75, 0x73, 0x68, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x0b, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
+	0x54, 0x79, 0x70, 0x65, 0x12, 0x30, 0x0a, 0x0a, 0x53, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x49, 0x6e,
+	0x66, 0x6f, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x70, 0x75, 0x73, 0x68, 0x2e,
+	0x53, 0x65, 0x6e, 0x64, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x0a, 0x53, 0x65, 0x6e, 0x64,
+	0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x45, 0x0a, 0x11, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x4e,
+	0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x17, 0x2e, 0x70, 0x75, 0x73, 0x68, 0x2e, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x4e, 0x6f,
+	0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x11, 0x45, 0x6d, 0x61, 0x69,
+	0x6c, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x3f, 0x0a,
+	0x0f, 0x53, 0x4d, 0x53, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x70, 0x75, 0x73, 0x68, 0x2e, 0x53, 0x4d,
+	0x53, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0f, 0x53,
+	0x4d, 0x53, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x3f,
+	0x0a, 0x0f, 0x42, 0x6f, 0x74, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x70, 0x75, 0x73, 0x68, 0x2e, 0x42,
+	0x6f, 0x74, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0f,
+	0x42, 0x6f, 0x74, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2a,
+	0x31, 0x0a, 0x08, 0x53, 0x65, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x12, 0x10, 0x0a, 0x0c, 0x4e,
+	0x6f, 0x6e, 0x65, 0x53, 0x65, 0x6e, 0x64, 0x54, 0x79, 0x70, 0x65, 0x10, 0x00, 0x12, 0x08, 0x0a,
+	0x04, 0x4d, 0x61, 0x69, 0x6c, 0x10, 0x01, 0x12, 0x09, 0x0a, 0x05, 0x50, 0x68, 0x6f, 0x6e, 0x65,
+	0x10, 0x02, 0x2a, 0x2d, 0x0a, 0x0a, 0x50, 0x75, 0x73, 0x68, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x73,
+	0x12, 0x08, 0x0a, 0x04, 0x4e, 0x6f, 0x6e, 0x65, 0x10, 0x00, 0x12, 0x15, 0x0a, 0x0f, 0x50, 0x75,
+	0x73, 0x68, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x10, 0x81, 0x89,
+	0x7a, 0x2a, 0x4f, 0x0a, 0x11, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x4d, 0x65, 0x73, 0x73, 0x61,
+	0x67, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x13, 0x0a, 0x0f, 0x4e, 0x6f, 0x6e, 0x65, 0x4d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x54, 0x79, 0x70, 0x65, 0x10, 0x00, 0x12, 0x09, 0x0a, 0x05, 0x45,
+	0x6d, 0x61, 0x69, 0x6c, 0x10, 0x01, 0x12, 0x07, 0x0a, 0x03, 0x53, 0x4d, 0x53, 0x10, 0x02, 0x12,
+	0x08, 0x0a, 0x04, 0x43, 0x68, 0x61, 0x74, 0x10, 0x03, 0x12, 0x07, 0x0a, 0x03, 0x42, 0x6f, 0x74,
+	0x10, 0x04, 0x32, 0xfb, 0x04, 0x0a, 0x06, 0x70, 0x75, 0x73, 0x68, 0x53, 0x56, 0x12, 0x3c, 0x0a,
 	0x0b, 0x50, 0x75, 0x73, 0x68, 0x43, 0x61, 0x70, 0x74, 0x63, 0x68, 0x61, 0x12, 0x18, 0x2e, 0x70,
 	0x75, 0x73, 0x68, 0x2e, 0x50, 0x75, 0x73, 0x68, 0x43, 0x61, 0x70, 0x74, 0x63, 0x68, 0x61, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x70, 0x75, 0x73, 0x68, 0x2e, 0x45, 0x72,
@@ -671,7 +1092,12 @@ var file_push_push_proto_rawDesc = []byte{
 	0x2e, 0x50, 0x75, 0x73, 0x68, 0x57, 0x65, 0x63, 0x68, 0x61, 0x74, 0x54, 0x65, 0x6d, 0x70, 0x6c,
 	0x61, 0x74, 0x65, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x1a, 0x13, 0x2e, 0x70, 0x75, 0x73, 0x68, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x48, 0x0a, 0x11, 0x50, 0x75, 0x73, 0x68, 0x43, 0x6f,
+	0x6d, 0x6d, 0x6f, 0x6e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x1e, 0x2e, 0x70, 0x75,
+	0x73, 0x68, 0x2e, 0x50, 0x75, 0x73, 0x68, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x4d, 0x65, 0x73,
+	0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x70, 0x75,
+	0x73, 0x68, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -686,42 +1112,55 @@ func file_push_push_proto_rawDescGZIP() []byte {
 	return file_push_push_proto_rawDescData
 }
 
-var file_push_push_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_push_push_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_push_push_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_push_push_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_push_push_proto_goTypes = []interface{}{
 	(SendType)(0),                                       // 0: push.SendType
 	(PushErrors)(0),                                     // 1: push.PushErrors
-	(*PushCaptchaRequest)(nil),                          // 2: push.PushCaptchaRequest
-	(*ErrorResponse)(nil),                               // 3: push.ErrorResponse
-	(*PushEmailNotificationRequest)(nil),                // 4: push.PushEmailNotificationRequest
-	(*GetCaptchaVerifyRequest)(nil),                     // 5: push.GetCaptchaVerifyRequest
-	(*StoreOrderMailRequest)(nil),                       // 6: push.StoreOrderMailRequest
-	(*PushWechatWorkGroupRobotNotificationRequest)(nil), // 7: push.PushWechatWorkGroupRobotNotificationRequest
-	(*PushWechatTemplateMessageRequest)(nil),            // 8: push.PushWechatTemplateMessageRequest
+	(CommonMessageType)(0),                              // 2: push.CommonMessageType
+	(*PushCaptchaRequest)(nil),                          // 3: push.PushCaptchaRequest
+	(*ErrorResponse)(nil),                               // 4: push.ErrorResponse
+	(*PushEmailNotificationRequest)(nil),                // 5: push.PushEmailNotificationRequest
+	(*GetCaptchaVerifyRequest)(nil),                     // 6: push.GetCaptchaVerifyRequest
+	(*StoreOrderMailRequest)(nil),                       // 7: push.StoreOrderMailRequest
+	(*PushWechatWorkGroupRobotNotificationRequest)(nil), // 8: push.PushWechatWorkGroupRobotNotificationRequest
+	(*PushWechatTemplateMessageRequest)(nil),            // 9: push.PushWechatTemplateMessageRequest
+	(*SenderInfo)(nil),                                  // 10: push.SenderInfo
+	(*EmailNotification)(nil),                           // 11: push.EmailNotification
+	(*SMSNotification)(nil),                             // 12: push.SMSNotification
+	(*BotNotification)(nil),                             // 13: push.BotNotification
+	(*PushCommonMessageRequest)(nil),                    // 14: push.PushCommonMessageRequest
 }
 var file_push_push_proto_depIdxs = []int32{
 	0,  // 0: push.PushCaptchaRequest.Type:type_name -> push.SendType
 	1,  // 1: push.ErrorResponse.ErrorInfo:type_name -> push.PushErrors
 	0,  // 2: push.GetCaptchaVerifyRequest.Type:type_name -> push.SendType
-	2,  // 3: push.pushSV.PushCaptcha:input_type -> push.PushCaptchaRequest
-	5,  // 4: push.pushSV.GetCaptchaVerify:input_type -> push.GetCaptchaVerifyRequest
-	4,  // 5: push.pushSV.PushEmailNotification:input_type -> push.PushEmailNotificationRequest
-	6,  // 6: push.pushSV.StoreOrderMail:input_type -> push.StoreOrderMailRequest
-	6,  // 7: push.pushSV.PostOrderMail:input_type -> push.StoreOrderMailRequest
-	7,  // 8: push.pushSV.PushWechatWorkGroupRobotNotification:input_type -> push.PushWechatWorkGroupRobotNotificationRequest
-	8,  // 9: push.pushSV.PushWechatTemplateMessage:input_type -> push.PushWechatTemplateMessageRequest
-	3,  // 10: push.pushSV.PushCaptcha:output_type -> push.ErrorResponse
-	3,  // 11: push.pushSV.GetCaptchaVerify:output_type -> push.ErrorResponse
-	3,  // 12: push.pushSV.PushEmailNotification:output_type -> push.ErrorResponse
-	3,  // 13: push.pushSV.StoreOrderMail:output_type -> push.ErrorResponse
-	3,  // 14: push.pushSV.PostOrderMail:output_type -> push.ErrorResponse
-	3,  // 15: push.pushSV.PushWechatWorkGroupRobotNotification:output_type -> push.ErrorResponse
-	3,  // 16: push.pushSV.PushWechatTemplateMessage:output_type -> push.ErrorResponse
-	10, // [10:17] is the sub-list for method output_type
-	3,  // [3:10] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	2,  // 3: push.PushCommonMessageRequest.MessageType:type_name -> push.CommonMessageType
+	10, // 4: push.PushCommonMessageRequest.SenderInfo:type_name -> push.SenderInfo
+	11, // 5: push.PushCommonMessageRequest.EmailNotification:type_name -> push.EmailNotification
+	12, // 6: push.PushCommonMessageRequest.SMSNotification:type_name -> push.SMSNotification
+	13, // 7: push.PushCommonMessageRequest.BotNotification:type_name -> push.BotNotification
+	3,  // 8: push.pushSV.PushCaptcha:input_type -> push.PushCaptchaRequest
+	6,  // 9: push.pushSV.GetCaptchaVerify:input_type -> push.GetCaptchaVerifyRequest
+	5,  // 10: push.pushSV.PushEmailNotification:input_type -> push.PushEmailNotificationRequest
+	7,  // 11: push.pushSV.StoreOrderMail:input_type -> push.StoreOrderMailRequest
+	7,  // 12: push.pushSV.PostOrderMail:input_type -> push.StoreOrderMailRequest
+	8,  // 13: push.pushSV.PushWechatWorkGroupRobotNotification:input_type -> push.PushWechatWorkGroupRobotNotificationRequest
+	9,  // 14: push.pushSV.PushWechatTemplateMessage:input_type -> push.PushWechatTemplateMessageRequest
+	14, // 15: push.pushSV.PushCommonMessage:input_type -> push.PushCommonMessageRequest
+	4,  // 16: push.pushSV.PushCaptcha:output_type -> push.ErrorResponse
+	4,  // 17: push.pushSV.GetCaptchaVerify:output_type -> push.ErrorResponse
+	4,  // 18: push.pushSV.PushEmailNotification:output_type -> push.ErrorResponse
+	4,  // 19: push.pushSV.StoreOrderMail:output_type -> push.ErrorResponse
+	4,  // 20: push.pushSV.PostOrderMail:output_type -> push.ErrorResponse
+	4,  // 21: push.pushSV.PushWechatWorkGroupRobotNotification:output_type -> push.ErrorResponse
+	4,  // 22: push.pushSV.PushWechatTemplateMessage:output_type -> push.ErrorResponse
+	4,  // 23: push.pushSV.PushCommonMessage:output_type -> push.ErrorResponse
+	16, // [16:24] is the sub-list for method output_type
+	8,  // [8:16] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_push_push_proto_init() }
@@ -814,14 +1253,74 @@ func file_push_push_proto_init() {
 				return nil
 			}
 		}
+		file_push_push_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SenderInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_push_push_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EmailNotification); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_push_push_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SMSNotification); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_push_push_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BotNotification); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_push_push_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PushCommonMessageRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_push_push_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   7,
+			NumEnums:      3,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
