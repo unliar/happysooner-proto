@@ -56,6 +56,47 @@ message PushWechatTemplateMessageRequest {
     string Data                         = 4; // 数据消息 
 }
 
+enum CommonMessageType {
+    NoneMessageType                        = 0; // 默认值
+    Email                                  = 1; // 邮箱消息
+    Phone                                  = 2; // 短信消息
+    Chat                                   = 3; // 聊天消息
+    Bot                                    = 4; // 机器人消息  - 企业微信 + 钉钉 + TG + 飞书
+}
+
+message SenderInfo {
+    string IP                              = 1; // 发送方IP
+    string ServiceName                     = 2; // 发送方名称
+}
+
+// 邮件消息
+message EmailNotification {
+    string  To                          = 1; // 目标邮箱
+    string  Html                        = 2; // 发送内容
+    string  Subject                     = 3; // 标题
+}
+
+// 手机短信消息
+message PhoneNotification {
+    string TemlateID                    = 1; // 短信模板ID
+    string PhoneNumber                  = 2; // 手机号
+    string NationCode                   = 3; // 手机号区号
+    repeated string TemplateParams      = 4; // 短信模板参数 
+}
+
+// 机器人消息
+message BotNotification {
+    string Content                      = 1; // 消息内容 markdown 
+}
+
+message PushCommonMessageRequest {
+    CommonMessageType MessageType                   = 1; // 消息类型
+    SenderInfo SenderInfo                           = 2; // 推送方信息
+    EmailNotification EmailNotification             = 3; // 邮件消息结构
+    PhoneNotification  PhoneNotification            = 4; // 手机消息结构
+    BotNotification BotNotification                 = 5; // 机器人消息结构
+}
+
 service pushSV {
     
     // 发送验证码
@@ -78,5 +119,8 @@ service pushSV {
 
     // 发送公众号模板消息
     rpc PushWechatTemplateMessage (PushWechatTemplateMessageRequest) returns (ErrorResponse);
+
+    // 通用发送消息接口
+    rpc PushCommonMessage (PushCommonMessageRequest) returns (ErrorResponse);
 
 }
