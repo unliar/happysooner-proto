@@ -78,7 +78,7 @@ message EmailNotification {
 
 // 手机短信消息
 message SMSNotification {
-    string TemlateID                    = 1; // 短信模板ID
+    string TemplateID                   = 1; // 短信模板ID
     string PhoneNumber                  = 2; // 手机号
     string NationCode                   = 3; // 手机号区号
     repeated string TemplateParams      = 4; // 短信模板参数
