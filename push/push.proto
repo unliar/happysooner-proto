@@ -82,7 +82,6 @@ message SMSNotification {
     string PhoneNumber                  = 2; // 手机号
     string NationCode                   = 3; // 手机号区号
     repeated string TemplateParams      = 4; // 短信模板参数
-    string VerificationCodeKey          = 5; // 消息特征码 如果存在需要设置到 rediskey     
 }
 
 // 机器人消息
