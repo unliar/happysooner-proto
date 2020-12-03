@@ -61,10 +61,19 @@ enum Role {
     Viewer                          = 3; // 观察者 绑定邮箱之后可获得
 }
 
+
+enum OauthType  {
+    OauthTypeNone                   = 0; // 默认
+    Github                          = 1; // github 登录
+    Google                          = 2; // google 登录
+    Wechat                          = 3; // wechat 登录
+}
+
+
 // 第三方登录请求
 message OauthLoginRequest {
-    string Type                     = 1; // 类型
-    string Code                     = 2; // 授权code
+    OauthType Type                     = 1; // 类型
+    string Code                        = 2; // 授权code
 }
 
 // 错误码定义 累计7位 账户服务使用 100 [第一位1表示账户模块，第二位表示子模块(表)] ，后四位自由发挥qaq

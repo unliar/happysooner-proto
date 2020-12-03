@@ -20,7 +20,7 @@ message PushCaptchaRequest {
 
 enum PushErrors {
     None                                = 0;        // 默认值
-    PushCommonError                     = 2000001;  // 通用error
+    PushCommonError                     = 4000001;  // 通用error
 }
 
 message ErrorResponse {

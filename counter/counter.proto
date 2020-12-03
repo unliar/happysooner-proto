@@ -9,7 +9,7 @@ message IntRequest {
 
 enum CounterErrors {
     None                            = 0;        // 默认值
-    UpdateFailed                    = 4000001;  // 更新失败
+    UpdateFailed                    = 5000001;  // 更新失败
 }
 
 message ErrorResponse {
