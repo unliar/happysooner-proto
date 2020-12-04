@@ -83,10 +83,18 @@ message SMSNotification {
     string NationCode                   = 3; // 手机号区号
     repeated string TemplateParams      = 4; // 短信模板参数
 }
+// 机器人消息类型
+enum BotNotificationType {
+    BotNotificationTypeNoneType         = 0; // 初始值
+    WechatWork                          = 1; // 微信机器人消息
+    FeiShu                              = 2; // 飞书机器人消息
+    DingTalk                            = 3; // 钉钉机器人消息
+}
 
 // 机器人消息
 message BotNotification {
     string Content                      = 1; // 消息内容 markdown 
+    BotNotificationType Type            = 2; // 消息类型
 }
 
 message PushCommonMessageRequest {
