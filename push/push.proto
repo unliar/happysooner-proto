@@ -57,16 +57,17 @@ message PushWechatTemplateMessageRequest {
 }
 
 enum CommonMessageType {
-    NoneMessageType                        = 0; // 默认值
-    Email                                  = 1; // 邮箱消息
-    SMS                                    = 2; // 短信消息
-    Chat                                   = 3; // 聊天消息
-    Bot                                    = 4; // 机器人消息  - 企业微信 + 钉钉 + TG + 飞书
+    NoneMessageType                     = 0; // 默认值
+    Email                               = 1; // 邮箱消息
+    SMS                                 = 2; // 短信消息
+    Chat                                = 3; // 聊天消息
+    Bot                                 = 4; // 机器人消息  - 企业微信 + 钉钉 + TG + 飞书
+    WechatTemplateMessage               = 5; // 微信模板消息 
 }
 
 message SenderInfo {
-    string IP                              = 1; // 发送方IP
-    string ServiceName                     = 2; // 发送方名称
+    string IP                           = 1; // 发送方IP
+    string ServiceName                  = 2; // 发送方名称
 }
 
 // 邮件消息
@@ -96,13 +97,32 @@ message BotNotification {
     string Content                      = 1; // 消息内容 markdown 
     BotNotificationType Type            = 2; // 消息类型
 }
+message TemplateMessageDataObject {
+    string Value                        = 1; // 数值
+    string Color                        = 2; // 文本色号
+}
+
+message Miniprogram {
+    string AppID                        = 1; // 小程序应用ID
+    string PagePath                     = 2; // 小程序应用路径    
+}
+
+// 微信模板消息
+message WechatTemplateMessageNotification {
+    string ToUser                                                         = 1; // 用户openID
+    string TemplateID                                                     = 2; // 模板ID
+    string URL                                                            = 3; // 模板消息详情URL
+    map<string,TemplateMessageDataObject> Data                            = 4; // 模板填充值
+    Miniprogram Miniprogram                                               = 5; // 小程序配置
+}
 
 message PushCommonMessageRequest {
-    CommonMessageType MessageType                   = 1; // 消息类型
-    SenderInfo SenderInfo                           = 2; // 推送方信息
-    EmailNotification EmailNotification             = 3; // 邮件消息结构
-    SMSNotification  SMSNotification                = 4; // 短信消息结构
-    BotNotification BotNotification                 = 5; // 机器人消息结构
+    CommonMessageType MessageType                                         = 1; // 消息类型
+    SenderInfo SenderInfo                                                 = 2; // 推送方信息
+    EmailNotification EmailNotification                                   = 3; // 邮件消息结构
+    SMSNotification  SMSNotification                                      = 4; // 短信消息结构
+    BotNotification BotNotification                                       = 5; // 机器人消息结构
+    WechatTemplateMessageNotification WechatTemplateMessageNotification   = 6; // 微信模板消息
 }
 
 service pushSV {
