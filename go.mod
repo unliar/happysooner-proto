@@ -7,6 +7,6 @@ require (
 	github.com/micro/go-micro/v2 v2.9.1
 	github.com/micro/micro/v2 v2.9.3 // indirect
 	github.com/micro/protoc-gen-micro/v2 v2.1.1 // indirect
-	google.golang.org/genproto v0.0.0-20201203001206-6486ece9c497 // indirect
+	google.golang.org/genproto v0.0.0-20201204160425-06b3db808446 // indirect
 	google.golang.org/protobuf v1.25.0
 )
