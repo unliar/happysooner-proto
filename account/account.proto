@@ -74,6 +74,7 @@ enum OauthType  {
 message OauthLoginRequest {
     OauthType Type                     = 1; // 类型
     string Code                        = 2; // 授权code
+    string AppID                       = 3; // 应用ID
 }
 
 // 错误码定义 累计7位 账户服务使用 100 [第一位1表示账户模块，第二位表示子模块(表)] ，后四位自由发挥qaq
