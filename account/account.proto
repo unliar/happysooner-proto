@@ -42,7 +42,8 @@ message PutUserBaseRequest {
 
 message UserInfoWithToken {
     UserInfo UserInfo               = 1;
-    string   Token                  = 2;
+    string   Token                  = 2; // jwt 口令
+    int64    TokenAvailableDays     = 3; // jwt 有效时间
 }
 
 // id查询用户信息
