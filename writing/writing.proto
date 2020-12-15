@@ -6,6 +6,7 @@ package writing;
 
 message Empty{}
 
+
 message ArticleInfo{
         int64 Id                                            = 1; // 文章id
         string Title                                        = 2; // 文章标题
@@ -16,7 +17,13 @@ message ArticleInfo{
         string Content                                      = 7; // 文章主体内容 
         Category Category                                   = 8; // 文章分类 
         CountInfo  CountInfo                                = 9; // 数据统计信息
-        AuthorInfo AuthorInfo                               = 10; // 作者信息  
+        AuthorInfo AuthorInfo                               = 10; // 作者信息
+        Navigation Navigation                               = 11; // 文章导航
+}
+
+message Navigation {
+        ArticleInfo Prev                                     = 1; // 上一篇
+        ArticleInfo Next                                     = 2; // 上一篇
 }
 
 // Tag解构体
