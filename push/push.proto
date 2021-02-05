@@ -90,6 +90,8 @@ enum BotNotificationType {
     WechatWork                          = 1; // 微信机器人消息
     FeiShu                              = 2; // 飞书机器人消息
     DingTalk                            = 3; // 钉钉机器人消息
+    GoTify                              = 4; // gotify 消息    - Android
+    Bark                                = 5; // Bark   消息    - iOS
 }
 
 // 机器人消息
