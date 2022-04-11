@@ -27,7 +27,6 @@ jobs:
           protoc --version
           go install github.com/golang/protobuf/protoc-gen-go
           go install github.com/micro/micro/v2/cmd/protoc-gen-micro@master
-          export PATH=$GOPATH/bin:$PATH
           sh build.sh
           git config --global user.name "unliar"
           git config --global user.email "370732889@qq.com"
