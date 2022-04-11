@@ -2,237 +2,232 @@ syntax = "proto3";
 
 // 内容创作模块
 package writing;
+option go_package = "writing";
 // option go_package = "github.com/unliar/happysooner-proto/v2/writing";
 
-message Empty{}
+message Empty {}
 
-
-message ArticleInfo{
-        int64 Id                                            = 1; // 文章id
-        string Title                                        = 2; // 文章标题
-        string Summary                                      = 3; // 文章摘要
-        repeated Tag Tags                                   = 4; // 标签列表
-        int64 CreatedAt                                     = 5; // 创建时间
-        int64 Status                                        = 6; // 状态
-        string Content                                      = 7; // 文章主体内容 
-        Category Category                                   = 8; // 文章分类 
-        CountInfo  CountInfo                                = 9; // 数据统计信息
-        AuthorInfo AuthorInfo                               = 10; // 作者信息
-        Navigation Navigation                               = 11; // 文章导航
+message ArticleInfo {
+  int64 Id = 1;               // 文章id
+  string Title = 2;           // 文章标题
+  string Summary = 3;         // 文章摘要
+  repeated Tag Tags = 4;      // 标签列表
+  int64 CreatedAt = 5;        // 创建时间
+  int64 Status = 6;           // 状态
+  string Content = 7;         // 文章主体内容
+  Category Category = 8;      // 文章分类
+  CountInfo CountInfo = 9;    // 数据统计信息
+  AuthorInfo AuthorInfo = 10; // 作者信息
+  Navigation Navigation = 11; // 文章导航
 }
 
 message Navigation {
-        ArticleInfo Prev                                     = 1; // 上一篇
-        ArticleInfo Next                                     = 2; // 上一篇
+  ArticleInfo Prev = 1; // 上一篇
+  ArticleInfo Next = 2; // 上一篇
 }
 
 // Tag解构体
 message Tag {
-        int64 Id                                            = 1;  // tag标签
-        string Tag                                          = 2;  // tag名称
-}                    
-            
+  int64 Id = 1;   // tag标签
+  string Tag = 2; // tag名称
+}
+
 // 数据统计信息
-message CountInfo {                   
-        int64 Comment                                       = 1;  // 评论
-        int64 Like                                          = 2;  // 喜欢
-        int64 Collect                                       = 3;  // 收藏
-        int64 DisLike                                       = 4;  // 不喜欢
-        int64 PageView                                      = 5;  // 浏览量 
-}                    
- 
+message CountInfo {
+  int64 Comment = 1;  // 评论
+  int64 Like = 2;     // 喜欢
+  int64 Collect = 3;  // 收藏
+  int64 DisLike = 4;  // 不喜欢
+  int64 PageView = 5; // 浏览量
+}
+
 // 作者信息
 message AuthorInfo {
-        int64 UID                                           = 1; // 作者id
-        string Nickname                                     = 2; // 作者昵称
-        string Avatar                                       = 3; // 作者头像
-        repeated NewRoleRequest Roles                       = 4;   // 用户角色信息
-
+  int64 UID = 1;                     // 作者id
+  string Nickname = 2;               // 作者昵称
+  string Avatar = 3;                 // 作者头像
+  repeated NewRoleRequest Roles = 4; // 用户角色信息
 }
 message NewRoleRequest {
-        string Title                                        = 1; // 角色名称
-        string Description                                  = 2; // 角色描述
-        int64 RID                                           = 3; // roleID 新建角色不需要    
+  string Title = 1;       // 角色名称
+  string Description = 2; // 角色描述
+  int64 RID = 3;          // roleID 新建角色不需要
 }
-// 文章类别                  
-message Category {                   
-        int64 Id                                            = 1; // 类别id
-        string CN                                           = 2; // 类别中文
-        string EN                                           = 3; // 类别英文
+// 文章类别
+message Category {
+  int64 Id = 1;  // 类别id
+  string CN = 2; // 类别中文
+  string EN = 3; // 类别英文
 }
 
 message CommentInfo {
-        int64 Id                                            = 1; // 评论id
-        string Content                                      = 2; // 评论内容
-        AuthorInfo CommentUserInfo                          = 3; // 评论人信息
-        CommentInfo ReplyCommentInfo                        = 4; // 回复评论信息
-        int64 CreatedAt                                     = 5; // 评论时间       
+  int64 Id = 1;                     // 评论id
+  string Content = 2;               // 评论内容
+  AuthorInfo CommentUserInfo = 3;   // 评论人信息
+  CommentInfo ReplyCommentInfo = 4; // 回复评论信息
+  int64 CreatedAt = 5;              // 评论时间
 }
 
 // --------------------------request  start------------------------------
 
 message GetArticleByIdRequest {
-        int64 ArticleID                                     = 1; // 文章ID
-        int64 RequestUID                                    = 2; // 发起请求的用户ID
+  int64 ArticleID = 1;  // 文章ID
+  int64 RequestUID = 2; // 发起请求的用户ID
 }
 
 message GetPreNextArticleRequest {
-        int64 ArticleID                                     = 1; // 文章ID
-        int64 CategoryID                                    = 2; // 分类id      
+  int64 ArticleID = 1;  // 文章ID
+  int64 CategoryID = 2; // 分类id
 }
-// 
+//
 message GetArticleCountsByRequest {
-        int64 CategoryID                                    = 1; // 分类id
-        int64 AuthorID                                      = 2; // 作者ID      
+  int64 CategoryID = 1; // 分类id
+  int64 AuthorID = 2;   // 作者ID
 }
 
-message PostArticleRequest {                     
-        int64 CategoryID                                    = 1; // 分类id
-        string Title                                        = 2; // 标题
-        string Content                                      = 3; // 内容
-        int64 AuthorUID                                     = 4; // 作者id
-        string Summary                                      = 5; // 摘要
-        int64  Status                                       = 6; // 文章状态 1 = 正常
+message PostArticleRequest {
+  int64 CategoryID = 1; // 分类id
+  string Title = 2;     // 标题
+  string Content = 3;   // 内容
+  int64 AuthorUID = 4;  // 作者id
+  string Summary = 5;   // 摘要
+  int64 Status = 6;     // 文章状态 1 = 正常
 }
 
 message PutArticleRequest {
-        int64  PostID                                       = 1; // 文章id                     
-        string Title                                        = 2; // 标题
-        string Content                                      = 3; // 内容
-        int64 AuthorUID                                     = 4; // 作者id
-        string Summary                                      = 5; // 摘要
-        int64 CategoryID                                    = 6; // 分类id
-        int64  Status                                       = 7; // 文章状态 1 = 正常
-}   
+  int64 PostID = 1;     // 文章id
+  string Title = 2;     // 标题
+  string Content = 3;   // 内容
+  int64 AuthorUID = 4;  // 作者id
+  string Summary = 5;   // 摘要
+  int64 CategoryID = 6; // 分类id
+  int64 Status = 7;     // 文章状态 1 = 正常
+}
 
 message GetArticleListRequest {
-        int64 LimitArticleID                                = 1; // 列表最后一个文章id
-        int64 Page                                          = 2; // 页码
-        int64 Size                                          = 3; // 数量 
-        int64 CategoryID                                    = 4; // 分类id 
-        string OrderType                                    = 5; // 排序类型
-        int64 UID                                           = 6; // 作者id
-        int64 RequestUID                                    = 7; // 请求的UID        
+  int64 LimitArticleID = 1; // 列表最后一个文章id
+  int64 Page = 2;           // 页码
+  int64 Size = 3;           // 数量
+  int64 CategoryID = 4;     // 分类id
+  string OrderType = 5;     // 排序类型
+  int64 UID = 6;            // 作者id
+  int64 RequestUID = 7;     // 请求的UID
 }
 
 message PostCommentToArticleRequest {
-        int64 PostID                                        = 1; // 文章id
-        string Comment                                      = 2; // 评论内容
-        int64 ReplyCommentID                                = 3; // 回复评论ID
-        int64 CommentUID                                    = 4; // 发表评论人的id 
-        int64 ReplyCommentUID                               = 5; // 回复评论用户ID
-        int64 AuthorUID                                     = 6; // 文章作者ID    
+  int64 PostID = 1;          // 文章id
+  string Comment = 2;        // 评论内容
+  int64 ReplyCommentID = 3;  // 回复评论ID
+  int64 CommentUID = 4;      // 发表评论人的id
+  int64 ReplyCommentUID = 5; // 回复评论用户ID
+  int64 AuthorUID = 6;       // 文章作者ID
 }
 
 message DelCommentToArticleRequest {
-        int64 PostID                                        = 1; // 文章id
-        int64 CommentID                                     = 2; // 评论ID
-        int64 UID                                           = 3; // 评论所属人ID 管理员可以不填
-        int64 AuthorUID                                     = 4; // 作者uid 可以不填
+  int64 PostID = 1;    // 文章id
+  int64 CommentID = 2; // 评论ID
+  int64 UID = 3;       // 评论所属人ID 管理员可以不填
+  int64 AuthorUID = 4; // 作者uid 可以不填
 }
 message GetCommentListOfArticleRequest {
-        int64 Page                                          = 1; // 页码
-        int64 Size                                          = 2; // 数量
-        int64 PostID                                        = 3; // 文章id
-        int64 AuthorUID                                     = 4; // 文章作者ID
-        int64 ReplyCommentUID                               = 5; // 回复评论用户ID
-        int64 CommentUID                                    = 6; // 发表评论人的id
-        string OrderType                                    = 7; // 排序类型 
-
+  int64 Page = 1;            // 页码
+  int64 Size = 2;            // 数量
+  int64 PostID = 3;          // 文章id
+  int64 AuthorUID = 4;       // 文章作者ID
+  int64 ReplyCommentUID = 5; // 回复评论用户ID
+  int64 CommentUID = 6;      // 发表评论人的id
+  string OrderType = 7;      // 排序类型
 }
 message DelCommentListOfArticleRequest {
-        int64 PostID                                        = 1; // 文章id
-        int64 CommentUID                                    = 2; // 评论人的id
-        int64 AuthorUID                                     = 3; // 作者uid
+  int64 PostID = 1;     // 文章id
+  int64 CommentUID = 2; // 评论人的id
+  int64 AuthorUID = 3;  // 作者uid
 }
 
 message IDList {
-        repeated int64 List                                 = 1; //     
+  repeated int64 List = 1; //
 }
-
 
 // --------------------------request  end--------------------------------
 
 // --------------------------response  start-----------------------------
 enum WritingErrors {
-     None                                                   = 0;        // 默认值
-     ArticleNotFound                                        = 3000001;  // 文章不存在
-     PostArticleFailed                                      = 3000002;  // 创建文章失败
-     PostCategoryFailed                                     = 3000003;  // 创建分类失败
-     PutArticleFailed                                       = 3000004;  // 更新文章失败
-     OperationNotPermitted                                  = 3000006;  // 用户无权限进行操作
-     PostCommentFailed                                      = 3000007;  // 发表评论失败
-     DelCommentFailed                                       = 3000008;  // 删除评论失败
-     PostContentForbidden                                   = 3000009;  // 内容触发文本审核策略
+  None = 0;                        // 默认值
+  ArticleNotFound = 3000001;       // 文章不存在
+  PostArticleFailed = 3000002;     // 创建文章失败
+  PostCategoryFailed = 3000003;    // 创建分类失败
+  PutArticleFailed = 3000004;      // 更新文章失败
+  OperationNotPermitted = 3000006; // 用户无权限进行操作
+  PostCommentFailed = 3000007;     // 发表评论失败
+  DelCommentFailed = 3000008;      // 删除评论失败
+  PostContentForbidden = 3000009;  // 内容触发文本审核策略
 }
 
-message ErrorResponse {
-        WritingErrors ErrorInfo                             = 1;
-}
+message ErrorResponse { WritingErrors ErrorInfo = 1; }
 
 message ArticleListResponse {
-        repeated ArticleInfo Articles                       = 1; // 文章列表
+  repeated ArticleInfo Articles = 1; // 文章列表
 }
 
-message CategoriesResponse{
-        repeated Category List                              = 1;
-}
+message CategoriesResponse { repeated Category List = 1; }
 
-message CommentListResponse {
-        repeated CommentInfo Comments                       = 1; 
-}
+message CommentListResponse { repeated CommentInfo Comments = 1; }
 
-message PreviousAndNextArticleResponse  {
-        ArticleInfo  Pre                                    = 1;
-        ArticleInfo  Next                                   = 2;    
+message PreviousAndNextArticleResponse {
+  ArticleInfo Pre = 1;
+  ArticleInfo Next = 2;
 }
 
 message ArticleCountsResponse {
-        int64        Count                                  = 1; // 计数
+  int64 Count = 1; // 计数
 }
 
 // --------------------------response  end-------------------------------
 service writingSV {
 
-    // 获取文章详情
-    rpc GetArticleById (GetArticleByIdRequest) returns (ArticleInfo){};
+  // 获取文章详情
+  rpc GetArticleById(GetArticleByIdRequest) returns (ArticleInfo) {};
 
-    // 使用ID列表获取文章列表 todo
-    rpc GetArticleListByIds (IDList) returns (ArticleListResponse){};
+  // 使用ID列表获取文章列表 todo
+  rpc GetArticleListByIds(IDList) returns (ArticleListResponse) {};
 
-    // 使用ID 获取上一篇和下一篇 todo
-    rpc GetPreviousAndNextArticleById (GetPreNextArticleRequest) returns (PreviousAndNextArticleResponse);
-    
-    // 获取文章数量计数
-    rpc GetArticleCounts (GetArticleCountsByRequest) returns (ArticleCountsResponse);    
+  // 使用ID 获取上一篇和下一篇 todo
+  rpc GetPreviousAndNextArticleById(GetPreNextArticleRequest)
+      returns (PreviousAndNextArticleResponse);
 
-    // 获取文章列表
-    rpc GetArticleList (GetArticleListRequest) returns (ArticleListResponse){};
-  
-    // 创建文章
-    rpc PostArticle (PostArticleRequest) returns (ErrorResponse);  
+  // 获取文章数量计数
+  rpc GetArticleCounts(GetArticleCountsByRequest)
+      returns (ArticleCountsResponse);
 
-    // 更新文章
-    rpc PutArticle (PutArticleRequest) returns (ErrorResponse);
-    
-    // 创建分类
-    rpc PostCategory (Category) returns (ErrorResponse);
-    
-    // 获取所有分类
-    rpc GetCategories (Empty) returns (CategoriesResponse);  
+  // 获取文章列表
+  rpc GetArticleList(GetArticleListRequest) returns (ArticleListResponse) {};
 
-    // 更新分类
-    rpc PutCategory (Category) returns (ErrorResponse);
+  // 创建文章
+  rpc PostArticle(PostArticleRequest) returns (ErrorResponse);
 
-    // 创建评论 - 未完成 - 连接计数服务
-    rpc PostCommentToArticle (PostCommentToArticleRequest) returns (ErrorResponse);
+  // 更新文章
+  rpc PutArticle(PutArticleRequest) returns (ErrorResponse);
 
-    // 删除评论 - 未完成 - 连接计数服务
-    rpc DelCommentToArticle (DelCommentToArticleRequest) returns (ErrorResponse);
+  // 创建分类
+  rpc PostCategory(Category) returns (ErrorResponse);
 
-    // 获取文章评论列表 - 完成
-    rpc GetCommentListOfArticle (GetCommentListOfArticleRequest) returns (CommentListResponse);
+  // 获取所有分类
+  rpc GetCategories(Empty) returns (CategoriesResponse);
 
-    // 删除文章的评论列表 - 完成
-    rpc DelCommentListOfArticle (DelCommentListOfArticleRequest) returns (ErrorResponse);
+  // 更新分类
+  rpc PutCategory(Category) returns (ErrorResponse);
+
+  // 创建评论 - 未完成 - 连接计数服务
+  rpc PostCommentToArticle(PostCommentToArticleRequest) returns (ErrorResponse);
+
+  // 删除评论 - 未完成 - 连接计数服务
+  rpc DelCommentToArticle(DelCommentToArticleRequest) returns (ErrorResponse);
+
+  // 获取文章评论列表 - 完成
+  rpc GetCommentListOfArticle(GetCommentListOfArticleRequest)
+      returns (CommentListResponse);
+
+  // 删除文章的评论列表 - 完成
+  rpc DelCommentListOfArticle(DelCommentListOfArticleRequest)
+      returns (ErrorResponse);
 }

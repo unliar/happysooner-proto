@@ -1,67 +1,64 @@
 syntax = "proto3";
 
 package search;
+option go_package = "search";
 // option go_package = "github.com/unliar/happysooner-proto/v2/search";
 
 // 数据桶类型
 enum BucketTypes {
-    NoneType                                                     = 0;
-    Article                                                      = 1; // 文章类型
-    Author                                                       = 2; // 作者    
+  NoneType = 0;
+  Article = 1; // 文章类型
+  Author = 2;  // 作者
 }
 // 数据仓库类型
 enum CollectionTypes {
-    Test                                                         = 0;
-    Happy                                                        = 1;
+  Test = 0;
+  Happy = 1;
 }
 
 // 搜索结果
-message SearchResult {
-    repeated string Results                                      = 1; 
-}
+message SearchResult { repeated string Results = 1; }
 
 // 删除搜索
 message FlushSearchRequest {
-    CollectionTypes Collection                                   = 1;// 类似于database的概念
-    BucketTypes Bucket                                           = 2;// 类似于表的概念
-    string Object                                                = 3;// 这个类似于key的概念 搜索会根据value搜索key🔍
+  CollectionTypes Collection = 1; // 类似于database的概念
+  BucketTypes Bucket = 2;         // 类似于表的概念
+  string Object = 3; // 这个类似于key的概念 搜索会根据value搜索key🔍
 }
 // 错误类型
 enum SearchErrors {
-    NoneError                                                    = 0;        // 默认值
-    SearchCommonError                                            = 4000001;  // 通用error
+  NoneError = 0;               // 默认值
+  SearchCommonError = 4000001; // 通用error
 }
 
-message ErrorResponse {
-    SearchErrors ErrorInfo                                       = 1;
-}
+message ErrorResponse { SearchErrors ErrorInfo = 1; }
 // 插入搜索数据请求
 message PostSearchSourceRequest {
-    CollectionTypes Collection                                   = 1;// 类似于database的概念
-    BucketTypes Bucket                                           = 2;// 类似于表的概念
-    string Object                                                = 3;// 这个类似于key的概念 搜索会根据value搜索key🔍
-    string Text                                                  = 4;// 数据分词内容
+  CollectionTypes Collection = 1; // 类似于database的概念
+  BucketTypes Bucket = 2;         // 类似于表的概念
+  string Object = 3; // 这个类似于key的概念 搜索会根据value搜索key🔍
+  string Text = 4; // 数据分词内容
 }
 
 // 获取搜索结果
 message GetSearchRequest {
-    CollectionTypes Collection                                   = 1;// 类似于database的概念
-    BucketTypes Bucket                                           = 2;// 类似于表的概念
-    string Text                                                  = 3;// 搜索数据
+  CollectionTypes Collection = 1; // 类似于database的概念
+  BucketTypes Bucket = 2;         // 类似于表的概念
+  string Text = 3;                // 搜索数据
 }
 service searchSV {
-    // 获取搜索结果
-    rpc GetSearchByType (GetSearchRequest) returns (SearchResult);
-    
-    // Flush某个搜索Object 
-    rpc FlushSearchByObject (FlushSearchRequest) returns (ErrorResponse);
+  // 获取搜索结果
+  rpc GetSearchByType(GetSearchRequest) returns (SearchResult);
 
-    // Flush某个搜索Bucket 
-    rpc FlushSearchByBucket (FlushSearchRequest) returns (ErrorResponse);
+  // Flush某个搜索Object
+  rpc FlushSearchByObject(FlushSearchRequest) returns (ErrorResponse);
 
-    // Flush某个搜索Collection 
-    rpc FlushSearchByCollection (FlushSearchRequest) returns (ErrorResponse);
+  // Flush某个搜索Bucket
+  rpc FlushSearchByBucket(FlushSearchRequest) returns (ErrorResponse);
 
-    // 插入搜索资源数据
-    rpc PostSearchSource(PostSearchSourceRequest) returns (ErrorResponse);
+  // Flush某个搜索Collection
+  rpc FlushSearchByCollection(FlushSearchRequest) returns (ErrorResponse);
+
+  // 插入搜索资源数据
+  rpc PostSearchSource(PostSearchSourceRequest) returns (ErrorResponse);
 }

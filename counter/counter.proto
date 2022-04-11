@@ -1,57 +1,51 @@
 syntax = "proto3";
 
 package counter;
+option go_package = 'counter';
 // option go_package = "github.com/unliar/happysooner-proto/v2/counter";
 
-message IntRequest {
-    int64 Value                     = 1;
-} 
+message IntRequest { int64 Value = 1; }
 
 enum CounterErrors {
-    None                            = 0;        // 默认值
-    UpdateFailed                    = 5000001;  // 更新失败
+  None = 0;               // 默认值
+  UpdateFailed = 5000001; // 更新失败
 }
 
-message ErrorResponse {
-    CounterErrors ErrorInfo         = 1;
-}
+message ErrorResponse { CounterErrors ErrorInfo = 1; }
 
 message ArticleCountInfo {
-    uint64 Comment                  = 1;      // 评论次数
-    uint64 Like                     = 2;      // 喜欢次数
-    uint64 Collect                  = 3;      // 收藏次数
-    uint64 DisLike                  = 4;      // 不喜欢次数
-    uint64 PageView                 = 5;      // 浏览量
-    uint64 RewardTimes              = 6;      // 打赏次数
-    double RewardTotal              = 7;      // 打赏总金额
-} 
-
+  uint64 Comment = 1;     // 评论次数
+  uint64 Like = 2;        // 喜欢次数
+  uint64 Collect = 3;     // 收藏次数
+  uint64 DisLike = 4;     // 不喜欢次数
+  uint64 PageView = 5;    // 浏览量
+  uint64 RewardTimes = 6; // 打赏次数
+  double RewardTotal = 7; // 打赏总金额
+}
 
 message UserCountInfo {
-    uint64 Articles                 = 1;       // 文章个数
-    uint64 Comments                 = 2;       // 评论个数
-    uint64 Commented                = 3;       // 被评论个数
-    uint64 RewardTimes              = 4;       // 打赏次数
-    double RewardTotal              = 5;       // 打赏总金额
-
+  uint64 Articles = 1;    // 文章个数
+  uint64 Comments = 2;    // 评论个数
+  uint64 Commented = 3;   // 被评论个数
+  uint64 RewardTimes = 4; // 打赏次数
+  double RewardTotal = 5; // 打赏总金额
 }
 message UpdateRequest {
-    string Field                    = 1;       // 字段
-    string Value                    = 2;       // 字段加减值
-    uint64 ID                       = 3;       // 请求资源ID                     
+  string Field = 1; // 字段
+  string Value = 2; // 字段加减值
+  uint64 ID = 3;    // 请求资源ID
 }
 service counterSV {
-    
-    // 获取文章计数
-    rpc GetArticleCount (IntRequest) returns (ArticleCountInfo);
 
-    // 获取用户计数
-    rpc GetUserCount (IntRequest) returns (UserCountInfo);
+  // 获取文章计数
+  rpc GetArticleCount(IntRequest) returns (ArticleCountInfo);
 
-    // 增加用户计数
-    rpc UpdateUserCount (UpdateRequest) returns (ErrorResponse);
-    
-    // 增加文章计数
-    rpc UpdateArticleCount (UpdateRequest) returns (ErrorResponse);
+  // 获取用户计数
+  rpc GetUserCount(IntRequest) returns (UserCountInfo);
 
+  // 增加用户计数
+  rpc UpdateUserCount(UpdateRequest) returns (ErrorResponse);
+
+  // 增加文章计数
+  rpc UpdateArticleCount(UpdateRequest) returns (ErrorResponse);
 }

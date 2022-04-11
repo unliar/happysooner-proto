@@ -1,161 +1,161 @@
 syntax = "proto3";
 
 package pay;
+option go_package = "pay";
 // option go_package = "github.com/unliar/happysooner-proto/v2/pay";
 
-message UIDInput {
-   int64 UID                            = 1;
-}
+message UIDInput { int64 UID = 1; }
 
 message PayWay {
-   int64   PayWayID                     = 1; // 用户支付id
-   string  PayType                      = 2; // 支付类型
-   string  PayValue                     = 3; // 支付链接
-   string  PayDesc                      = 4; // 支付描述
+  int64 PayWayID = 1;  // 用户支付id
+  string PayType = 2;  // 支付类型
+  string PayValue = 3; // 支付链接
+  string PayDesc = 4;  // 支付描述
 }
 
 message CreateUserPayWayRequest {
-    string  PayType                     = 1; // 支付类型
-    string  PayValue                    = 2; // 支付链接
-    string  PayDesc                     = 3; // 支付描述
-    int64   UID                         = 4; // 用户id
-
+  string PayType = 1;  // 支付类型
+  string PayValue = 2; // 支付链接
+  string PayDesc = 3;  // 支付描述
+  int64 UID = 4;       // 用户id
 }
 message DeleteUserPayWayRequest {
-    int64   UID                         = 1; // 用户id
-    int64   PayWayID                    = 2; // 用户支付id
+  int64 UID = 1;      // 用户id
+  int64 PayWayID = 2; // 用户支付id
 }
 
 message PutUserPayWayRequest {
-    int64   UID                         = 1; // 用户id
-    int64   PayWayID                    = 2; // 用户支付id
-    string  PayType                     = 3; // 支付类型
-    string  PayValue                    = 4; // 支付链接
-    string  PayDesc                     = 5; // 支付描述
+  int64 UID = 1;       // 用户id
+  int64 PayWayID = 2;  // 用户支付id
+  string PayType = 3;  // 支付类型
+  string PayValue = 4; // 支付链接
+  string PayDesc = 5;  // 支付描述
 }
 enum PayErrors {
-    None                                = 0;        // 默认值
-    PayWayNotFound                      = 2000001;  // 支付不存在
-    PayWayOperationFailed               = 2000002;  // 操作失败
-    CreateOrderFailed                   = 2000003;  // 创建alipay支付订单失败
-    UpdateOrderFailed                   = 2000004;  // 更新支付宝订单失败
+  None = 0;                        // 默认值
+  PayWayNotFound = 2000001;        // 支付不存在
+  PayWayOperationFailed = 2000002; // 操作失败
+  CreateOrderFailed = 2000003;     // 创建alipay支付订单失败
+  UpdateOrderFailed = 2000004;     // 更新支付宝订单失败
 }
 
 message UserPayWays {
-    repeated PayWay PayWays             = 1; // 支付方式
+  repeated PayWay PayWays = 1; // 支付方式
 }
 
 message ErrorResponse {
-    PayErrors ErrorInfo                 = 1; // 错误信息
+  PayErrors ErrorInfo = 1; // 错误信息
 }
 
 message CreateOrderCommonRequest {
-    int64 CreateUserID                  = 1; // 创建订单用户ID
-    string OrderType                    = 2; // 创建订单的类型 = article
-    int64 CreateForUserID               = 3; // 当前订单是为谁创建的 不传的话默认是1号用户 也就是可爱的管理员同志
-    string TotalAmount                  = 4; // 订单总金额 金额默认是字符串 1.11 人民币
-    string Subject                      = 5; // 订单标题
-    string OrderExtends                 = 6; // 订单额外参数 对应的是订单类型的value
-    string OrderPlatform                = 7; // 订单平台 alipay = 支付宝支付  wxpay = 微信支付
-    string OrderPlatformMode            = 8; // 订单平台的支付模式 alipay = 当面付 alipayweb = 电脑网站支付  alipaywap = 手机网站支付
-    string QuitURL                      = 9; // 支付宝 wap支付订单退出页面 
-    string ReturnURL                    = 10; // 支付宝 wap支付订单成功支付页面
-    string OpenID                       = 11; // 用户识别ID          【微信jsapi必传】 必传 
-    string ClientIP                     = 12; // 创建订单的客户端IP   【微信必传】
+  int64 CreateUserID = 1; // 创建订单用户ID
+  string OrderType = 2;   // 创建订单的类型 = article
+  int64 CreateForUserID =
+      3; // 当前订单是为谁创建的 不传的话默认是1号用户 也就是可爱的管理员同志
+  string TotalAmount = 4; // 订单总金额 金额默认是字符串 1.11 人民币
+  string Subject = 5;     // 订单标题
+  string OrderExtends = 6; // 订单额外参数 对应的是订单类型的value
+  string OrderPlatform = 7; // 订单平台 alipay = 支付宝支付  wxpay = 微信支付
+  string OrderPlatformMode = 8; // 订单平台的支付模式 alipay = 当面付 alipayweb
+                                // = 电脑网站支付  alipaywap = 手机网站支付
+  string QuitURL = 9;    // 支付宝 wap支付订单退出页面
+  string ReturnURL = 10; // 支付宝 wap支付订单成功支付页面
+  string OpenID = 11; // 用户识别ID          【微信jsapi必传】 必传
+  string ClientIP = 12; // 创建订单的客户端IP   【微信必传】
 }
 
-
 message PayOrderResultRequest {
-    string OutTradeNo                   = 1; // 商户的订单号
-    string Status                       = 2; // 订单状态 wait_pay trade_success trade_close trade_done
-    string RawData                      = 3; // 回调的原始参数表单参数 
+  string OutTradeNo = 1; // 商户的订单号
+  string Status = 2; // 订单状态 wait_pay trade_success trade_close trade_done
+  string RawData = 3; // 回调的原始参数表单参数
 }
 
 message OrderResultResponse {
-    string Code                         = 1; // 错误代码
-    string Msg                          = 2; // 错误信息
-    string OutTradeNo                   = 3; // 商户的订单号
-    string QRCode                       = 4; // 订单的二维码链接
-    string Sign                         = 5; // 签名
-    string TradeStatus                  = 6; // 交易状态
-    string TradeNo                      = 7; // 支付宝交易号
-    string TotalAmount                  = 8; // 订单总金额
-    string BuyerLogonID                 = 9; // 用户支付宝ID  
+  string Code = 1;         // 错误代码
+  string Msg = 2;          // 错误信息
+  string OutTradeNo = 3;   // 商户的订单号
+  string QRCode = 4;       // 订单的二维码链接
+  string Sign = 5;         // 签名
+  string TradeStatus = 6;  // 交易状态
+  string TradeNo = 7;      // 支付宝交易号
+  string TotalAmount = 8;  // 订单总金额
+  string BuyerLogonID = 9; // 用户支付宝ID
 }
 
 message GetOrderListRequest {
-    string OrderCreateByUID             = 1; // 创建订单用户ID
-    string OrderType                    = 2; // 创建订单的类型 , 当前只有打赏类型
-    string OrdercreateForUID            = 3; // 当前订单是为谁创建的 不传的话默认是1号用户 也就是可爱的管理员同志
-    int64 Page                          = 4; // 页码
-    int64 Size                          = 5; // 数量
-    string Status                       = 6; // 订单状态
-    string OrderPlatForm                = 7; // 平台
-    string OrderExtends                 = 9; // 订单扩展字段
+  string OrderCreateByUID = 1; // 创建订单用户ID
+  string OrderType = 2; // 创建订单的类型 , 当前只有打赏类型
+  string OrdercreateForUID =
+      3; // 当前订单是为谁创建的 不传的话默认是1号用户 也就是可爱的管理员同志
+  int64 Page = 4;           // 页码
+  int64 Size = 5;           // 数量
+  string Status = 6;        // 订单状态
+  string OrderPlatForm = 7; // 平台
+  string OrderExtends = 9;  // 订单扩展字段
 }
 
 message OrderInfo {
-    string OutTradeNo                   = 1; //　商户的订单号 
-    string Status                       = 2; //  订单状态
-    string PlatForm                     = 3; //  订单的平台
-    string Type                         = 4; //  订单的类型
-    string CreateByUID                  = 5; //  订单创建人
-    string CreateForUID                 = 6; //  订单创建对象人
-    string Extends                      = 7; //  订单扩展
-    string Amount                       = 8; //  订单金额
-    int64 CreatedAt                     = 9; //  订单创建时间
-    bool Expired                        = 10;//  订单是否失效 - 目前是90分钟
-    string QRCode                       = 11;//  订单的二维码
-    string PlatFormMode                 = 12;//  订单平台的模式
- }
+  string OutTradeNo = 1;    //　商户的订单号
+  string Status = 2;        //  订单状态
+  string PlatForm = 3;      //  订单的平台
+  string Type = 4;          //  订单的类型
+  string CreateByUID = 5;   //  订单创建人
+  string CreateForUID = 6;  //  订单创建对象人
+  string Extends = 7;       //  订单扩展
+  string Amount = 8;        //  订单金额
+  int64 CreatedAt = 9;      //  订单创建时间
+  bool Expired = 10;        //  订单是否失效 - 目前是90分钟
+  string QRCode = 11;       //  订单的二维码
+  string PlatFormMode = 12; //  订单平台的模式
+}
 
 message OrderListResponse {
-    repeated OrderInfo List             = 1; // 订单列表
+  repeated OrderInfo List = 1; // 订单列表
 }
 
 message GetSponsorsRequest {
-    string Type                         = 1; //  订单的类型
-    string CreateByUID                  = 2; //  订单创建人
-    string CreateForUID                 = 3; //  创建对象
-    string Extends                      = 4; //  类型对应扩展值
+  string Type = 1;         //  订单的类型
+  string CreateByUID = 2;  //  订单创建人
+  string CreateForUID = 3; //  创建对象
+  string Extends = 4;      //  类型对应扩展值
 }
 
 message StringList {
-    repeated string List                = 1; // 数值列表
+  repeated string List = 1; // 数值列表
 }
 
 service paySV {
 
-    // 获取用户支付数据信息
-    rpc GetPayInfo(UIDInput) returns (UserPayWays){}
+  // 获取用户支付数据信息
+  rpc GetPayInfo(UIDInput) returns (UserPayWays) {}
 
-    // 新增一个支付数据类型
-    rpc CreateUserPayWay(CreateUserPayWayRequest) returns (ErrorResponse){}
+  // 新增一个支付数据类型
+  rpc CreateUserPayWay(CreateUserPayWayRequest) returns (ErrorResponse) {}
 
-    // 删除一个支付数据类型
-    rpc DeleteUserPayWay(DeleteUserPayWayRequest) returns (ErrorResponse){}
+  // 删除一个支付数据类型
+  rpc DeleteUserPayWay(DeleteUserPayWayRequest) returns (ErrorResponse) {}
 
-    // 更新一个支付数据类型
-    rpc PutUserPayWay(PutUserPayWayRequest) returns (ErrorResponse){}
+  // 更新一个支付数据类型
+  rpc PutUserPayWay(PutUserPayWayRequest) returns (ErrorResponse) {}
 
-    /*start 支付宝区域 start*/
+  /*start 支付宝区域 start*/
 
-    // 创建统一下单
-    rpc CreatePayOrder (CreateOrderCommonRequest) returns (OrderResultResponse){}
+  // 创建统一下单
+  rpc CreatePayOrder(CreateOrderCommonRequest) returns (OrderResultResponse) {}
 
-    // 更新订单结果 检测签名
-    rpc UpdatePayOrderResult(PayOrderResultRequest) returns (ErrorResponse){}
+  // 更新订单结果 检测签名
+  rpc UpdatePayOrderResult(PayOrderResultRequest) returns (ErrorResponse) {}
 
-    // 查询订单列表
-    rpc GetOrderList (GetOrderListRequest) returns (OrderListResponse);
+  // 查询订单列表
+  rpc GetOrderList(GetOrderListRequest) returns (OrderListResponse);
 
-    // 获取订单详情
-    rpc GetOrderDetail (PayOrderResultRequest) returns (OrderInfo);
+  // 获取订单详情
+  rpc GetOrderDetail(PayOrderResultRequest) returns (OrderInfo);
 
-    // 从平台查询订单状态
-    rpc GetOrderPlatFormStatus (PayOrderResultRequest) returns (OrderInfo);
+  // 从平台查询订单状态
+  rpc GetOrderPlatFormStatus(PayOrderResultRequest) returns (OrderInfo);
 
-    // 获取用户 ID 列表 string[]
-    rpc GetSponsors (GetSponsorsRequest) returns (StringList);
-    /*end 支付宝区域 end*/
+  // 获取用户 ID 列表 string[]
+  rpc GetSponsors(GetSponsorsRequest) returns (StringList);
+  /*end 支付宝区域 end*/
 }
