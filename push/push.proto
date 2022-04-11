@@ -4,153 +4,163 @@ package push;
 // option go_package = "github.com/unliar/happysooner-proto/v2/push";
 
 enum SendType {
-    NoneSendType                        = 0; // 默认值
-    Mail                                = 1; // 邮箱
-    Phone                               = 2; // 手机
+  NoneSendType = 0; // 默认值
+  Mail = 1;         // 邮箱
+  Phone = 2;        // 手机
 }
 
 message PushCaptchaRequest {
-    string Code                         = 1; // 验证码
-    string Sender                       = 2; // 发送人
-    SendType Type                       = 3; // 发送类型
-    int64 UID                           = 4; // 被发送人的UID
-    string Account                      = 5; // 被发送人的账户
-    string NationCode                   = 6; // 手机号区号
+  string Code = 1;       // 验证码
+  string Sender = 2;     // 发送人
+  SendType Type = 3;     // 发送类型
+  int64 UID = 4;         // 被发送人的UID
+  string Account = 5;    // 被发送人的账户
+  string NationCode = 6; // 手机号区号
 }
 
 enum PushErrors {
-    None                                = 0;        // 默认值
-    PushCommonError                     = 4000001;  // 通用error
+  None = 0;                  // 默认值
+  PushCommonError = 4000001; // 通用error
 }
 
 message ErrorResponse {
-    PushErrors ErrorInfo                = 1; // 错误信息
+  PushErrors ErrorInfo = 1; // 错误信息
 }
 message PushEmailNotificationRequest {
-    string  To                          = 1; // 发送到
-    string  Html                        = 2; // 发送内容
-    string  Subject                     = 3; // 主题内容
+  string To = 1;      // 发送到
+  string Html = 2;    // 发送内容
+  string Subject = 3; // 主题内容
 }
 message GetCaptchaVerifyRequest {
-    string Code                         = 1; // 验证码
-    string Account                      = 2; // 被发送人的账户
-    int64 UID                           = 3; // 被发送人的UID
-    SendType Type                       = 4; // 验证类型
+  string Code = 1;    // 验证码
+  string Account = 2; // 被发送人的账户
+  int64 UID = 3;      // 被发送人的UID
+  SendType Type = 4;  // 验证类型
 }
 
 message StoreOrderMailRequest {
-    string OrderID                      = 1; // 来源订单
-    string HTML                         = 2; // 邮件信息
-    string ExpireIn                     = 3; // 有效时间
+  string OrderID = 1;  // 来源订单
+  string HTML = 2;     // 邮件信息
+  string ExpireIn = 3; // 有效时间
 }
 
 message PushWechatWorkGroupRobotNotificationRequest {
-    string Content                      = 1; // 内容信息
-    int64 Retry                         = 2; // 重试次数
+  string Content = 1; // 内容信息
+  int64 Retry = 2;    // 重试次数
 }
 
 message PushWechatTemplateMessageRequest {
-    string ToUser                       = 1; // 用户的OpenID 
-    string Type                         = 2; // 默认微信 mp
-    string URL                          = 3; // 模板消息地址
-    string Data                         = 4; // 数据消息 
+  string ToUser = 1; // 用户的OpenID
+  string Type = 2;   // 默认微信 mp
+  string URL = 3;    // 模板消息地址
+  string Data = 4;   // 数据消息
 }
 
 enum CommonMessageType {
-    NoneMessageType                     = 0; // 默认值
-    Email                               = 1; // 邮箱消息
-    SMS                                 = 2; // 短信消息
-    Chat                                = 3; // 聊天消息
-    Bot                                 = 4; // 机器人消息  - 企业微信 + 钉钉 + TG + 飞书
-    WechatTemplateMessage               = 5; // 微信模板消息 
+  NoneMessageType = 0; // 默认值
+  Email = 1;           // 邮箱消息
+  SMS = 2;             // 短信消息
+  Chat = 3;            // 聊天消息
+  Bot = 4;             // 机器人消息  - 企业微信 + 钉钉 + TG + 飞书
+  WechatTemplateMessage = 5; // 微信模板消息
 }
 
 message SenderInfo {
-    string IP                           = 1; // 发送方IP
-    string ServiceName                  = 2; // 发送方名称
+  string IP = 1;          // 发送方IP
+  string ServiceName = 2; // 发送方名称
 }
 
 // 邮件消息
 message EmailNotification {
-    string  To                          = 1; // 目标邮箱
-    string  Html                        = 2; // 发送内容
-    string  Subject                     = 3; // 标题
+  string To = 1;      // 目标邮箱
+  string Html = 2;    // 发送内容
+  string Subject = 3; // 标题
 }
 
 // 手机短信消息
 message SMSNotification {
-    string TemplateID                   = 1; // 短信模板ID
-    string PhoneNumber                  = 2; // 手机号
-    string NationCode                   = 3; // 手机号区号
-    repeated string TemplateParams      = 4; // 短信模板参数
+  string TemplateID = 1;              // 短信模板ID
+  string PhoneNumber = 2;             // 手机号
+  string NationCode = 3;              // 手机号区号
+  repeated string TemplateParams = 4; // 短信模板参数
 }
 // 机器人消息类型
 enum BotNotificationType {
-    BotNotificationTypeNoneType         = 0; // 初始值
-    WechatWork                          = 1; // 微信机器人消息
-    FeiShu                              = 2; // 飞书机器人消息
-    DingTalk                            = 3; // 钉钉机器人消息
-    GoTify                              = 4; // gotify 消息    - Android
-    Bark                                = 5; // Bark   消息    - iOS
+  BotNotificationTypeNoneType = 0; // 初始值 v2
+  WechatWork = 1;                  // 微信机器人消息  1
+  FeiShu = 2;                      // 飞书机器人消息  2
+  DingTalk = 3;                    // 钉钉机器人消息  4
+  GoTify = 4;                      // gotify 消息    - Android
+  Bark = 5;                        // Bark   消息    - iOS
 }
 
 // 机器人消息
 message BotNotification {
-    string Content                      = 1; // 消息内容 markdown 
-    BotNotificationType Type            = 2; // 消息类型
+  string Content = 1;           // 消息内容 markdown
+  BotNotificationType Type = 2; // 消息类型
 }
+
+// 机器人消息v2
+message BotNotificationV2 {
+  string Content = 1; // 消息内容 markdown
+  uint64 Type = 2;    // 消息类型
+}
+
 message TemplateMessageDataObject {
-    string Value                        = 1; // 数值
-    string Color                        = 2; // 文本色号
+  string Value = 1; // 数值
+  string Color = 2; // 文本色号
 }
 
 message Miniprogram {
-    string AppID                        = 1; // 小程序应用ID
-    string PagePath                     = 2; // 小程序应用路径    
+  string AppID = 1;    // 小程序应用ID
+  string PagePath = 2; // 小程序应用路径
 }
 
 // 微信模板消息
 message WechatTemplateMessageNotification {
-    string ToUser                                                         = 1; // 用户openID
-    string TemplateID                                                     = 2; // 模板ID
-    string URL                                                            = 3; // 模板消息详情URL
-    map<string,TemplateMessageDataObject> Data                            = 4; // 模板填充值
-    Miniprogram Miniprogram                                               = 5; // 小程序配置
+  string ToUser = 1;                               // 用户openID
+  string TemplateID = 2;                           // 模板ID
+  string URL = 3;                                  // 模板消息详情URL
+  map<string, TemplateMessageDataObject> Data = 4; // 模板填充值
+  Miniprogram Miniprogram = 5;                     // 小程序配置
 }
 
 message PushCommonMessageRequest {
-    CommonMessageType MessageType                                         = 1; // 消息类型
-    SenderInfo SenderInfo                                                 = 2; // 推送方信息
-    EmailNotification EmailNotification                                   = 3; // 邮件消息结构
-    SMSNotification  SMSNotification                                      = 4; // 短信消息结构
-    BotNotification BotNotification                                       = 5; // 机器人消息结构
-    WechatTemplateMessageNotification WechatTemplateMessageNotification   = 6; // 微信模板消息
+  CommonMessageType MessageType = 1;       // 消息类型
+  SenderInfo SenderInfo = 2;               // 推送方信息
+  EmailNotification EmailNotification = 3; // 邮件消息结构
+  SMSNotification SMSNotification = 4;     // 短信消息结构
+  BotNotification BotNotification = 5;     // 机器人消息结构
+  WechatTemplateMessageNotification WechatTemplateMessageNotification = 6;
+  BotNotificationV2 BotNotificationV2 = 7; // 机器人消息v2
 }
 
 service pushSV {
-    
-    // 发送验证码
-    rpc PushCaptcha(PushCaptchaRequest) returns (ErrorResponse);
-    
-    // 校验验证码
-    rpc GetCaptchaVerify(GetCaptchaVerifyRequest) returns (ErrorResponse);
 
-    // 发送邮件通知
-    rpc PushEmailNotification(PushEmailNotificationRequest) returns (ErrorResponse);
+  // 发送验证码
+  rpc PushCaptcha(PushCaptchaRequest) returns (ErrorResponse);
 
-    // 存储订单临时邮件信息
-    rpc StoreOrderMail (StoreOrderMailRequest) returns (ErrorResponse);
+  // 校验验证码
+  rpc GetCaptchaVerify(GetCaptchaVerifyRequest) returns (ErrorResponse);
 
-    // 消费订单邮件信息
-    rpc PostOrderMail (StoreOrderMailRequest) returns (ErrorResponse);
+  // 发送邮件通知
+  rpc PushEmailNotification(PushEmailNotificationRequest)
+      returns (ErrorResponse);
 
-    // 发送微信机器人通知
-    rpc PushWechatWorkGroupRobotNotification (PushWechatWorkGroupRobotNotificationRequest) returns (ErrorResponse);
+  // 存储订单临时邮件信息
+  rpc StoreOrderMail(StoreOrderMailRequest) returns (ErrorResponse);
 
-    // 发送公众号模板消息
-    rpc PushWechatTemplateMessage (PushWechatTemplateMessageRequest) returns (ErrorResponse);
+  // 消费订单邮件信息
+  rpc PostOrderMail(StoreOrderMailRequest) returns (ErrorResponse);
 
-    // 通用发送消息接口
-    rpc PushCommonMessage (PushCommonMessageRequest) returns (ErrorResponse);
+  // 发送微信机器人通知
+  rpc PushWechatWorkGroupRobotNotification(
+      PushWechatWorkGroupRobotNotificationRequest) returns (ErrorResponse);
 
+  // 发送公众号模板消息
+  rpc PushWechatTemplateMessage(PushWechatTemplateMessageRequest)
+      returns (ErrorResponse);
+
+  // 通用发送消息接口
+  rpc PushCommonMessage(PushCommonMessageRequest) returns (ErrorResponse);
 }
