@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package push;
-option go_package = "push";
+option go_package = "./push;push";
 // option go_package = "github.com/unliar/happysooner-proto/v2/push";
 
 enum SendType {

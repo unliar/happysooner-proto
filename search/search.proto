@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package search;
-option go_package = "search";
+option go_package = "./search;search";
 // option go_package = "github.com/unliar/happysooner-proto/v2/search";
 
 // 数据桶类型
