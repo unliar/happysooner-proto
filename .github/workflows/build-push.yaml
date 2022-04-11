@@ -26,7 +26,7 @@ jobs:
           sudo apt install protobuf-compiler
           protoc --version
           go get -u github.com/golang/protobuf/protoc-gen-go
-          go get -u github.com/micro/protoc-gen-micro@2.1.0
+          go get -u github.com/micro/protoc-gen-micro@v2.1.0
           sh build.sh
           git config --global user.name "unliar"
           git config --global user.email "370732889@qq.com"
