@@ -25,9 +25,8 @@ jobs:
         run: |
           sudo apt install protobuf-compiler
           protoc --version
-          go get -u github.com/golang/protobuf/protoc-gen-go
-          # go get -u github.com/asim/go-micro/cmd/protoc-gen-micro/v3@latest
-          go get -u github.com/micro/micro/v2/cmd/protoc-gen-micro@master
+          go install github.com/golang/protobuf/protoc-gen-go
+          go install github.com/micro/micro/v2/cmd/protoc-gen-micro@master
           export PATH=$GOPATH/bin:$PATH
           sh build.sh
           git config --global user.name "unliar"
