@@ -1,305 +1,299 @@
 syntax = "proto3";
 
-
 package account;
-// option go_package = "github.com/unliar/happysooner-proto/v2/account";
+option go_package = "v2/account";
 
 message UserInfo {
-    int64 Id                        = 1;    // id
-    string LoginName                = 2;    // 登录
-    string Nickname                 = 3;    // 昵称
-    int64 Age                       = 4;    // 年龄
-    int64 Gender                    = 5;    // 性别
-    string Avatar                   = 6;    // 头像
-    string Location                 = 7;    // 位置
-    string Profession               = 8;    // 职业
-    int64  Status                   = 9;    // 状态
-    string Brief                    = 12;   // 简介
-    string Email                    = 13;   // 邮箱
-    string Phone                    = 14;   // 手机号
-    string PhoneCode                = 15;   // 手机区号
-    string WeChatId                 = 16;   // 微信id
-    string QQId                     = 17;   // qqid
-    string Password                 = 18;   // 用户加密后的密码
-    repeated NewRoleRequest Roles   = 19;   // 用户角色信息
+  int64 Id = 1;                       // id
+  string LoginName = 2;               // 登录
+  string Nickname = 3;                // 昵称
+  int64 Age = 4;                      // 年龄
+  int64 Gender = 5;                   // 性别
+  string Avatar = 6;                  // 头像
+  string Location = 7;                // 位置
+  string Profession = 8;              // 职业
+  int64 Status = 9;                   // 状态
+  string Brief = 12;                  // 简介
+  string Email = 13;                  // 邮箱
+  string Phone = 14;                  // 手机号
+  string PhoneCode = 15;              // 手机区号
+  string WeChatId = 16;               // 微信id
+  string QQId = 17;                   // qqid
+  string Password = 18;               // 用户加密后的密码
+  repeated NewRoleRequest Roles = 19; // 用户角色信息
 }
 
 message UserInfoList {
-    repeated UserInfo List          = 1; // 用户信息列表
+  repeated UserInfo List = 1; // 用户信息列表
 }
 
 message PutUserBaseRequest {
-    int64 Id                        = 1;    // id
-    string LoginName                = 2;    // 登录
-    string Nickname                 = 3;    // 昵称
-    int64 Age                       = 4;    // 年龄
-    int64 Gender                    = 5;    // 性别
-    string Avatar                   = 6;    // 头像
-    string Location                 = 7;    // 位置
-    string Profession               = 8;    // 职业
-    string Brief                    = 9;    // 简介
+  int64 Id = 1;          // id
+  string LoginName = 2;  // 登录
+  string Nickname = 3;   // 昵称
+  int64 Age = 4;         // 年龄
+  int64 Gender = 5;      // 性别
+  string Avatar = 6;     // 头像
+  string Location = 7;   // 位置
+  string Profession = 8; // 职业
+  string Brief = 9;      // 简介
 }
 
 message UserInfoWithToken {
-    UserInfo UserInfo               = 1;
-    string   Token                  = 2; // jwt 口令
-    int64    TokenAvailableDays     = 3; // jwt 有效时间
+  UserInfo UserInfo = 1;
+  string Token = 2;             // jwt 口令
+  int64 TokenAvailableDays = 3; // jwt 有效时间
 }
 
 // id查询用户信息
 message UIDInput {
-    int64 UID                       = 1;    // 用户id
+  int64 UID = 1; // 用户id
 }
 
 message UIDSInput {
-    repeated int64 UIDS             = 1;   // 多个用户UID
+  repeated int64 UIDS = 1; // 多个用户UID
 }
 
 enum Role {
-    DefaultRole                     = 0; // 默认
-    Admin                           = 1; // 超级管理员
-    Author                          = 2; // 创作者 可以发文章
-    Viewer                          = 3; // 观察者 绑定邮箱之后可获得
+  DefaultRole = 0; // 默认
+  Admin = 1;       // 超级管理员
+  Author = 2;      // 创作者 可以发文章
+  Viewer = 3;      // 观察者 绑定邮箱之后可获得
 }
 
-
-enum OauthType  {
-    OauthTypeNone                   = 0; // 默认
-    Github                          = 1; // github 登录
-    Google                          = 2; // google 登录
-    Wechat                          = 3; // wechat 登录
+enum OauthType {
+  OauthTypeNone = 0; // 默认
+  Github = 1;        // github 登录
+  Google = 2;        // google 登录
+  Wechat = 3;        // wechat 登录
 }
-
 
 // 第三方登录请求
 message OauthLoginRequest {
-    OauthType Type                     = 1; // 类型
-    string Code                        = 2; // 授权code
-    string AppID                       = 3; // 应用ID
+  OauthType Type = 1; // 类型
+  string Code = 2;    // 授权code
+  string AppID = 3;   // 应用ID
 }
 
-// 错误码定义 累计7位 账户服务使用 100 [第一位1表示账户模块，第二位表示子模块(表)] ，后四位自由发挥qaq
-// 100
+// 错误码定义 累计7位 账户服务使用 100
+// [第一位1表示账户模块，第二位表示子模块(表)] ，后四位自由发挥qaq 100
 enum AccountErrors {
-    None                            = 0;  // 默认值
-    UserNotFound                    = 1000001;  // 用户不存在
-    UserCreateFailed                = 1000002;  // 创建用户失败
-    UserUpdateFailed                = 1000003;  // 更新用户失败
-    UserNicknameExist               = 1000004;  // 用户昵称存在
-    UserLoginNameExist              = 1000005;  // 用户登录名称存在
-    UserPhoneExist                  = 1000006;  // 用户手机号存在
-    UserEmailExist                  = 1000007;  // 用户邮箱号存在
-    UserPasswordCheckFailed         = 1000008;  // 用户密码不匹配
-    UserBindUserContactEmailFailed  = 1000009;  // 用户绑定邮箱失败
-    UserBindUserContactPhoneFailed  = 1000010;  // 用户绑定绑定手机失败
-    UserVapchaVerifyFailed          = 1000011;  // 用户校验验证码失败
+  None = 0;                                 // 默认值
+  UserNotFound = 1000001;                   // 用户不存在
+  UserCreateFailed = 1000002;               // 创建用户失败
+  UserUpdateFailed = 1000003;               // 更新用户失败
+  UserNicknameExist = 1000004;              // 用户昵称存在
+  UserLoginNameExist = 1000005;             // 用户登录名称存在
+  UserPhoneExist = 1000006;                 // 用户手机号存在
+  UserEmailExist = 1000007;                 // 用户邮箱号存在
+  UserPasswordCheckFailed = 1000008;        // 用户密码不匹配
+  UserBindUserContactEmailFailed = 1000009; // 用户绑定邮箱失败
+  UserBindUserContactPhoneFailed = 1000010; // 用户绑定绑定手机失败
+  UserVapchaVerifyFailed = 1000011;         // 用户校验验证码失败
 }
 
-message ErrorResponse {
-    AccountErrors ErrorInfo         = 1;
-}
+message ErrorResponse { AccountErrors ErrorInfo = 1; }
 // 创建用户
 message CreateUserInput {
-    string Type                     = 1; // 类型 用户名、手机号、邮箱
-    string Value                    = 2; // 值
-    string Password                 = 3; // 密码
-    string Nickname                 = 7; // 昵称
-    string Extension                = 4; // 扩展字段 比如手机的地区码
-    string IP                       = 5; // ip字段
-    string RegisterFrom             = 6; // 注册渠道
+  string Type = 1;         // 类型 用户名、手机号、邮箱
+  string Value = 2;        // 值
+  string Password = 3;     // 密码
+  string Nickname = 7;     // 昵称
+  string Extension = 4;    // 扩展字段 比如手机的地区码
+  string IP = 5;           // ip字段
+  string RegisterFrom = 6; // 注册渠道
 }
 // 用户登录
 message UserLoginRequest {
-    string Type                     = 1;  // 登录类型
-    string Value                    = 2;  // 登录类型值
-    string Password                 = 3;  // 登录密码
-    bool   Validate                 = 4;  // 密码校验
+  string Type = 1;     // 登录类型
+  string Value = 2;    // 登录类型值
+  string Password = 3; // 登录密码
+  bool Validate = 4;   // 密码校验
 }
 
 message UserToken {
-    string Token        = 1;  // 用户token
+  string Token = 1; // 用户token
 }
 
 // 更新用户密码
 message PutPassowrdRequest {
-    int64 UID                       = 1; // 用户id
-    string Password                 = 2; // 用户的老密码
-    string FreshPassword            = 3; // 用户的新密码
+  int64 UID = 1;            // 用户id
+  string Password = 2;      // 用户的老密码
+  string FreshPassword = 3; // 用户的新密码
 }
 
 // 获取用户密码是否是随机生成的
 message PasswordRandomStatus {
-    int64 Random                    = 1; // 用户的密码是否是随机生成的 如果是1 就是随机的 2就不是随机
+  int64 Random = 1; // 用户的密码是否是随机生成的 如果是1 就是随机的 2就不是随机
 }
 
-
 message PutUserContactEmailRequest {
-    string Email                    = 1; // 邮箱
-    int64 UID                       = 2; // 用户id 
+  string Email = 1; // 邮箱
+  int64 UID = 2;    // 用户id
 }
 
 message PutUserContactPhoneRequest {
-    string Phone                    = 1; // 手机
-    string PhoneCode                = 2; // 区号
-    int64 UID                       = 3; // 用户id 
+  string Phone = 1;     // 手机
+  string PhoneCode = 2; // 区号
+  int64 UID = 3;        // 用户id
 }
 
 message UserContact {
-    string Phone                    = 1; // 手机
-    string PhoneCode                = 2; // 区号
-    string Email                    = 3; // 邮箱
-    string WeChatId                 = 4; // 微信id
-    string QQId                     = 5; // qq
+  string Phone = 1;     // 手机
+  string PhoneCode = 2; // 区号
+  string Email = 3;     // 邮箱
+  string WeChatId = 4;  // 微信id
+  string QQId = 5;      // qq
 }
 
 message SetUserRoleRequest {
-    Role  Role                      = 1; // 角色
-    int64 UID                       = 2; // 用户id
+  Role Role = 1; // 角色
+  int64 UID = 2; // 用户id
 }
 
 message VaptchaVerifyRequest {
-    string Token                    = 1; // 前端验证传来的逻辑
-    string IP                       = 2; // 请求的IP
+  string Token = 1; // 前端验证传来的逻辑
+  string IP = 2;    // 请求的IP
 }
 
 message VaptchaVerifyOfflineRequest {
-    string OfflineAction                    = 1; // 值为get获取验证图片，值为verify进行人机验证
-    string Callback                         = 2; // jsonp回调函数名
-    string V                                = 3; // 轨迹图
-    string Knock                            = 4; // 流水号       
+  string OfflineAction = 1; // 值为get获取验证图片，值为verify进行人机验证
+  string Callback = 2; // jsonp回调函数名
+  string V = 3;        // 轨迹图
+  string Knock = 4;    // 流水号
 }
 
 message NewRoleRequest {
-    string Title                            = 1; // 角色名称
-    string Description                      = 2; // 角色描述
-    int64 RID                               = 3; // roleID 新建角色不需要    
+  string Title = 1;       // 角色名称
+  string Description = 2; // 角色描述
+  int64 RID = 3;          // roleID 新建角色不需要
 }
 
-
 message NewRoleList {
-    repeated NewRoleRequest List            = 1; // 列表
+  repeated NewRoleRequest List = 1; // 列表
 }
 
 message PermissionInfo {
-    string CN                              = 1; // 中文权限名称
-    string EU                              = 2; // 英文名
-    string Description                     = 3; // 描述信息
-    int64 PID                              = 4; // 权限ID
+  string CN = 1;          // 中文权限名称
+  string EU = 2;          // 英文名
+  string Description = 3; // 描述信息
+  int64 PID = 4;          // 权限ID
 }
 
 message PermissionInfoList {
-    repeated PermissionInfo List            = 1; // 权限列表
+  repeated PermissionInfo List = 1; // 权限列表
 }
 
 message GetWechatAccessTokenRequest {
-    string AppID                         = 1;// 应用ID
-    string Secret                        = 2;// 应用密钥
- }
- 
-message CommonResponse {
-     string Content                      = 1; // 是
- }
+  string AppID = 1;  // 应用ID
+  string Secret = 2; // 应用密钥
+}
 
- message GetWechatUserInfoByCodeRequest {
-     string Code                         = 1; 
- }
+message CommonResponse {
+  string Content = 1; // 是
+}
+
+message GetWechatUserInfoByCodeRequest { string Code = 1; }
 
 message WechatUserInfo {
-    string UnionID                       = 1; // 绑定公众平台的ID
-    string OpenID                        = 2; // openid 
-    string Nickname                      = 3; // 用户昵称
-    int64 Sex                            = 4; // 性别
-    string HeadimgURL                    = 5; // 头像
-    int64 UID                            = 6; // 用户
-    string City                          = 7; // 城市
-    string Country                       = 8; // 国家
+  string UnionID = 1;    // 绑定公众平台的ID
+  string OpenID = 2;     // openid
+  string Nickname = 3;   // 用户昵称
+  int64 Sex = 4;         // 性别
+  string HeadimgURL = 5; // 头像
+  int64 UID = 6;         // 用户
+  string City = 7;       // 城市
+  string Country = 8;    // 国家
 }
 
 service AccountSV {
-    // 查询用户信息
-    rpc GetUserInfo(UIDInput) returns (UserInfo){}
+  // 查询用户信息
+  rpc GetUserInfo(UIDInput) returns (UserInfo) {}
 
-    // 获取多个用户ID信息
-    rpc GetUsersInfoByIDS (UIDSInput) returns (UserInfoList); // 2020-05-19
+  // 获取多个用户ID信息
+  rpc GetUsersInfoByIDS(UIDSInput) returns (UserInfoList); // 2020-05-19
 
-    // 通过UserToken获取用户信息
-    rpc GetUserInfoByToken(UserToken) returns (UserInfo){}
+  // 通过UserToken获取用户信息
+  rpc GetUserInfoByToken(UserToken) returns (UserInfo) {}
 
-    // 创建用户
-    rpc CreateUserInfoByLoginName(CreateUserInput) returns (ErrorResponse){}
+  // 创建用户
+  rpc CreateUserInfoByLoginName(CreateUserInput) returns (ErrorResponse) {}
 
-    // 用户登录
-    rpc GetUserToken(UserLoginRequest) returns (UserInfoWithToken){}
+  // 用户登录
+  rpc GetUserToken(UserLoginRequest) returns (UserInfoWithToken) {}
 
-    // 检查昵称是否被使用
-    rpc CheckNickname(UserInfo) returns (ErrorResponse){}
+  // 检查昵称是否被使用
+  rpc CheckNickname(UserInfo) returns (ErrorResponse) {}
 
-    // 检查手机是否被绑定
-    rpc CheckPhone(UserInfo) returns (ErrorResponse){}
+  // 检查手机是否被绑定
+  rpc CheckPhone(UserInfo) returns (ErrorResponse) {}
 
-    // 检查邮箱是否被绑定
-    rpc CheckEmail(UserInfo) returns (ErrorResponse){}
+  // 检查邮箱是否被绑定
+  rpc CheckEmail(UserInfo) returns (ErrorResponse) {}
 
-    // 检查用户名是否被使用
-    rpc CheckLoginName(UserInfo) returns (ErrorResponse){}
+  // 检查用户名是否被使用
+  rpc CheckLoginName(UserInfo) returns (ErrorResponse) {}
 
-    // 更新用户密码
-    rpc PutUserPassword(PutPassowrdRequest) returns (ErrorResponse){}
-    
-    // 更新用户基础信息
-    rpc PutUserBaseInfo (PutUserBaseRequest) returns (ErrorResponse){};
+  // 更新用户密码
+  rpc PutUserPassword(PutPassowrdRequest) returns (ErrorResponse) {}
 
-    // 通过第三方code获取用户token注册第账户
-    rpc GetUserTokenByOauthCode(OauthLoginRequest) returns (UserInfoWithToken){}
-    
-    // 获取用户密码状态
-    rpc GetUserPasswordRandomStatus (UIDInput) returns (PasswordRandomStatus);
+  // 更新用户基础信息
+  rpc PutUserBaseInfo(PutUserBaseRequest) returns (ErrorResponse) {};
 
-    // 绑定邮箱
-    rpc BindUserContactEmail (PutUserContactEmailRequest) returns (ErrorResponse);
+  // 通过第三方code获取用户token注册第账户
+  rpc GetUserTokenByOauthCode(OauthLoginRequest) returns (UserInfoWithToken) {}
 
-    // 绑定手机号
-    rpc BindUserContactPhone (PutUserContactPhoneRequest) returns (ErrorResponse);
+  // 获取用户密码状态
+  rpc GetUserPasswordRandomStatus(UIDInput) returns (PasswordRandomStatus);
 
-    // 获取用户联系方式信息
-    rpc GetUserContactInfo (UIDInput) returns (UserContact);
+  // 绑定邮箱
+  rpc BindUserContactEmail(PutUserContactEmailRequest) returns (ErrorResponse);
 
-    // 获取用户角色
-    rpc GetUserNewRoles (UIDInput) returns (NewRoleList);
-    
-    // 获取用户的权限
-    rpc GetUserPermissions (UIDInput) returns (PermissionInfoList);
+  // 绑定手机号
+  rpc BindUserContactPhone(PutUserContactPhoneRequest) returns (ErrorResponse);
 
-    // 设置角色
-    rpc SetUserRole (SetUserRoleRequest) returns (ErrorResponse);
+  // 获取用户联系方式信息
+  rpc GetUserContactInfo(UIDInput) returns (UserContact);
 
-    // 删除角色
-    rpc DelUserRole (SetUserRoleRequest) returns (ErrorResponse);
+  // 获取用户角色
+  rpc GetUserNewRoles(UIDInput) returns (NewRoleList);
 
-    // 新建角色 2020-02-24
-    rpc PostNewRole (NewRoleRequest) returns (ErrorResponse);
+  // 获取用户的权限
+  rpc GetUserPermissions(UIDInput) returns (PermissionInfoList);
 
-    // 更新角色
-    rpc PutNewRole (NewRoleRequest) returns (ErrorResponse);
+  // 设置角色
+  rpc SetUserRole(SetUserRoleRequest) returns (ErrorResponse);
 
-    // 删除角色 
-    rpc DelNewRole (NewRoleRequest) returns (ErrorResponse);
-    
-    // 获取所有角色
-    rpc GetNewRoles (NewRoleRequest) returns (NewRoleList);
+  // 删除角色
+  rpc DelUserRole(SetUserRoleRequest) returns (ErrorResponse);
 
-    // 获取用户UID 
-    rpc GetUserUID (CreateUserInput) returns (UIDInput);
+  // 新建角色 2020-02-24
+  rpc PostNewRole(NewRoleRequest) returns (ErrorResponse);
 
-    // vapcha验证
-    rpc GetVaptchaVerify (VaptchaVerifyRequest) returns (ErrorResponse);
+  // 更新角色
+  rpc PutNewRole(NewRoleRequest) returns (ErrorResponse);
 
-    // vapcha离线验证
-    rpc GetVaptchaOfflineVerify (VaptchaVerifyOfflineRequest) returns (ErrorResponse);
+  // 删除角色
+  rpc DelNewRole(NewRoleRequest) returns (ErrorResponse);
 
-    // 获取微信 accessToken 
-    rpc GetWechatAccessToken (GetWechatAccessTokenRequest) returns (CommonResponse);
+  // 获取所有角色
+  rpc GetNewRoles(NewRoleRequest) returns (NewRoleList);
 
-    // 微信用户网页code获取用户 openid 和 unionid
-    rpc GetWechatUserInfoByCode (GetWechatUserInfoByCodeRequest) returns (WechatUserInfo);
+  // 获取用户UID
+  rpc GetUserUID(CreateUserInput) returns (UIDInput);
+
+  // vapcha验证
+  rpc GetVaptchaVerify(VaptchaVerifyRequest) returns (ErrorResponse);
+
+  // vapcha离线验证
+  rpc GetVaptchaOfflineVerify(VaptchaVerifyOfflineRequest)
+      returns (ErrorResponse);
+
+  // 获取微信 accessToken
+  rpc GetWechatAccessToken(GetWechatAccessTokenRequest)
+      returns (CommonResponse);
+
+  // 微信用户网页code获取用户 openid 和 unionid
+  rpc GetWechatUserInfoByCode(GetWechatUserInfoByCodeRequest)
+      returns (WechatUserInfo);
 }
