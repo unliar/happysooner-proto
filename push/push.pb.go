@@ -937,13 +937,14 @@ func (x *BotNotification) GetType() BotNotificationType {
 }
 
 // 机器人消息v2
+// 消息类型 1 企业🤖 2 飞书🤖 4 钉钉🤖 8 PushPlus🤖
 type BotNotificationV2 struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	Content string `protobuf:"bytes,1,opt,name=Content,proto3" json:"Content,omitempty"` // 消息内容 markdown
-	Type    uint64 `protobuf:"varint,2,opt,name=Type,proto3" json:"Type,omitempty"`      // 消息类型
+	Type    uint64 `protobuf:"varint,2,opt,name=Type,proto3" json:"Type,omitempty"`
 }
 
 func (x *BotNotificationV2) Reset() {
