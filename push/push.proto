@@ -102,9 +102,10 @@ message BotNotification {
 }
 
 // 机器人消息v2
+// 消息类型 1 企业🤖 2 飞书🤖 4 钉钉🤖 8 PushPlus🤖
 message BotNotificationV2 {
   string Content = 1; // 消息内容 markdown
-  uint64 Type = 2;    // 消息类型
+  uint64 Type = 2;
 }
 
 message TemplateMessageDataObject {
