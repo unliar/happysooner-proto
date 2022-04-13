@@ -15,7 +15,7 @@ var c = client.NewClient(func(o *client.Options) {
 	o.CallOptions.RequestTimeout = 15 * time.Second
 })
 
-var AccountSVService = account.NewAccountSVService("happysooner-account-rpc", c)
+var AccountService = account.NewAccountSVService("happysooner-account-rpc", c)
 
 var PushService = push.NewPushSVService("happysooner-push-rpc", c)
 
