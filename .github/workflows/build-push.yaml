@@ -32,38 +32,64 @@ jobs:
           git config --global user.email "370732889@qq.com"
           git add .
           git commit -am "github action auto-commit" && git push && echo ::set-output name=commited::1 || echo ::set-output name=commited::0
-      - name: wechat-work-bot-success-commited
+      - name: feishu-bot-message-change
         if: ${{steps.protocgo.outputs.commited == 1}}
-        uses: chf007/action-wechat-work@master
-        env:
-          WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
+        uses: foxundermoon/feishu-action@v2
         with:
-          msgtype: markdown
-          content: "#### ✅ [happysooner-proto 编译成功](https://github.com/${{github.repository}}) \n
-          > link: [项目地址](https://github.com/${{github.repository}})   \n  
-          > desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 文件变动 快去新增 TAG 吧
-          "
-      - name: wechat-work-bot-success-nocommited
+          url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+          msg_type: text
+          content: |
+            text: |
+              🐳 构建状态 - From Github Action 
+              
+              repository: https://github.com/${{ github.repository }}
+
+              committer: https://github.com/${{ github.actor }}
+              
+              compare: ${{ github.event.compare }}
+
+              job status: ${{ job.status }}
+
+              desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 文件变动 快去新增 TAG 吧
+
+      - name: feishu-bot-message-unchange
         if: ${{steps.protocgo.outputs.commited == 0}}
-        uses: chf007/action-wechat-work@master
-        env:
-          WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
+        uses: foxundermoon/feishu-action@v2
         with:
-          msgtype: markdown
-          content: "#### ✅ [happysooner-proto 编译成功](https://github.com/${{github.repository}}) \n
-          > link: [项目地址](https://github.com/${{github.repository}})   \n  
-          > desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 文件无变动 无需新增 TAG
-          "    
-      - name: wechat-work-bot-failed-build
-        if: ${{ failure() }}
-        uses: chf007/action-wechat-work@master
-        env:
-          WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
+          url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+          msg_type: text
+          content: |
+            text: |
+              🐳 构建状态 - From Github Action 
+              
+              repository: https://github.com/${{ github.repository }}
+
+              committer: https://github.com/${{ github.actor }}
+              
+              compare: ${{ github.event.compare }}
+
+              job status: ${{ job.status }}
+
+              desc: 最新TAG=${{ steps.previoustag.outputs.tag }} 文件无变动 无需新增 TAG
+   
+      - name: feishu-bot-message
+        if: always()
+        uses: foxundermoon/feishu-action@v2
         with:
-          msgtype: markdown
-          content: "#### ❌ ${{ github.event.repository.name }} 构建文件失败 \n
-          > link: [项目地址](https://github.com/${{github.repository}})   \n 
-          "
+          url: ${{ secrets.FEISHU_BOT_WEBHOOK_URL }}
+          msg_type: text
+          content: |
+            text: |
+              🐳 构建状态 - From Github Action 
+              
+              repository: https://github.com/${{ github.repository }}
+
+              committer: https://github.com/${{ github.actor }}
+              
+              compare: ${{ github.event.compare }}
+
+              job status: ${{ job.status }}
+
   #        protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./pay/pay.proto
   #        protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./push/push.proto
   #        protoc --plugin=protoc-gen-go=$GOPATH/bin/protoc-gen-go --plugin=protoc-gen-micro=$GOPATH/bin/protoc-gen-micro --proto_path=$GOPATH/src:. --micro_out=. --go_out=. ./writing/writing.proto
